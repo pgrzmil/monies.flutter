@@ -22,28 +22,28 @@ class _ExpenseDetailState extends State<ExpenseDetail> {
           child: Container(
             margin: EdgeInsets.all(5),
             child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Text("Title: "),
-                  Text(widget.expense.title),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Text("Location: "),
-                  Text(widget.expense.location),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Text("Amount: "),
-                  Text(widget.expense.amountString),
-                ],
-              ),
-            ],
-          ),
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Text("Title: "),
+                    Text(widget.expense.title),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Text("Location: "),
+                    Text(widget.expense.location),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Text("Amount: "),
+                    Text(widget.expense.amountString),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

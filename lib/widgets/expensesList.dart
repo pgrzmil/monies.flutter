@@ -4,45 +4,40 @@ import 'package:monies/data/models/expense.dart';
 import 'package:monies/widgets/expenseDetail.dart';
 import 'package:monies/widgets/expensesListItem.dart';
 
-class ExpensesList extends StatefulWidget {
-  final ExpensesProvider expensesProvider = ExpensesProvider();
+import 'baseWidgets.dart';
 
-  ExpensesList();
+class ExpensesList extends StatefulWidget implements WidgetWithTitle {
+  final ExpensesProvider expensesProvider = ExpensesProvider();
 
   @override
   _ExpensesListState createState() => _ExpensesListState();
+
+  @override
+  String get title => "Expenses";
 }
 
 class _ExpensesListState extends State<ExpensesList> {
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Expenses"),
-      ),
-      body: Center(
-        child: new FutureBuilder(
-          future: widget.expensesProvider.getAll(),
-          builder: (context, snapshot) {
-            if (snapshot.data != null) {
-              List<Expense> expenses = snapshot.data;
-              return ListView.builder(
-                  itemCount: expenses.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      child: InkWell(
-                        onTap: () => navigateToDetails(expenses[index]),
-                        child: ExpensesListItem(expenses[index]),
-                      ),
-                    );
-                  });
-            } else {
-              return new Center(child: new CircularProgressIndicator());
-            }
-          },
-        ),
-      ),
+    return FutureBuilder(
+      future: widget.expensesProvider.getAll(),
+      builder: (context, snapshot) {
+        if (snapshot.data != null) {
+          List<Expense> expenses = snapshot.data;
+          return ListView.builder(
+              itemCount: expenses.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Card(
+                  child: InkWell(
+                    onTap: () => navigateToDetails(expenses[index]),
+                    child: ExpensesListItem(expenses[index]),
+                  ),
+                );
+              });
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 
