@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:monies/data/expensesProvider.dart';
 import 'package:monies/widgets/baseWidgets.dart';
 import 'package:monies/widgets/dashboard.dart';
 import 'package:monies/widgets/expensesList.dart';
@@ -14,6 +15,7 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
+  final ExpensesProvider expensesProvider = ExpensesProvider();
   final initialTabIndex = 1;
   var appBarTitle = "";
 
@@ -27,7 +29,7 @@ class AppState extends State<App> {
   Widget build(BuildContext context) {
     final tabViews = [
       Dashboard(),
-      ExpensesList(),
+      ExpensesList(expensesProvider),
       Settings(),
     ];
 

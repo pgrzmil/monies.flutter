@@ -9,7 +9,8 @@ class ExpensesProvider {
 
   Future<List<Expense>> getAll() async {
     if(expenses == null) {
-      expenses = await loadFromJson();
+      //Delayed is used to simulate longer response tim form webservice or local db
+      expenses = await Future.delayed(Duration(seconds: 3), () => loadFromJson());
     }
     return expenses; 
   }
