@@ -1,50 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:monies/data/expensesProvider.dart';
+import 'package:monies/data/expensesDataStore.dart';
 import 'package:monies/data/models/expense.dart';
-import 'package:monies/widgets/expenseDetail.dart';
-import 'package:monies/widgets/expensesListItem.dart';
+
+import 'package:provider/provider.dart';
 
 import 'baseWidgets.dart';
+import 'expenseDetail.dart';
+import 'expensesListItem.dart';
 
-class ExpensesList extends StatefulWidget implements WidgetWithTitle {
-  final ExpensesProvider expensesProvider;
-
-  ExpensesList(this.expensesProvider);
-
-  @override
-  _ExpensesListState createState() => _ExpensesListState();
-
+class ExpensesList extends StatelessWidget implements WidgetWithTitle {
   @override
   String get title => "Expenses";
-}
 
-class _ExpensesListState extends State<ExpensesList> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-          future: widget.expensesProvider.getAll(),
-          builder: (context, snapshot) {
-            if (snapshot.data != null) {
-              List<Expense> expenses = snapshot.data;
-              return ListView.builder(
+    return Consumer<ExpensesDataStore>(builder: (context, expensesProvider, child) {
+      return FutureBuilder(
+        future: expensesProvider.getAll(),
+        builder: (context, snapshot) {
+          if (snapshot.data != null) {
+            List<Expense> expenses = snapshot.data;
+            return Scaffold(
+              body: ListView.builder(
                   itemCount: expenses.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
                       child: InkWell(
-                        onTap: () => navigateToDetails(expenses[index]),
+                        onTap: () => navigateToDetails(context, expenses[index]),
                         child: ExpensesListItem(expenses[index]),
                       ),
                     );
-                  });
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          },
+                  }),
+              floatingActionButton: FloatingActionButton(
+                child: Icon(Icons.add),
+                onPressed: () {
+                  expensesProvider.addRandom();
+                },
+              ),
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
       );
+    });
   }
 
-  void navigateToDetails(Expense expense) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ExpenseDetail(expense)));
+  void navigateToDetails(BuildContext context, Expense expense) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseDetail(expense)));
   }
 }
