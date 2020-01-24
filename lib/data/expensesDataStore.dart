@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:uuid/uuid.dart';
 
 import 'models/expense.dart';
 
@@ -29,9 +28,14 @@ class ExpensesDataStore extends ChangeNotifier {
     return parsed.map<Expense>((json) => new Expense.fromJson(json)).toList();
   }
 
+  update(Expense expense) {
+    if (!_expenses.any((e) => e.id == expense.id)) _expenses.add(expense);
+    notifyListeners();
+  }
+
   addRandom() {
     var random = Random();
-    _expenses.add(Expense(Uuid().v4(), "title ${random.nextInt(123)}", "location", random.nextDouble() * 100));
+    _expenses.add(Expense("title ${random.nextInt(123)}", "location", random.nextDouble() * 100));
     notifyListeners();
   }
 }
