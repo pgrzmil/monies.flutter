@@ -5,7 +5,7 @@ import 'package:monies/data/models/expense.dart';
 import 'package:provider/provider.dart';
 
 import 'baseWidgets.dart';
-import 'expenseDetail.dart';
+import 'expenseEdit.dart';
 import 'expensesListItem.dart';
 
 class ExpensesList extends StatelessWidget implements WidgetWithTitle {
@@ -26,7 +26,7 @@ class ExpensesList extends StatelessWidget implements WidgetWithTitle {
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
                       child: InkWell(
-                        onTap: () => navigateToDetails(context, expenses[index]),
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseEditView(expenses[index]))),
                         child: ExpensesListItem(expenses[index]),
                       ),
                     );
@@ -34,7 +34,7 @@ class ExpensesList extends StatelessWidget implements WidgetWithTitle {
               floatingActionButton: FloatingActionButton(
                 child: Icon(Icons.add),
                 onPressed: () {
-                  expensesProvider.addRandom();
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseAddView()));
                 },
               ),
             );
@@ -44,9 +44,5 @@ class ExpensesList extends StatelessWidget implements WidgetWithTitle {
         },
       );
     });
-  }
-
-  void navigateToDetails(BuildContext context, Expense expense) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseDetail(expense)));
   }
 }
