@@ -10,16 +10,16 @@ void main() => runApp(App());
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'monies',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => ExpensesDataStore()),
-        ],
-        child: RootTabView(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ExpensesDataStore()),
+      ],
+      child: MaterialApp(
+        title: 'monies',
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+        ),
+        home: RootTabView(),
       ),
     );
   }
