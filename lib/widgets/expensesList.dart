@@ -18,10 +18,19 @@ class ExpensesList extends StatelessWidget implements WidgetWithTitle {
       return FutureBuilder(
         future: expensesProvider.getAll(),
         builder: (context, snapshot) {
-          if (snapshot.data != null) {
-            List<Expense> expenses = snapshot.data;
-            return Scaffold(
-              body: ListView.builder(
+          if (snapshot.data == null) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          return Scaffold(
+            body: () {
+              List<Expense> expenses = snapshot.data;
+              if (expenses.length == 0) {
+                //Empty state
+                return Center(child: Text("Start adding expenses"));
+              }
+
+              return ListView.builder(
                   itemCount: expenses.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
@@ -30,17 +39,15 @@ class ExpensesList extends StatelessWidget implements WidgetWithTitle {
                         child: ExpensesListItem(expenses[index]),
                       ),
                     );
-                  }),
-              floatingActionButton: FloatingActionButton(
-                child: Icon(Icons.add),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseAddView()));
-                },
-              ),
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
+                  });
+            }(),
+            floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseAddView()));
+              },
+            ),
+          );
         },
       );
     });
