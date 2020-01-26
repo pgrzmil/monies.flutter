@@ -29,7 +29,9 @@ class ExpensesDataStore extends ChangeNotifier {
   }
 
   update(Expense expense) {
-    if (!_expenses.any((e) => e.id == expense.id)) _expenses.add(expense);
+    if (!_expenses.any((e) => e.id == expense.id)) {
+      _expenses.add(expense);
+    }
     notifyListeners();
   }
 
