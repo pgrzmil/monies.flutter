@@ -71,7 +71,7 @@ class _ExpenseEditViewState extends State<ExpenseEditView> {
           final form = _formKey.currentState;
           if (form.validate()) {
             form.save();
-            Provider.of<ExpensesDataStore>(context, listen: false).update(expense);
+            Provider.of<ExpensesDataStore>(context, listen: false).updateWith(expense);
             Navigator.pop(context);
           }
         },

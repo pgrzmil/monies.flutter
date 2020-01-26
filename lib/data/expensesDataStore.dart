@@ -1,43 +1,30 @@
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/expense.dart';
 
 class ExpensesDataStore extends ChangeNotifier {
   final List<Expense> _expenses = [];
+  final String _storeKey = "Expenses";
 
   Future<List<Expense>> getAll() async {
     if (_expenses.length == 0) {
-      //Delayed is used to simulate longer response tim form webservice or local db
-      _expenses.addAll(await Future.delayed(Duration(seconds: 3), () => _loadFromJson()));
-      notifyListeners();
+      final preferences = await SharedPreferences.getInstance();
+      final serializedExpenses = preferences.getStringList(_storeKey);
+
+      if (serializedExpenses != null) {
+        _expenses.addAll(serializedExpenses.map((jsonString) => Expense.fromJsonString(jsonString)));
+      }
     }
-    return _expenses;
+    return Future.value(_expenses);
   }
 
-  Future<List<Expense>> _loadFromJson() async {
-    String fileContents = await rootBundle.loadString('assets/mockExpenses.json');
-
-    if (fileContents == null) {
-      return [];
-    }
-    final parsed = json.decode(fileContents.toString()).cast<Map<String, dynamic>>();
-    return parsed.map<Expense>((json) => new Expense.fromJson(json)).toList();
-  }
-
-  update(Expense expense) {
+  updateWith(Expense expense) async {
     if (!_expenses.any((e) => e.id == expense.id)) {
       _expenses.add(expense);
     }
-    notifyListeners();
-  }
-
-  addRandom() {
-    var random = Random();
-    _expenses.add(Expense.fromValues("title ${random.nextInt(123)}", "location", random.nextDouble() * 100));
+    final preferences = await SharedPreferences.getInstance();
+    preferences.setStringList(_storeKey, _expenses.map((expense) => expense.toJsonString()).toList());
     notifyListeners();
   }
 }
