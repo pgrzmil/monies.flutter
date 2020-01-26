@@ -35,7 +35,7 @@ class ExpensesDataStore extends ChangeNotifier {
 
   addRandom() {
     var random = Random();
-    _expenses.add(Expense("title ${random.nextInt(123)}", "location", random.nextDouble() * 100));
+    _expenses.add(Expense.fromValues("title ${random.nextInt(123)}", "location", random.nextDouble() * 100));
     notifyListeners();
   }
 }

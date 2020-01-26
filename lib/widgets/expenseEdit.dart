@@ -73,7 +73,6 @@ class _ExpenseEditViewState extends State<ExpenseEditView> {
             form.save();
             Provider.of<ExpensesDataStore>(context, listen: false).update(expense);
             Navigator.pop(context);
-            // TODO: Add snackbar while saving
           }
         },
       ),
