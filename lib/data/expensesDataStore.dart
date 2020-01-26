@@ -19,12 +19,26 @@ class ExpensesDataStore extends ChangeNotifier {
     return Future.value(_expenses);
   }
 
-  updateWith(Expense expense) async {
-    if (!_expenses.any((e) => e.id == expense.id)) {
+  updateWith(Expense expense) {
+    if (!_contains(expense)) {
       _expenses.add(expense);
     }
-    final preferences = await SharedPreferences.getInstance();
-    preferences.setStringList(_storeKey, _expenses.map((expense) => expense.toJsonString()).toList());
+    save();
     notifyListeners();
   }
+
+  remove(Expense expense) {
+    if (_contains(expense)) {
+      _expenses.remove(expense);
+      save();
+      notifyListeners();
+    }
+  }
+
+  save() async {
+    final preferences = await SharedPreferences.getInstance();
+    preferences.setStringList(_storeKey, _expenses.map((expense) => expense.toJsonString()).toList());
+  }
+
+  bool _contains(Expense expense) => _expenses.any((e) => e.id == expense.id);
 }

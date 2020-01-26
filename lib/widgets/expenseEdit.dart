@@ -31,6 +31,15 @@ class _ExpenseEditViewState extends State<ExpenseEditView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(expense.title == "" ? "Add expense" : expense.title),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () {
+              Provider.of<ExpensesDataStore>(context, listen: false).remove(expense);
+              Navigator.pop(context);
+            },
+          ),
+        ],
       ),
       body: Card(
         child: SingleChildScrollView(
