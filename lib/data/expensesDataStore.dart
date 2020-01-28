@@ -8,15 +8,21 @@ class ExpensesDataStore extends ChangeNotifier {
   final String _storeKey = "Expenses";
 
   Future<List<Expense>> getAll() async {
-    if (_expenses.length == 0) {
-      final preferences = await SharedPreferences.getInstance();
-      final serializedExpenses = preferences.getStringList(_storeKey);
-
-      if (serializedExpenses != null) {
-        _expenses.addAll(serializedExpenses.map((jsonString) => Expense.fromJsonString(jsonString)));
-      }
+    if (_expenses.isEmpty) {
+      await _loadFromCache();
     }
     return Future.value(_expenses);
+  }
+
+  Expense getById(String id) => _expenses.firstWhere((x) => x.id == id);
+
+  _loadFromCache() async {
+    final preferences = await SharedPreferences.getInstance();
+    final serializedList = preferences.getStringList(_storeKey);
+    if (serializedList != null) {
+      final deserializedItems = serializedList.map((jsonString) => Expense.fromJsonString(jsonString));
+      _expenses.addAll(deserializedItems);
+    }
   }
 
   updateWith(Expense expense) {
@@ -35,9 +41,10 @@ class ExpensesDataStore extends ChangeNotifier {
     }
   }
 
-  save() async {
+  Future<bool> save() async {
+    final serializedList = _expenses.map((expense) => expense.toJsonString()).toList();
     final preferences = await SharedPreferences.getInstance();
-    preferences.setStringList(_storeKey, _expenses.map((expense) => expense.toJsonString()).toList());
+    return preferences.setStringList(_storeKey, serializedList);
   }
 
   bool _contains(Expense expense) => _expenses.any((e) => e.id == expense.id);
