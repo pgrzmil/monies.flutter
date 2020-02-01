@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/expense.dart';
 
-class ExpensesDataStore extends ChangeNotifier {
+class ExpensesProvider extends ChangeNotifier {
   final List<Expense> _expenses = [];
   final String _storeKey = "Expenses";
 

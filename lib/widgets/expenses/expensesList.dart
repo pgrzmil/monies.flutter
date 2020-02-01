@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:monies/data/expensesDataStore.dart';
+import 'package:monies/data/expensesProvider.dart';
 import 'package:monies/data/models/expense.dart';
 
 import 'package:provider/provider.dart';
@@ -15,7 +15,7 @@ class ExpensesList extends StatelessWidget implements WidgetWithTitle {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ExpensesDataStore>(builder: (context, expensesProvider, child) {
+    return Consumer<ExpensesProvider>(builder: (context, expensesProvider, child) {
       return FutureBuilder(
         future: expensesProvider.getAll(),
         builder: (context, snapshot) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:monies/data/expensesDataStore.dart';
+import 'package:monies/data/expensesProvider.dart';
 import 'package:monies/data/models/expense.dart';
 import 'package:provider/provider.dart';
 import 'expenseForm.dart';
@@ -19,7 +19,7 @@ class ExpenseEditView extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
-              Provider.of<ExpensesDataStore>(context, listen: false).remove(expense);
+              Provider.of<ExpensesProvider>(context, listen: false).remove(expense);
               Navigator.pop(context);
             },
           ),
@@ -32,7 +32,7 @@ class ExpenseEditView extends StatelessWidget {
           final form = expenseForm.formKey.currentState;
           if (form.validate()) {
             form.save();
-            Provider.of<ExpensesDataStore>(context, listen: false).edit(expense);
+            Provider.of<ExpensesProvider>(context, listen: false).edit(expense);
             Navigator.pop(context);
           }
         },

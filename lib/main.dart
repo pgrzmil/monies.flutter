@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import 'data/expensesDataStore.dart';
+import 'data/expensesProvider.dart';
 import 'widgets/rootTabView.dart';
 
 void main() => runApp(App());
@@ -12,7 +12,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => ExpensesDataStore()),
+        ChangeNotifierProvider(create: (context) => ExpensesProvider()),
       ],
       child: MaterialApp(
         title: 'monies',

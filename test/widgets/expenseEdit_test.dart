@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:monies/data/expensesDataStore.dart';
+import 'package:monies/data/expensesProvider.dart';
 import 'package:monies/widgets/expenses/expenseEdit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../helpers/expensesDataStoreHelpers.dart';
-import '../testWidget.dart';
+import '../helpers/expensesProviderHelpers.dart';
+import '../helpers/testWidget.dart';
 
 void main() {
-  ExpensesDataStore expensesProvider;
+  ExpensesProvider expensesProvider;
 
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
-    expensesProvider = ExpensesDataStore();
-    ExpensesDataStoreHelpers.loadExpensesFromFile(expensesProvider, 'assets/mockExpenses.json');
+    expensesProvider = ExpensesProvider();
+    ExpensesProviderHelpers.loadExpensesFromFile(expensesProvider, 'assets/mockExpenses.json');
   });
 
   tearDown(() async {
