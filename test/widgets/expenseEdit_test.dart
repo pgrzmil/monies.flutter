@@ -58,7 +58,7 @@ void main() {
     await tester.tap(saveButton);
     await tester.pumpAndSettle();
 
-    final editedExpense = expensesProvider.getBy(id: expense.id);
+    final editedExpense = await expensesProvider.getBy(id: expense.id);
     expect(editedExpense.title, equals("test title"));
     expect(editedExpense.location, equals("test location"));
     expect("${editedExpense.amount}", equals("543.21"));
