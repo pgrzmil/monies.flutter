@@ -70,4 +70,11 @@ void main() {
       fail("FormatException should be raised");
     });
   });
+
+  test('amount string test', () {
+      final expense = Expense("1", "test_title", "test_location", 123.45);
+
+      expect(expense, isNotNull);
+      expect(expense.amountString, "123.45 zł");
+  });
 }
