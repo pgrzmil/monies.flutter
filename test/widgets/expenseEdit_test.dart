@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:monies/data/expensesDataStore.dart';
-import 'package:monies/helpers/expensesDataStoreHelpers.dart';
 import 'package:monies/widgets/expenses/expenseEdit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../helpers/expensesDataStoreHelpers.dart';
 import '../testWidget.dart';
 
 void main() {
