@@ -30,18 +30,21 @@ class _ExpenseFormState extends State<ExpenseForm> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 TextFormField(
+                  key: Key("titleField"),
                   initialValue: widget.expense.title,
                   validator: isEmptyValidator,
                   decoration: InputDecoration(labelText: "Expense title"),
                   onSaved: (value) => widget.expense.title = value,
                 ),
                 TextFormField(
+                  key: Key("locationField"),
                   initialValue: widget.expense.location,
                   validator: isEmptyValidator,
                   decoration: InputDecoration(labelText: "Location"),
                   onSaved: (value) => widget.expense.location = value,
                 ),
                 TextFormField(
+                  key: Key("amountField"),
                   initialValue: "${widget.expense.amount}",
                   validator: numberValidator,
                   decoration: InputDecoration(labelText: "Amount"),
