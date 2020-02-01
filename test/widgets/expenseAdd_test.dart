@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:monies/data/expensesProvider.dart';
-import 'package:monies/widgets/expenses/expenseEdit.dart';
+import 'package:monies/widgets/expenses/expenseAdd.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../helpers/expensesProviderHelpers.dart';
 import '../helpers/testWidget.dart';
 
 void main() {
@@ -12,7 +11,6 @@ void main() {
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     expensesProvider = ExpensesProvider();
-    ExpensesProviderHelpers.loadExpensesFromFile(expensesProvider, 'assets/mockExpenses.json');
   });
 
   tearDown(() async {
@@ -20,26 +18,8 @@ void main() {
     preferences.clear();
   });
 
-  testWidgets('Remove expense test', (WidgetTester tester) async {
-    final expense = (await expensesProvider.getAll()).first;
-
-    await tester.pumpWidget(TestWidget(child: ExpenseEditView(expense: expense), expensesProvider: expensesProvider));
-
-    expect((await expensesProvider.getAll()).length, equals(5));
-
-    final removeButton = find.byIcon(Icons.delete);
-    expect(removeButton, findsOneWidget);
-
-    await tester.tap(removeButton);
-    await tester.pumpAndSettle();
-
-    expect((await expensesProvider.getAll()).length, equals(4));
-  });
-
-  testWidgets('Edit expense test', (WidgetTester tester) async {
-    final expense = (await expensesProvider.getAll()).first;
-
-    await tester.pumpWidget(TestWidget(child: ExpenseEditView(expense: expense), expensesProvider: expensesProvider));
+  testWidgets('Add expense', (WidgetTester tester) async {
+    await tester.pumpWidget(TestWidget(child: ExpenseAddView(), expensesProvider: expensesProvider));
 
     final titleTextField = find.byWidgetPredicate((widget) => widget is TextFormField && widget.key == Key("titleField"));
     expect(titleTextField, findsOneWidget);
@@ -58,9 +38,9 @@ void main() {
     await tester.tap(saveButton);
     await tester.pumpAndSettle();
 
-    final editedExpense = await expensesProvider.getBy(id: expense.id);
-    expect(editedExpense.title, equals("test title"));
-    expect(editedExpense.location, equals("test location"));
-    expect("${editedExpense.amount}", equals("543.21"));
+    final addedExpense = (await expensesProvider.getAll()).first;
+    expect(addedExpense.title, equals("test title"));
+    expect(addedExpense.location, equals("test location"));
+    expect("${addedExpense.amount}", equals("543.21"));
   });
 }
