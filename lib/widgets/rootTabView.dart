@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'baseWidgets.dart';
 import 'dashboard.dart';
-import 'expensesList.dart';
+import 'expenses/expensesList.dart';
 import 'settings.dart';
 
 class RootTabView extends StatefulWidget {

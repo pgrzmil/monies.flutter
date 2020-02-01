@@ -9,14 +9,39 @@ class ExpensesDataStore extends ChangeNotifier {
 
   Future<List<Expense>> getAll() async {
     if (_expenses.isEmpty) {
-      await _loadFromCache();
+      await _load();
     }
     return Future.value(_expenses);
   }
 
-  Expense getById(String id) => _expenses.firstWhere((x) => x.id == id);
+  Expense getBy({String id}) => _expenses.firstWhere((x) => x.id == id);
 
-  _loadFromCache() async {
+  add(Expense expense) {
+    if (!_contains(expense)) {
+      _expenses.add(expense);
+      _persist();
+      notifyListeners();
+    }
+  }
+
+  edit(Expense updatedExpense) {
+    //Expense reference is passed to widgets hence edit method only needs to store and notify about changes
+    _persist();
+    notifyListeners();
+  }
+
+  remove(Expense expense) {
+    if (_contains(expense)) {
+      _expenses.remove(expense);
+      _persist();
+      notifyListeners();
+    }
+  }
+
+  bool _contains(Expense expense) => _expenses.any((e) => e.id == expense.id);
+
+// Persistence methods
+  _load() async {
     final preferences = await SharedPreferences.getInstance();
     final serializedList = preferences.getStringList(_storeKey);
     if (serializedList != null) {
@@ -25,27 +50,9 @@ class ExpensesDataStore extends ChangeNotifier {
     }
   }
 
-  updateWith(Expense expense) {
-    if (!_contains(expense)) {
-      _expenses.add(expense);
-    }
-    save();
-    notifyListeners();
-  }
-
-  remove(Expense expense) {
-    if (_contains(expense)) {
-      _expenses.remove(expense);
-      save();
-      notifyListeners();
-    }
-  }
-
-  Future<bool> save() async {
+  Future<bool> _persist() async {
     final serializedList = _expenses.map((expense) => expense.toJsonString()).toList();
     final preferences = await SharedPreferences.getInstance();
     return preferences.setStringList(_storeKey, serializedList);
   }
-
-  bool _contains(Expense expense) => _expenses.any((e) => e.id == expense.id);
 }

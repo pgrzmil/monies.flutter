@@ -4,9 +4,10 @@ import 'package:monies/data/models/expense.dart';
 
 import 'package:provider/provider.dart';
 
-import 'baseWidgets.dart';
+import '../baseWidgets.dart';
+import 'expenseAdd.dart';
 import 'expenseEdit.dart';
-import 'expensesListItem.dart';
+import './expensesListItem.dart';
 
 class ExpensesList extends StatelessWidget implements WidgetWithTitle {
   @override
@@ -35,7 +36,7 @@ class ExpensesList extends StatelessWidget implements WidgetWithTitle {
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
                       child: InkWell(
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseEditView(expenses[index]))),
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseEditView(expense: expenses[index]))),
                         child: ExpensesListItem(expenses[index]),
                       ),
                     );

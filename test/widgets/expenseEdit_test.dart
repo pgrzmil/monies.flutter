@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:monies/data/expensesDataStore.dart';
 import 'package:monies/helpers/expensesDataStoreHelpers.dart';
-import 'package:monies/widgets/expenseEdit.dart';
+import 'package:monies/widgets/expenses/expenseEdit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../testWidget.dart';
 
@@ -23,7 +23,7 @@ void main() {
   testWidgets('Remove expense test', (WidgetTester tester) async {
     final expense = (await expensesProvider.getAll()).first;
 
-    await tester.pumpWidget(TestWidget(child: ExpenseEditView(expense), expensesProvider: expensesProvider));
+    await tester.pumpWidget(TestWidget(child: ExpenseEditView(expense: expense), expensesProvider: expensesProvider));
 
     expect((await expensesProvider.getAll()).length, equals(5));
 
@@ -39,7 +39,7 @@ void main() {
   testWidgets('Edit expense test', (WidgetTester tester) async {
     final expense = (await expensesProvider.getAll()).first;
 
-    await tester.pumpWidget(TestWidget(child: ExpenseEditView(expense), expensesProvider: expensesProvider));
+    await tester.pumpWidget(TestWidget(child: ExpenseEditView(expense: expense), expensesProvider: expensesProvider));
 
     final titleTextField = find.byWidgetPredicate((widget) => widget is TextFormField && widget.initialValue == expense.title);
     expect(titleTextField, findsOneWidget);
@@ -58,7 +58,7 @@ void main() {
     await tester.tap(saveButton);
     await tester.pumpAndSettle();
 
-    final editedExpense = expensesProvider.getById(expense.id);
+    final editedExpense = expensesProvider.getBy(id: expense.id);
     expect(editedExpense.title, equals("test title"));
     expect(editedExpense.location, equals("test location"));
     expect("${editedExpense.amount}", equals("543.21"));
