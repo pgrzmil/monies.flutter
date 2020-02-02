@@ -34,11 +34,9 @@ class ExpensesList extends StatelessWidget implements WidgetWithTitle {
               return ListView.builder(
                   itemCount: expenses.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      child: InkWell(
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseEditView(expense: expenses[index]))),
-                        child: ExpensesListItem(expenses[index]),
-                      ),
+                    return InkWell(
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseEditView(expense: expenses[index]))),
+                      child: ExpensesListItem(expenses[index]),
                     );
                   });
             }(),
