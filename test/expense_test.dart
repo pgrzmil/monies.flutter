@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:monies/data/models/expense.dart';
 
 void main() {
-  group('JSON', () {
+  group('JSON parsing', () {
     test('Expense.toJson returns Map with String key', () {
       final expense = Expense("1", "test_title", "test_location", 123.45);
 
@@ -71,7 +71,7 @@ void main() {
     });
   });
 
-  test('amount string test', () {
+  test('Returns amount string', () {
       final expense = Expense("1", "test_title", "test_location", 123.45);
 
       expect(expense, isNotNull);

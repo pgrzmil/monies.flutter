@@ -5,7 +5,7 @@ import 'package:monies/widgets/expenses/expensesListItem.dart';
 import '../helpers/testWidget.dart';
 
 void main() {
-  testWidgets('Test expense list item widget', (WidgetTester tester) async {
+  testWidgets('Shows expense list item widget', (WidgetTester tester) async {
     final expense = Expense.fromValues("test title", "test location", 123.45);
 
     await tester.pumpWidget(TestWidget(child: ExpensesListItem(expense)));

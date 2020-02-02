@@ -20,7 +20,7 @@ void main() {
     preferences.clear();
   });
 
-  testWidgets('Remove expense test', (WidgetTester tester) async {
+  testWidgets('Removes expense', (WidgetTester tester) async {
     final expense = (await expensesProvider.getAll()).first;
 
     await tester.pumpWidget(TestWidget(child: ExpenseEditView(expense: expense), expensesProvider: expensesProvider));
@@ -36,7 +36,7 @@ void main() {
     expect((await expensesProvider.getAll()).length, equals(4));
   });
 
-  testWidgets('Edit expense test', (WidgetTester tester) async {
+  testWidgets('Edits expense', (WidgetTester tester) async {
     final expense = (await expensesProvider.getAll()).first;
 
     await tester.pumpWidget(TestWidget(child: ExpenseEditView(expense: expense), expensesProvider: expensesProvider));

@@ -18,7 +18,7 @@ void main() {
     preferences.clear();
   });
 
-  testWidgets('Add expense', (WidgetTester tester) async {
+  testWidgets('Adds expense', (WidgetTester tester) async {
     await tester.pumpWidget(TestWidget(child: ExpenseAddView(), expensesProvider: expensesProvider));
 
     final titleTextField = find.byWidgetPredicate((widget) => widget is TextFormField && widget.key == Key("titleField"));

@@ -17,7 +17,7 @@ void main() {
   });
 
   group('Adding expense', () {
-    test('Adding new expense', () async {
+    test('Adds new expense', () async {
       var callbackFired = false;
       final expense = Expense.fromValues("test title", "test location", 123.45);
       final expensesProvider = ExpensesProvider();
@@ -42,7 +42,7 @@ void main() {
       expect(callbackFired, isTrue);
     });
 
-    test('Adding existing expense', () async {
+    test('Prevents adding existing expense', () async {
       final expense = Expense.fromValues("test title", "test location", 123.45);
       final expensesProvider = ExpensesProvider();
       await expensesProvider.add(expense);
@@ -65,7 +65,7 @@ void main() {
       expect(preferences.getStringList("Expenses").length, equals(1));
     });
 
-    test('Adding null', () async {
+    test('Prevents adding null', () async {
       final expensesProvider = ExpensesProvider();
       expensesProvider.addListener(() => fail("Expense should not be added and change notification should not be called"));
 
@@ -80,7 +80,7 @@ void main() {
   });
 
   group('Editing expense', () {
-    test('Editing existing expense', () async {
+    test('Edits existing expense', () async {
       var callbackFired = false;
       final expensesProvider = ExpensesProvider();
       var expense = ExpensesProviderHelpers.addRandomExpense(expensesProvider);
@@ -109,7 +109,7 @@ void main() {
       expect(callbackFired, isTrue);
     });
 
-    test('Editing not added expense', () async {
+    test('Prevents editing not added expense', () async {
       final expensesProvider = ExpensesProvider();
       ExpensesProviderHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Expense should not be edited and change notification should not be called"));
@@ -137,7 +137,7 @@ void main() {
       expect(preferences.getStringList("Expenses").length, equals(1));
     });
 
-    test('Editing null', () async {
+    test('Prevents editing null', () async {
       final expensesProvider = ExpensesProvider();
       ExpensesProviderHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Expense should not be edited and change notification should not be called"));
@@ -153,7 +153,7 @@ void main() {
   });
 
   group('Removing expense', () {
-    test('Removing existing expense', () async {
+    test('Removes existing expense', () async {
       var callbackFired = false;
       final expensesProvider = ExpensesProvider();
       var expense = ExpensesProviderHelpers.addRandomExpense(expensesProvider);
@@ -170,7 +170,7 @@ void main() {
       expect(callbackFired, isTrue);
     });
 
-    test('Removing not added expense', () async {
+    test('Prevents removing not added expense', () async {
       final expensesProvider = ExpensesProvider();
       ExpensesProviderHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Expense should not be removed and change notification should not be called"));
@@ -190,7 +190,7 @@ void main() {
       expect(preferences.getStringList("Expenses").length, equals(1));
     });
 
-    test('Removing null', () async {
+    test('Prevents removing null', () async {
       final expensesProvider = ExpensesProvider();
       ExpensesProviderHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Expense should not be removed and change notification should not be called"));
@@ -206,7 +206,7 @@ void main() {
   });
 
   group('Getting expenses', () {
-    test('Get all expenses', () async {
+    test('Gets all expenses', () async {
       final expensesProvider = ExpensesProvider();
       final expense = Expense.fromValues("test title", "test location", 123.45);
       await expensesProvider.add(expense);
@@ -225,7 +225,7 @@ void main() {
       expect(preferences.getStringList("Expenses").length, equals(2));
     });
 
-    test('Get all expenses when list is empty', () async {
+    test('Gets empty list when there is no expenses added', () async {
       final expensesProvider = ExpensesProvider();
       expensesProvider.addListener(() => fail("Change notification should not be called on retrieving items"));
 
@@ -234,7 +234,7 @@ void main() {
       expect(preferences.getStringList("Expenses"), isNull);
     });
 
-    test('Get expenses by id', () async {
+    test('Gets expenses by id', () async {
       final expensesProvider = ExpensesProvider();
       final expense = Expense("id123", "test title", "test location", 123.45);
       await expensesProvider.add(expense);
@@ -251,7 +251,7 @@ void main() {
       expect(preferences.getStringList("Expenses").length, equals(2));
     });
 
-    test('Get expenses by id with not existing id', () async {
+    test('Returns null when there is no expense with passed id', () async {
       final expensesProvider = ExpensesProvider();
       final expense = Expense("id123", "test title", "test location", 123.45);
       await expensesProvider.add(expense);
@@ -264,7 +264,7 @@ void main() {
     });
 
 
-    test('Get expenses by id with null id', () async {
+    test('Returns null when passing null id', () async {
       final expensesProvider = ExpensesProvider();
       final expense = Expense("id123", "test title", "test location", 123.45);
       await expensesProvider.add(expense);
