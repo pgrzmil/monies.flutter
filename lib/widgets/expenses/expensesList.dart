@@ -27,8 +27,7 @@ class ExpensesList extends StatelessWidget implements WidgetWithTitle {
             body: () {
               List<Expense> expenses = snapshot.data;
               if (expenses.length == 0) {
-                //Empty state
-                return Center(child: Text("Start adding expenses"));
+                return Center(child: Text("Start adding expenses"), key: Key("ExpensesList_empty_state"));
               }
 
               return ListView.builder(
