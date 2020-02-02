@@ -12,7 +12,7 @@ void main() {
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     expensesProvider = ExpensesProvider();
-    ExpensesProviderHelpers.loadExpensesFromFile(expensesProvider, 'assets/mockExpenses.json');
+    ExpensesProviderHelpers.loadTestExpenses(expensesProvider);
   });
 
   tearDown(() async {
