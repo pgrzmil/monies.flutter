@@ -3,21 +3,23 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
 part 'expense.g.dart';
 
-@JsonSerializable(explicitToJson: true, )
+@JsonSerializable(explicitToJson: true)
 class Expense {
   final String id;
   String title;
   String location;
   double amount;
+  DateTime date;
+  String categoryId;
 
   String get amountString {
     return '$amount zł';
   }
 
-  Expense(this.id, this.title, this.location, this.amount);
-  Expense.fromValues(this.title, this.location, this.amount) : id = Uuid().v4();
+  Expense(this.id, this.title, this.location, this.amount, this.date, [this.categoryId]);
+  Expense.fromValues(this.title, this.location, this.amount, this.date, [this.categoryId]) : id = Uuid().v4();
 
-  factory Expense.empty() => Expense.fromValues("", "", 0);
+  factory Expense.empty() => Expense.fromValues("", "", 0, DateTime.now());
 
   //JSON methods
   factory Expense.fromJson(Map<String, dynamic> json) => _$ExpenseFromJson(json);

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:monies/data/expensesProvider.dart';
+import 'package:monies/testDataHelpers.dart';
 import 'package:monies/widgets/expenses/expenseEdit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../helpers/expensesProviderHelpers.dart';
 import '../helpers/testWidget.dart';
 
 void main() {
@@ -12,7 +12,7 @@ void main() {
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     expensesProvider = ExpensesProvider();
-    ExpensesProviderHelpers.loadTestExpenses(expensesProvider);
+    TestDataHelpers.loadTestExpenses(expensesProvider);
   });
 
   tearDown(() async {

@@ -4,7 +4,7 @@ import 'package:monies/data/models/expense.dart';
 void main() {
   group('JSON parsing', () {
     test('Expense.toJson returns Map with String key', () {
-      final expense = Expense("1", "test_title", "test_location", 123.45);
+      final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23));
 
       final json = expense.toJson();
 
@@ -35,7 +35,7 @@ void main() {
     });
 
     test('Expense.toJsonString returns valid json string', () {
-      final expense = Expense("1", "test_title", "test_location", 123.45);
+      final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23));
 
       final jsonString = expense.toJsonString();
 
@@ -72,7 +72,7 @@ void main() {
   });
 
   test('Returns amount string', () {
-      final expense = Expense("1", "test_title", "test_location", 123.45);
+      final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23));
 
       expect(expense, isNotNull);
       expect(expense.amountString, "123.45 zł");

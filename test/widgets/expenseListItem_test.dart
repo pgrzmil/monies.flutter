@@ -6,7 +6,7 @@ import '../helpers/testWidget.dart';
 
 void main() {
   testWidgets('Shows expense list item widget', (WidgetTester tester) async {
-    final expense = Expense.fromValues("test title", "test location", 123.45);
+    final expense = Expense.fromValues("test title", "test location", 123.45, DateTime(2020, 1, 23));
 
     await tester.pumpWidget(TestWidget(child: ExpensesListItem(expense)));
 
