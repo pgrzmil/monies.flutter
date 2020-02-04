@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
 part 'expense.g.dart';
@@ -12,9 +13,8 @@ class Expense {
   DateTime date;
   String categoryId;
 
-  String get amountString {
-    return '$amount zł';
-  }
+  String get amountString => '$amount zł';
+  String get dateString => date != null ? new DateFormat('dd-MM-yyyy').format(date) : "";
 
   Expense(this.id, this.title, this.location, this.amount, this.date, [this.categoryId]);
   Expense.fromValues(this.title, this.location, this.amount, this.date, [this.categoryId]) : id = Uuid().v4();

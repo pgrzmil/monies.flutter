@@ -2,16 +2,24 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'models/category.dart';
 
-class CategoriesProvider extends ChangeNotifier{
+class CategoriesProvider extends ChangeNotifier {
   final List<ExpenseCategory> _categories = [];
   final String _storeKey = "Categories";
 
-  Future<List<ExpenseCategory>> getAll() async {
+  CategoriesProvider() {
+    _load();
+  }
+
+  List<ExpenseCategory> getAll() => _categories;
+
+  Future<List<ExpenseCategory>> getAllAsync() async {
     await _load();
     return Future.value(_categories);
   }
 
-  Future<ExpenseCategory> getBy({String id}) async {
+  ExpenseCategory getBy({String id}) => _categories.firstWhere((x) => x.id == id, orElse: () => null);
+
+  Future<ExpenseCategory> getByAsync({String id}) async {
     await _load();
     return Future.value(_categories.firstWhere((x) => x.id == id, orElse: () => null));
   }
@@ -54,6 +62,7 @@ class CategoriesProvider extends ChangeNotifier{
     if (serializedList != null) {
       final deserializedItems = serializedList.map((jsonString) => ExpenseCategory.fromJsonString(jsonString));
       _categories.addAll(deserializedItems);
+      _categories.sort((cat1, cat2) => cat1.order.compareTo(cat2.order));
     }
   }
 
