@@ -15,7 +15,6 @@ class _RootTabViewState extends State<RootTabView> with SingleTickerProviderStat
   final List<WidgetWithTitle> tabViews = [
     Dashboard(),
     ExpensesList(),
-    Settings(),
   ];
 
   TabController _tabController;
@@ -51,10 +50,15 @@ class _RootTabViewState extends State<RootTabView> with SingleTickerProviderStat
           tabs: [
             Tab(icon: Icon(Icons.insert_chart)),
             Tab(icon: Icon(Icons.payment)),
-            Tab(icon: Icon(Icons.settings)),
           ],
         ),
         title: Text(_appBarTitle),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Settings())),
+          ),
+        ],
       ),
       body: Center(
         child: TabBarView(
