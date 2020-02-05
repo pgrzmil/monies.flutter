@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/expensesProvider.dart';
 import 'package:provider/provider.dart';
 
-class TestWidget extends StatelessWidget {
+class TestWidget extends StatefulWidget {
   final Widget child;
   final ExpensesProvider expensesProvider;
-  TestWidget({this.child, this.expensesProvider});
+  final CategoriesProvider categoriesProvider;
+
+  TestWidget({this.child, this.expensesProvider, this.categoriesProvider});
 
   @override
+  _TestWidgetState createState() => _TestWidgetState();
+}
+
+class _TestWidgetState extends State<TestWidget> {
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ChangeNotifierProvider<ExpensesProvider>(
-        create: (context) => expensesProvider,
-        child: child,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => widget.expensesProvider ?? ExpensesProvider()),
+        ChangeNotifierProvider(create: (context) => widget.categoriesProvider ?? CategoriesProvider()),
+      ],
+      child: MaterialApp(
+        home: widget.child,
       ),
     );
   }
