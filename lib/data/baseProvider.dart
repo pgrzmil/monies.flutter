@@ -68,7 +68,7 @@ class BaseProvider<T extends BaseModel> extends ChangeNotifier {
     final serializedList = preferences.getStringList(storeKey);
     if (serializedList != null) {
       final deserializedItems = serializedList.map((jsonString) => fromJsonString(jsonString));
-      items.addAll(deserializedItems);
+      items.addAll(deserializedItems.where((item) => !_contains(item)));
       notifyListeners();
     }
   }
