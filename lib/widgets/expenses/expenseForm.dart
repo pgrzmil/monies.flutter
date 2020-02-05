@@ -77,7 +77,10 @@ class _ExpenseFormState extends State<ExpenseForm> {
                 Consumer<CategoriesProvider>(builder: (context, provider, child) {
                   if (pickedCategory == null) pickedCategory = provider.getBy(id: widget.expense.categoryId);
                   return DropdownButtonFormField<ExpenseCategory>(
+                    key: Key("categoryDropDown"),
+                    decoration: InputDecoration(labelText: "Category"),
                     value: pickedCategory,
+                    validator: (value) => value == null ? "Pick category" : null,
                     onChanged: (ExpenseCategory newValue) {
                       setState(() {
                         pickedCategory = newValue;
