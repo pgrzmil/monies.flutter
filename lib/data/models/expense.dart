@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
+import 'baseModel.dart';
 part 'expense.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Expense {
+class Expense implements BaseModel {
   final String id;
   String title;
   String location;
@@ -24,6 +25,6 @@ class Expense {
   //JSON methods
   factory Expense.fromJson(Map<String, dynamic> json) => _$ExpenseFromJson(json);
   Map<String, dynamic> toJson() => _$ExpenseToJson(this);
-  factory Expense.fromJsonString(String jsonString) => _$ExpenseFromJson(json.decode(jsonString));
+  static Expense fromJsonString(String jsonString) => _$ExpenseFromJson(json.decode(jsonString));
   String toJsonString() => json.encode(_$ExpenseToJson(this));
 }
