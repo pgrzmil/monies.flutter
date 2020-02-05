@@ -38,7 +38,7 @@ void main() {
 
   testWidgets('Shows empty expenses list', (WidgetTester tester) async {
     await tester.runAsync(() async {
-      final expenses = await expensesProvider.getAll();
+      final expenses = await expensesProvider.getAllAsync();
       while (expenses.length != 0) {
         expensesProvider.remove(expenses[0]);
       } //clear expenses list

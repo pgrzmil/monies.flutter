@@ -17,7 +17,7 @@ class ExpensesList extends StatelessWidget implements WidgetWithTitle {
   Widget build(BuildContext context) {
     return Consumer<ExpensesProvider>(builder: (context, expensesProvider, child) {
       return FutureBuilder(
-        future: expensesProvider.getAll(),
+        future: expensesProvider.getAllAsync(),
         builder: (context, snapshot) {
           if (snapshot.data == null) {
             return Center(child: CircularProgressIndicator());

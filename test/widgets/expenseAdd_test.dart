@@ -38,7 +38,7 @@ void main() {
     await tester.tap(saveButton);
     await tester.pumpAndSettle();
 
-    final addedExpense = (await expensesProvider.getAll()).first;
+    final addedExpense = (await expensesProvider.getAllAsync()).first;
     expect(addedExpense.title, equals("test title"));
     expect(addedExpense.location, equals("test location"));
     expect("${addedExpense.amount}", equals("543.21"));

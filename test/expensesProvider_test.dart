@@ -22,12 +22,12 @@ void main() {
       final expensesProvider = ExpensesProvider();
       expensesProvider.addListener(() => callbackFired = true);
 
-      expect((await expensesProvider.getAll()).length, equals(0));
+      expect((await expensesProvider.getAllAsync()).length, equals(0));
       expect(preferences.getStringList("Expenses"), isNull);
 
       await expensesProvider.add(expense);
 
-      final allExpenses = await expensesProvider.getAll();
+      final allExpenses = await expensesProvider.getAllAsync();
       expect(allExpenses.length, equals(1));
 
       final expenseFromList = allExpenses.first;
@@ -47,12 +47,12 @@ void main() {
       await expensesProvider.add(expense);
       expensesProvider.addListener(() => fail("Expense should not be added and change notification should not be called"));
 
-      expect((await expensesProvider.getAll()).length, equals(1));
+      expect((await expensesProvider.getAllAsync()).length, equals(1));
       expect(preferences.getStringList("Expenses").length, equals(1));
 
       await expensesProvider.add(expense);
 
-      final allExpenses = await expensesProvider.getAll();
+      final allExpenses = await expensesProvider.getAllAsync();
       expect(allExpenses.length, equals(1));
 
       final expenseFromList = allExpenses.first;
@@ -68,12 +68,12 @@ void main() {
       final expensesProvider = ExpensesProvider();
       expensesProvider.addListener(() => fail("Expense should not be added and change notification should not be called"));
 
-      expect((await expensesProvider.getAll()).length, equals(0));
+      expect((await expensesProvider.getAllAsync()).length, equals(0));
       expect(preferences.getStringList("Expenses"), isNull);
 
       await expensesProvider.add(null);
 
-      expect((await expensesProvider.getAll()).length, equals(0));
+      expect((await expensesProvider.getAllAsync()).length, equals(0));
       expect(preferences.getStringList("Expenses"), isNull);
     });
   });
@@ -85,7 +85,7 @@ void main() {
       var expense = TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => callbackFired = true);
 
-      expect((await expensesProvider.getAll()).length, equals(1));
+      expect((await expensesProvider.getAllAsync()).length, equals(1));
       expect(preferences.getStringList("Expenses").length, equals(1));
 
       expense.title = "test title";
@@ -94,7 +94,7 @@ void main() {
 
       await expensesProvider.edit(expense);
 
-      final allExpenses = await expensesProvider.getAll();
+      final allExpenses = await expensesProvider.getAllAsync();
       expect(allExpenses.length, equals(1));
 
       final expenseFromList = allExpenses.first;
@@ -115,7 +115,7 @@ void main() {
       
       var expense = Expense.empty();
 
-      expect((await expensesProvider.getAll()).length, equals(1));
+      expect((await expensesProvider.getAllAsync()).length, equals(1));
       expect(preferences.getStringList("Expenses").length, equals(1));
 
       expense.title = "test title";
@@ -124,7 +124,7 @@ void main() {
 
       await expensesProvider.edit(expense);
 
-      final allExpenses = await expensesProvider.getAll();
+      final allExpenses = await expensesProvider.getAllAsync();
       expect(allExpenses.length, equals(1));
 
       final expenseFromList = allExpenses.first;
@@ -141,12 +141,12 @@ void main() {
       TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Expense should not be edited and change notification should not be called"));
 
-      expect((await expensesProvider.getAll()).length, equals(1));
+      expect((await expensesProvider.getAllAsync()).length, equals(1));
       expect(preferences.getStringList("Expenses").length, equals(1));
 
       await expensesProvider.remove(null);
 
-      expect((await expensesProvider.getAll()).length, equals(1));
+      expect((await expensesProvider.getAllAsync()).length, equals(1));
       expect(preferences.getStringList("Expenses").length, equals(1));
     });
   });
@@ -158,12 +158,12 @@ void main() {
       var expense = TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => callbackFired = true);
 
-      expect((await expensesProvider.getAll()).length, equals(1));
+      expect((await expensesProvider.getAllAsync()).length, equals(1));
       expect(preferences.getStringList("Expenses").length, equals(1));
 
       await expensesProvider.remove(expense);
 
-      final allExpenses = await expensesProvider.getAll();
+      final allExpenses = await expensesProvider.getAllAsync();
       expect(allExpenses.length, equals(0));
       expect(preferences.getStringList("Expenses").length, equals(0));
       expect(callbackFired, isTrue);
@@ -176,12 +176,12 @@ void main() {
       
       var expense = Expense.fromValues("test title", "test location", 123.45, DateTime(2020, 1, 23));
 
-      expect((await expensesProvider.getAll()).length, equals(1));
+      expect((await expensesProvider.getAllAsync()).length, equals(1));
       expect(preferences.getStringList("Expenses").length, equals(1));
 
       await expensesProvider.remove(expense);
 
-      final allExpenses = await expensesProvider.getAll();
+      final allExpenses = await expensesProvider.getAllAsync();
       expect(allExpenses.length, equals(1));
 
       final expenseFromList = allExpenses.first;
@@ -194,12 +194,12 @@ void main() {
       TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Expense should not be removed and change notification should not be called"));
 
-      expect((await expensesProvider.getAll()).length, equals(1));
+      expect((await expensesProvider.getAllAsync()).length, equals(1));
       expect(preferences.getStringList("Expenses").length, equals(1));
 
       await expensesProvider.remove(null);
 
-      expect((await expensesProvider.getAll()).length, equals(1));
+      expect((await expensesProvider.getAllAsync()).length, equals(1));
       expect(preferences.getStringList("Expenses").length, equals(1));
     });
   });
@@ -212,7 +212,7 @@ void main() {
       TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Change notification should not be called on retrieving items"));
 
-      final allExpenses = await expensesProvider.getAll();
+      final allExpenses = await expensesProvider.getAllAsync();
       expect(allExpenses.length, equals(2));
 
       final expenseFromList = allExpenses.first;
@@ -228,7 +228,7 @@ void main() {
       final expensesProvider = ExpensesProvider();
       expensesProvider.addListener(() => fail("Change notification should not be called on retrieving items"));
 
-      final allExpenses = await expensesProvider.getAll();
+      final allExpenses = await expensesProvider.getAllAsync();
       expect(allExpenses.length, equals(0));
       expect(preferences.getStringList("Expenses"), isNull);
     });
@@ -240,7 +240,7 @@ void main() {
       TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Change notification should not be called on retrieving items"));
 
-      final retrievedExpense = await expensesProvider.getBy(id: "id123");
+      final retrievedExpense = await expensesProvider.getByAsync(id: "id123");
       expect(retrievedExpense, isNotNull);
       expect(retrievedExpense, equals(expense));
       expect(retrievedExpense.title, equals("test title"));
@@ -257,7 +257,7 @@ void main() {
       TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Change notification should not be called on retrieving items"));
 
-      final retrievedExpense = await expensesProvider.getBy(id: "notexistingid");
+      final retrievedExpense = await expensesProvider.getByAsync(id: "notexistingid");
       expect(retrievedExpense, isNull);
       expect(preferences.getStringList("Expenses").length, equals(2));
     });
@@ -270,7 +270,7 @@ void main() {
       TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Change notification should not be called on retrieving items"));
 
-      final retrievedExpense = await expensesProvider.getBy(id: null);
+      final retrievedExpense = await expensesProvider.getByAsync(id: null);
       expect(retrievedExpense, isNull);
       expect(preferences.getStringList("Expenses").length, equals(2));
     });

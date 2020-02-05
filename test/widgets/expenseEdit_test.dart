@@ -21,11 +21,11 @@ void main() {
   });
 
   testWidgets('Removes expense', (WidgetTester tester) async {
-    final expense = (await expensesProvider.getAll()).first;
+    final expense = (await expensesProvider.getAllAsync()).first;
 
     await tester.pumpWidget(TestWidget(child: ExpenseEditView(expense: expense), expensesProvider: expensesProvider));
 
-    expect((await expensesProvider.getAll()).length, equals(5));
+    expect((await expensesProvider.getAllAsync()).length, equals(5));
 
     final removeButton = find.byIcon(Icons.delete);
     expect(removeButton, findsOneWidget);
@@ -33,11 +33,11 @@ void main() {
     await tester.tap(removeButton);
     await tester.pumpAndSettle();
 
-    expect((await expensesProvider.getAll()).length, equals(4));
+    expect((await expensesProvider.getAllAsync()).length, equals(4));
   });
 
   testWidgets('Edits expense', (WidgetTester tester) async {
-    final expense = (await expensesProvider.getAll()).first;
+    final expense = (await expensesProvider.getAllAsync()).first;
 
     await tester.pumpWidget(TestWidget(child: ExpenseEditView(expense: expense), expensesProvider: expensesProvider));
 
@@ -58,7 +58,7 @@ void main() {
     await tester.tap(saveButton);
     await tester.pumpAndSettle();
 
-    final editedExpense = await expensesProvider.getBy(id: expense.id);
+    final editedExpense = await expensesProvider.getByAsync(id: expense.id);
     expect(editedExpense.title, equals("test title"));
     expect(editedExpense.location, equals("test location"));
     expect("${editedExpense.amount}", equals("543.21"));
