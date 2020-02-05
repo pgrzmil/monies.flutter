@@ -4,12 +4,20 @@ import 'package:monies/data/models/expense.dart';
 import 'package:provider/provider.dart';
 import 'expenseForm.dart';
 
-class ExpenseAddView extends StatelessWidget {
+class ExpenseAddView extends StatefulWidget {
+  @override
+  _ExpenseAddViewState createState() => _ExpenseAddViewState(formKey: GlobalKey<FormState>());
+}
+
+class _ExpenseAddViewState extends State<ExpenseAddView> {
   final Expense expense = Expense.empty();
+  final GlobalKey<FormState> formKey;
+
+  _ExpenseAddViewState({this.formKey});
 
   @override
   Widget build(BuildContext context) {
-    final expenseForm = ExpenseForm(expense);
+    final expenseForm = ExpenseForm(expense, formKey);
     return Scaffold(
       appBar: AppBar(
         title: Text("Add expense"),

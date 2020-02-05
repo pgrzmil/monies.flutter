@@ -7,15 +7,12 @@ import 'package:provider/provider.dart';
 
 class ExpenseForm extends StatefulWidget {
   final Expense expense;
-  GlobalKey<FormState> formKey;
+  final GlobalKey<FormState> formKey;
 
-  ExpenseForm(this.expense);
+  ExpenseForm(this.expense, this.formKey);
 
   @override
-  _ExpenseFormState createState() {
-    formKey = GlobalKey<FormState>();
-    return _ExpenseFormState();
-  }
+  _ExpenseFormState createState() => _ExpenseFormState();
 }
 
 class _ExpenseFormState extends State<ExpenseForm> {
