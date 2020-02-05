@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:monies/data/categoriesProvider.dart';
+import 'package:provider/provider.dart';
 import '../../data/models/expense.dart';
 
 class ExpensesListItem extends StatelessWidget {
@@ -13,13 +15,16 @@ class ExpensesListItem extends StatelessWidget {
         padding: EdgeInsets.all(5),
         child: Row(
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(right: 5),
-              child: CircleAvatar(
-                backgroundColor: Colors.red[300],
-                child: Text("\$"),
-              ),
-            ),
+            Consumer<CategoriesProvider>(builder: (context, provider, child) {
+              final category = provider.getBy(id: expense.categoryId);
+              return Container(
+                padding: EdgeInsets.only(right: 5),
+                child: CircleAvatar(
+                  backgroundColor: category?.color ?? Colors.deepPurple[500],
+                  child: Icon(category?.icon ?? Icons.attach_money, color: Colors.white,),
+                ),
+              );
+            }),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
