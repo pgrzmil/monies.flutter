@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:monies/widgets/dashboard.dart';
 import 'package:provider/provider.dart';
-
 import 'data/categoriesProvider.dart';
 import 'data/expensesProvider.dart';
-import 'widgets/rootTabView.dart';
 
 void main() => runApp(App());
 
@@ -19,9 +17,9 @@ class App extends StatelessWidget {
       child: MaterialApp(
         title: 'monies',
         theme: ThemeData(
-          primarySwatch: Colors.green,
+          primarySwatch: Colors.lime,
         ),
-        home: RootTabView(),
+        home: Dashboard(),
       ),
     );
   }
