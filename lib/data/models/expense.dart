@@ -15,7 +15,8 @@ class Expense implements BaseModel {
   String categoryId;
 
   String get amountString => '${amount.toStringAsFixed(2)} zł';
-  String get dateString => date != null ? new DateFormat('dd-MM-yyyy').format(date) : "";
+  String get dateString => date != null ? new DateFormat('dd/MM/yyyy').format(date) : "";
+  String get displayTitle => location.isNotEmpty ? title + " - " + location : title;
 
   Expense(this.id, this.title, this.location, this.amount, this.date, [this.categoryId]);
   Expense.fromValues(this.title, this.location, this.amount, this.date, [this.categoryId]) : id = Uuid().v4();

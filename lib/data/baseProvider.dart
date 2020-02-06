@@ -9,12 +9,12 @@ class BaseProvider<T extends BaseModel> extends ChangeNotifier {
   final String storeKey;
 
   ///Item's json deserializing method.
-  /// 
-  ///There is no way to use item constructor or static method from generic type abstract 
+  ///
+  ///There is no way to use item constructor or static method from generic type abstract
   ///class so creator function is passed as parameter to super constructor.
   final ItemJsonSerializator<T> fromJsonString;
 
-  BaseProvider({this.storeKey, this.fromJsonString}){
+  BaseProvider({this.storeKey, this.fromJsonString}) {
     _load();
   }
 
@@ -23,14 +23,14 @@ class BaseProvider<T extends BaseModel> extends ChangeNotifier {
   /// Returns all items. If items are not yet loaded will load them before.
   Future<List<T>> getAllAsync() async {
     await _load();
-    return Future.value(items);
+    return Future.value(getAll());
   }
 
   T getBy({String id}) => items.firstWhere((x) => x.id == id, orElse: () => null);
 
   Future<T> getByAsync({String id}) async {
     await _load();
-    return Future.value(items.firstWhere((x) => x.id == id, orElse: () => null));
+    return Future.value(getByAsync(id: id));
   }
 
   add(T item) {

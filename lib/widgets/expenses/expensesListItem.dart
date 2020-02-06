@@ -21,15 +21,18 @@ class ExpensesListItem extends StatelessWidget {
                 padding: EdgeInsets.only(right: 5),
                 child: CircleAvatar(
                   backgroundColor: category?.color ?? Colors.deepPurple[500],
-                  child: Icon(category?.icon ?? Icons.attach_money, color: Colors.white,),
+                  child: Icon(
+                    category?.icon ?? Icons.attach_money,
+                    color: Colors.white,
+                  ),
                 ),
               );
             }),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(expense.title),
-                Text(expense.location),
+                Text(expense.displayTitle),
+                Text(expense.dateString),
               ],
             ),
             Spacer(),
