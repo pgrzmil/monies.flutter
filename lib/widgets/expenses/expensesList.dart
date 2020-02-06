@@ -15,39 +15,41 @@ class ExpensesList extends StatelessWidget implements WidgetWithTitle {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ExpensesProvider>(builder: (context, expensesProvider, child) {
-      return FutureBuilder(
-        future: expensesProvider.getAllAsync(),
-        builder: (context, snapshot) {
-          if (snapshot.data == null) {
-            return Center(child: CircularProgressIndicator());
-          }
+    return Consumer<ExpensesProvider>(
+      builder: (context, expensesProvider, child) {
+        //Add handling state when data is loading
+        //return Center(child: CircularProgressIndicator());
 
-          return Scaffold(
-            body: () {
-              List<Expense> expenses = snapshot.data;
-              if (expenses.length == 0) {
-                return Center(child: Text("Start adding expenses"), key: Key("ExpensesList_empty_state"));
-              }
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(title),
+          ),
+          body: () {
+            List<Expense> expenses = expensesProvider.getAll();
+            if (expenses.length == 0) {
+              return Center(child: Text("Start adding expenses"), key: Key("ExpensesList_empty_state"));
+            }
 
-              return ListView.builder(
+            return Card(
+              child: ListView.separated(
                   itemCount: expenses.length,
-                  itemBuilder: (BuildContext context, int index) {
+                  separatorBuilder: (context, index) => Divider(height: 7),
+                  itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseEditView(expense: expenses[index]))),
                       child: ExpensesListItem(expenses[index]),
                     );
-                  });
-            }(),
-            floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseAddView()));
-              },
-            ),
-          );
-        },
-      );
-    });
+                  }),
+            );
+          }(),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseAddView()));
+            },
+          ),
+        );
+      },
+    );
   }
 }
