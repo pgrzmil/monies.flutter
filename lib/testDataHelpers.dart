@@ -11,7 +11,7 @@ import 'package:monies/data/models/expense.dart';
 class TestDataHelpers {
   static Expense addRandomExpense(ExpensesProvider expensesProvider) {
     final random = Random();
-    final expense = Expense.fromValues("title ${random.nextInt(123)}", "location", random.nextDouble() * 100, DateTime.now());
+    final expense = Expense.fromValues("title ${random.nextInt(123)}", "location", random.nextInt(20000) / 100, DateTime.now());
     expensesProvider.add(expense);
     return expense;
   }

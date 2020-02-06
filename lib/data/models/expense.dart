@@ -14,7 +14,7 @@ class Expense implements BaseModel {
   DateTime date;
   String categoryId;
 
-  String get amountString => '$amount zł';
+  String get amountString => '${amount.toStringAsFixed(2)} zł';
   String get dateString => date != null ? new DateFormat('dd-MM-yyyy').format(date) : "";
 
   Expense(this.id, this.title, this.location, this.amount, this.date, [this.categoryId]);

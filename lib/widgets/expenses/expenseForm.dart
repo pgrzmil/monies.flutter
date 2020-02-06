@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:intl/intl.dart';
 import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/models/category.dart';
@@ -28,8 +30,9 @@ class _ExpenseFormState extends State<ExpenseForm> {
 
   @override
   Widget build(BuildContext context) {
+    //MoneyMaskedTextController could be working better. In case of too much free time can be fixed this in the future.
+    final moneyFormatController = new MoneyMaskedTextController(initialValue: widget.expense.amount, rightSymbol: " zł", decimalSeparator: ",", thousandSeparator: " ");
     final isEmptyValidator = (value) => value.isEmpty ? "Enter value" : null;
-    final numberValidator = (value) => double.tryParse(value) == null ? "Incorrect number" : null;
 
     return Card(
       child: SingleChildScrollView(
@@ -56,10 +59,10 @@ class _ExpenseFormState extends State<ExpenseForm> {
                 ),
                 TextFormField(
                   key: Key("amountField"),
-                  initialValue: "${widget.expense.amount}",
-                  validator: numberValidator,
                   decoration: InputDecoration(labelText: "Amount"),
-                  onSaved: (value) => widget.expense.amount = double.tryParse(value) ?? 0,
+                  keyboardType: TextInputType.number,
+                  controller: moneyFormatController,
+                  onSaved: (value) => widget.expense.amount = moneyFormatController.numberValue ?? 0,
                 ),
                 TextFormField(
                   key: Key("dateField"),
@@ -115,3 +118,4 @@ class _ExpenseFormState extends State<ExpenseForm> {
     }
   }
 }
+

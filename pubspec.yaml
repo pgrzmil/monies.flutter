@@ -18,11 +18,11 @@ environment:
 
 dependencies:
   uuid: ^2.0.4
-  decimal: ^0.3.0
   shared_preferences: ^0.5.4
   provider: ^4.0.2
   json_annotation: ^3.0.1
   intl: ^0.16.1
+  flutter_masked_text: ^0.8.0
   flutter:
     sdk: flutter
 
