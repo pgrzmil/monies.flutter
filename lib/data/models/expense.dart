@@ -18,10 +18,10 @@ class Expense implements BaseModel {
   String get dateString => date != null ? DateFormat('dd/MM/yyyy').format(date) : "";
   String get displayTitle => location.isNotEmpty ? title + " - " + location : title;
 
-  Expense(this.id, this.title, this.location, this.amount, this.date, [this.categoryId]);
-  Expense.fromValues(this.title, this.location, this.amount, this.date, [this.categoryId]) : id = Uuid().v4();
+  Expense(this.id, this.title, this.location, this.amount, this.date, this.categoryId);
+  Expense.fromValues(this.title, this.location, this.amount, this.date, this.categoryId) : id = Uuid().v4();
 
-  factory Expense.empty() => Expense.fromValues("", "", 0, DateTime.now());
+  factory Expense.empty() => Expense.fromValues("", "", 0, DateTime.now(), "");
 
   //JSON methods
   factory Expense.fromJson(Map<String, dynamic> json) => _$ExpenseFromJson(json);

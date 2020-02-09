@@ -13,7 +13,7 @@ import '../helpers/testWidget.dart';
 
 void main() {
   ExpensesProvider expensesProvider;
-
+  
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     expensesProvider = ExpensesProvider();
@@ -26,7 +26,7 @@ void main() {
   });
 
   testWidgets('Shows list view with loaded expenses', (WidgetTester tester) async {
-    await tester.pumpWidget(TestWidget(child: ExpensesList(), expensesProvider: expensesProvider));
+    await tester.pumpWidget(TestWidget(child: ExpensesList(selectedDate: DateTime(2019, 12, 1)), expensesProvider: expensesProvider));
     await tester.pumpAndSettle(); //wait for Future builder to finish
 
     expect(find.byType(ExpensesListItem), findsNWidgets(5));
@@ -37,11 +37,11 @@ void main() {
 
   testWidgets('Shows empty expenses list', (WidgetTester tester) async {
     await tester.runAsync(() async {
-      final expenses = await expensesProvider.getAllAsync();
+      final expenses = expensesProvider.getAll();
       while (expenses.isNotEmpty) {
-        expensesProvider.remove(expenses[0]);
+        await expensesProvider.remove(expenses[0]);
       } //clear expenses list
-      await tester.pumpWidget(TestWidget(child: ExpensesList(), expensesProvider: expensesProvider));
+      await tester.pumpWidget(TestWidget(child: ExpensesList(selectedDate: DateTime(2019, 12, 1)), expensesProvider: expensesProvider));
       await tester.pumpAndSettle(Duration(milliseconds: 500)); //wait for Future builder to finish
 
       expect(find.byWidgetPredicate((widget) => widget.key == Key("ExpensesList_empty_state")), findsOneWidget);
@@ -52,14 +52,8 @@ void main() {
     });
   });
 
-  testWidgets('Returns progress indicator on loading expenses', (WidgetTester tester) async {
-    await tester.pumpWidget(TestWidget(child: ExpensesList(), expensesProvider: expensesProvider));
-
-    expect(find.byType(CircularProgressIndicator), findsOneWidget);
-  });
-
   testWidgets('Returns expenses floating button', (WidgetTester tester) async {
-    await tester.pumpWidget(TestWidget(child: ExpensesList(), expensesProvider: expensesProvider));
+    await tester.pumpWidget(TestWidget(child: ExpensesList(selectedDate: DateTime(2019, 12, 1)), expensesProvider: expensesProvider));
     await tester.pumpAndSettle(); //wait for Future builder to finish
 
     final addButton = find.byIcon(Icons.add);
@@ -67,7 +61,7 @@ void main() {
   });
 
   testWidgets('Navigates to add view after tapping floating button', (WidgetTester tester) async {
-    await tester.pumpWidget(TestWidget(child: ExpensesList(), expensesProvider: expensesProvider));
+    await tester.pumpWidget(TestWidget(child: ExpensesList(selectedDate: DateTime(2019, 12, 1)), expensesProvider: expensesProvider));
     await tester.pumpAndSettle(); //wait for Future builder to finish
 
     final addButton = find.byIcon(Icons.add);
@@ -82,7 +76,7 @@ void main() {
   testWidgets('Navigates to edit view after tapping any list item', (WidgetTester tester) async {
     final random = Random();
 
-    await tester.pumpWidget(TestWidget(child: ExpensesList(), expensesProvider: expensesProvider));
+    await tester.pumpWidget(TestWidget(child: ExpensesList(selectedDate: DateTime(2019, 12, 1)), expensesProvider: expensesProvider));
     await tester.pumpAndSettle(); //wait for Future builder to finish
 
     final listItems = find.byType(ExpensesListItem);

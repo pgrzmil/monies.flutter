@@ -4,7 +4,7 @@ import 'models/baseModel.dart';
 
 typedef T ItemJsonSerializator<T>(String jsonString);
 
-class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
+abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   final List<T> items = [];
   final String storeKey;
 
@@ -20,40 +20,29 @@ class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
 
   List<T> getAll() => items;
 
-  /// Returns all items. If items are not yet loaded will load them before.
-  Future<List<T>> getAllAsync() async {
-    await _load();
-    return Future.value(getAll());
-  }
-
   T getBy({String id}) => items.firstWhere((x) => x.id == id, orElse: () => null);
 
-  Future<T> getByAsync({String id}) async {
-    await _load();
-    return Future.value(getByAsync(id: id));
-  }
-
-  add(T item) {
+  Future add(T item) async {
     if (_isNotNull(item) && !_contains(item)) {
       items.add(item);
-      _persist();
       notifyListeners();
+      await _persist();
     }
   }
 
-  edit(T item) {
+  Future edit(T item) async {
     if (_isNotNull(item) && _contains(item)) {
       //item reference is passed to widgets hence edit method only needs to store and notify about changes
-      _persist();
       notifyListeners();
+      await _persist();
     }
   }
 
-  remove(T item) {
+  Future remove(T item) async {
     if (_isNotNull(item) && _contains(item)) {
       items.remove(item);
-      _persist();
       notifyListeners();
+      await _persist();
     }
   }
 

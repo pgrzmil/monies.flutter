@@ -23,7 +23,7 @@ class _TestWidgetState extends State<TestWidget> {
         ChangeNotifierProvider(create: (context) => widget.categoriesProvider ?? CategoriesProvider()),
       ],
       child: MaterialApp(
-        home: widget.child,
+        home: Scaffold(body: widget.child),
       ),
     );
   }

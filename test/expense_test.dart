@@ -4,25 +4,29 @@ import 'package:monies/data/models/expense.dart';
 void main() {
   group('JSON parsing', () {
     test('Expense.toJson returns Map with String key', () {
-      final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23));
+      final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23), "cat_id");
 
       final json = expense.toJson();
 
       expect(json, isNotNull);
       expect(json, isA<Map<String, dynamic>>());
-      expect(json, hasLength(4));
+      expect(json, hasLength(6));
       expect(json.containsKey("id"), isTrue);
       expect(json.containsKey("title"), isTrue);
       expect(json.containsKey("location"), isTrue);
       expect(json.containsKey("amount"), isTrue);
+      expect(json.containsKey("date"), isTrue);
+      expect(json.containsKey("categoryId"), isTrue);
       expect(json["id"], equals("1"));
       expect(json["title"], equals("test_title"));
       expect(json["location"], equals("test_location"));
       expect(json["amount"], equals(123.45));
+      expect(json["date"], equals("2020-01-23T00:00:00.000"));
+      expect(json["categoryId"], equals("cat_id"));
     });
 
     test('Expense.fromJson returns Expense object', () {
-      final json = {"id": "1", "title": "test_title", "location": "test_location", "amount": 123.45};
+      final json = {"id": "1", "title": "test_title", "location": "test_location", "amount": 123.45, "date": "2020-01-23T00:00:00.000", "categoryId": "cat_id"};
 
       final expense = Expense.fromJson(json);
 
@@ -32,20 +36,22 @@ void main() {
       expect(expense.title, equals("test_title"));
       expect(expense.location, equals("test_location"));
       expect(expense.amount, equals(123.45));
+      expect(expense.date, DateTime(2020, 1, 23));
+      expect(expense.categoryId, equals("cat_id"));
     });
 
     test('Expense.toJsonString returns valid json string', () {
-      final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23));
+      final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23), "cat_id");
 
       final jsonString = expense.toJsonString();
 
       expect(jsonString, isNotNull);
       expect(jsonString, isA<String>());
-      expect(jsonString, equals(r'{"id":"1","title":"test_title","location":"test_location","amount":123.45}'));
+      expect(jsonString, equals(r'{"id":"1","title":"test_title","location":"test_location","amount":123.45,"date":"2020-01-23T00:00:00.000","categoryId":"cat_id"}'));
     });
 
     test('Expense.fromJsonString returns Expense object', () {
-      final jsonString = r'{"id":"1","title":"test_title","location":"test_location","amount":123.45}';
+      final jsonString = r'{"id":"1","title":"test_title","location":"test_location","amount":123.45,"date":"2020-01-23T00:00:00.000","categoryId":"cat_id"}';
 
       final expense = Expense.fromJsonString(jsonString);
 
@@ -55,6 +61,8 @@ void main() {
       expect(expense.title, equals("test_title"));
       expect(expense.location, equals("test_location"));
       expect(expense.amount, equals(123.45));
+      expect(expense.date, DateTime(2020, 1, 23));
+      expect(expense.categoryId, equals("cat_id"));
     });
 
     test('Expense.fromJsonString throws FormatException when called with malformed string', () {
@@ -72,9 +80,23 @@ void main() {
   });
 
   test('Returns amount string', () {
-    final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23));
+    final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23), "cat_id");
 
     expect(expense, isNotNull);
     expect(expense.amountString, "123.45 zł");
+  });
+
+   test('Returns date string', () {
+    final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23), "cat_id");
+
+    expect(expense, isNotNull);
+    expect(expense.dateString, "23/01/2020");
+  });
+
+   test('Returns title for displaying', () {
+    final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23), "cat_id");
+
+    expect(expense, isNotNull);
+    expect(expense.displayTitle, "test_title - test_location");
   });
 }

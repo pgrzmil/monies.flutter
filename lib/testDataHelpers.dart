@@ -9,10 +9,10 @@ import 'package:monies/data/models/category.dart';
 import 'package:monies/data/models/expense.dart';
 
 class TestDataHelpers {
-  static Expense addRandomExpense(ExpensesProvider expensesProvider) {
+  static Future<Expense> addRandomExpense(ExpensesProvider expensesProvider) async {
     final random = Random();
-    final expense = Expense.fromValues("title ${random.nextInt(123)}", "location", random.nextInt(20000) / 100, DateTime.now());
-    expensesProvider.add(expense);
+    final expense = Expense.fromValues("title ${random.nextInt(123)}", "location", random.nextInt(20000) / 100, DateTime.now(), "");
+    await expensesProvider.add(expense);
     return expense;
   }
 

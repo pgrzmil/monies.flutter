@@ -113,7 +113,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
     if (date != null) {
       setState(() {
         pickedDate = date;
-        dateTextController.text = DateFormat('dd-MM-yyyy').format(date);
+        dateTextController.text = DateFormat('dd/MM/yyyy').format(date);
       });
     }
   }
