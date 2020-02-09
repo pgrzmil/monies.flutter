@@ -1,24 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:monies/data/expensesProvider.dart';
 import 'package:monies/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
-import 'baseWidgets.dart';
 import 'expenses/expensesList.dart';
 import 'expenses/expensesListItem.dart';
 
-class Dashboard extends StatelessWidget implements WidgetWithTitle {
+class Dashboard extends StatefulWidget {
   @override
-  String get title => "Dashboard";
+  _DashboardState createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  var selectedDate = DateTime.now();
+  String get title {
+    return DateFormat.MMMM().add_y().format(selectedDate);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<ExpensesProvider>(builder: (context, expensesProvider, _) {
-      final lastExpenses = expensesProvider.getLatest(3, 12, 2019);
+      final lastExpenses = expensesProvider.getLatest(3, selectedDate.month, selectedDate.year);
       return Scaffold(
         appBar: AppBar(
-          title: Text(title),
+          title: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+              FlatButton(
+                child: Icon(Icons.arrow_left),
+                onPressed: () { setState(() {
+                  selectedDate = Jiffy(selectedDate).subtract(months: 1);
+                });
+                },
+              ),
+              Text(title),
+              FlatButton(
+                child: Icon(Icons.arrow_right),
+                onPressed: () { setState(() {
+                  selectedDate = Jiffy(selectedDate).add(months: 1);
+                });},
+              ),
+            ]),
+          ),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.settings),
@@ -46,7 +73,7 @@ class Dashboard extends StatelessWidget implements WidgetWithTitle {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: lastExpenses.length,
-                      padding: EdgeInsets.only(bottom:5),
+                      padding: EdgeInsets.only(bottom: 5),
                       separatorBuilder: (context, index) => Divider(height: 5),
                       itemBuilder: (context, index) {
                         return ExpensesListItem(lastExpenses[index]);
@@ -54,7 +81,7 @@ class Dashboard extends StatelessWidget implements WidgetWithTitle {
                     ),
                   ],
                 ),
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ExpensesList())),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ExpensesList(selectedDate: selectedDate,))),
               ),
             ),
 

@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:monies/data/expensesProvider.dart';
-import 'package:monies/widgets/baseWidgets.dart';
 import 'package:monies/widgets/expenses/expenseAdd.dart';
 import 'package:monies/widgets/expenses/expenseEdit.dart';
 import 'package:monies/widgets/expenses/expensesList.dart';
@@ -96,12 +95,5 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(ExpenseEditView), findsOneWidget);
-  });
-
-  testWidgets('Returns title', (WidgetTester tester) async {
-    final widget = ExpensesList();
-
-    expect(widget, isA<WidgetWithTitle>());
-    expect(widget.title, equals("Expenses"));
   });
 }

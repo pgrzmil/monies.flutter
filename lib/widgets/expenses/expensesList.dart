@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:monies/data/expensesProvider.dart';
-import 'package:monies/data/models/expense.dart';
-
 import 'package:provider/provider.dart';
-
-import '../baseWidgets.dart';
 import 'expenseAdd.dart';
 import 'expenseEdit.dart';
 import './expensesListItem.dart';
 
-class ExpensesList extends StatelessWidget implements WidgetWithTitle {
-  @override
-  String get title => "Expenses";
+class ExpensesList extends StatelessWidget {
+  final DateTime selectedDate;
+
+  const ExpensesList({Key key, this.selectedDate}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +19,10 @@ class ExpensesList extends StatelessWidget implements WidgetWithTitle {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text(title),
+            title: Text("Expenses"),
           ),
           body: () {
-            List<Expense> expenses = expensesProvider.getAll();
+            var expenses = expensesProvider.getForMonth(selectedDate.month, selectedDate.year);
             if (expenses.length == 0) {
               return Center(child: Text("Start adding expenses"), key: Key("ExpensesList_empty_state"));
             }
@@ -36,8 +33,8 @@ class ExpensesList extends StatelessWidget implements WidgetWithTitle {
                   separatorBuilder: (context, index) => Divider(height: 7),
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseEditView(expense: expenses[index]))),
-                      child: ExpensesListItem(expenses[index]),
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseEditView(expense: expenses.elementAt(index)))),
+                      child: ExpensesListItem(expenses.elementAt(index)),
                     );
                   }),
             );
