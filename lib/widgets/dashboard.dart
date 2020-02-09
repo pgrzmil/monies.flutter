@@ -1,48 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:intl/intl.dart';
-import 'package:jiffy/jiffy.dart';
-import 'package:monies/data/expensesProvider.dart';
+import 'package:monies/data/dashboardProvider.dart';
 import 'package:monies/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
 import 'expenses/expensesList.dart';
 import 'expenses/expensesListItem.dart';
 
-class Dashboard extends StatefulWidget {
-  @override
-  _DashboardState createState() => _DashboardState();
-}
-
-class _DashboardState extends State<Dashboard> {
-  var selectedDate = DateTime.now();
-  String get title {
-    return DateFormat.MMMM().add_y().format(selectedDate);
-  }
-
+class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Consumer<ExpensesProvider>(builder: (context, expensesProvider, _) {
-      final lastExpenses = expensesProvider.getLatest(3, selectedDate.month, selectedDate.year);
+    return Consumer<DashboardProvider>(builder: (context, dashboardProvider, _) {
       return Scaffold(
         appBar: AppBar(
           title: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               FlatButton(
                 child: Icon(Icons.arrow_left),
-                onPressed: () { setState(() {
-                  selectedDate = Jiffy(selectedDate).subtract(months: 1);
-                });
-                },
+                onPressed: dashboardProvider.switchToPreviousMonth,
               ),
-              Text(title),
+              Text(dashboardProvider.title),
               FlatButton(
                 child: Icon(Icons.arrow_right),
-                onPressed: () { setState(() {
-                  selectedDate = Jiffy(selectedDate).add(months: 1);
-                });},
+                onPressed: dashboardProvider.switchToNextMonth,
               ),
             ]),
           ),
@@ -72,16 +52,17 @@ class _DashboardState extends State<Dashboard> {
                     ListView.separated(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: lastExpenses.length,
+                      itemCount: dashboardProvider.lastExpenses.length,
                       padding: EdgeInsets.only(bottom: 5),
                       separatorBuilder: (context, index) => Divider(height: 5),
                       itemBuilder: (context, index) {
-                        return ExpensesListItem(lastExpenses[index]);
+                        return ExpensesListItem(dashboardProvider.lastExpenses.elementAt(index));
                       },
                     ),
                   ],
                 ),
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ExpensesList(selectedDate: selectedDate,))),
+                onTap: () =>
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ExpensesList(selectedDate: dashboardProvider.currentDate))),
               ),
             ),
 

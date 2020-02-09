@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:monies/data/dashboardProvider.dart';
 import 'package:monies/widgets/dashboard.dart';
 import 'package:provider/provider.dart';
 import 'data/categoriesProvider.dart';
@@ -13,6 +14,10 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => ExpensesProvider()),
         ChangeNotifierProvider(create: (context) => CategoriesProvider()),
+        ChangeNotifierProxyProvider<ExpensesProvider, DashboardProvider>(
+          create: (context) => DashboardProvider(null),
+          update: (context, expensesProvider, _) => DashboardProvider(expensesProvider),
+        )
       ],
       child: MaterialApp(
         title: 'monies',
