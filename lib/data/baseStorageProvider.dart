@@ -4,7 +4,7 @@ import 'models/baseModel.dart';
 
 typedef T ItemJsonSerializator<T>(String jsonString);
 
-class BaseProvider<T extends BaseModel> extends ChangeNotifier {
+class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   final List<T> items = [];
   final String storeKey;
 
@@ -14,7 +14,7 @@ class BaseProvider<T extends BaseModel> extends ChangeNotifier {
   ///class so creator function is passed as parameter to super constructor.
   final ItemJsonSerializator<T> fromJsonString;
 
-  BaseProvider({this.storeKey, this.fromJsonString}) {
+  BaseStorageProvider({this.storeKey, this.fromJsonString}) {
     _load();
   }
 

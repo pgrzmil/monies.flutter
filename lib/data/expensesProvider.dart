@@ -1,7 +1,7 @@
-import 'package:monies/data/baseProvider.dart';
+import 'baseStorageProvider.dart';
 import 'models/expense.dart';
 
-class ExpensesProvider extends BaseProvider<Expense> {
+class ExpensesProvider extends BaseStorageProvider<Expense> {
   ExpensesProvider() : super(storeKey: "Expenses", fromJsonString: Expense.fromJsonString);
 
   @override
