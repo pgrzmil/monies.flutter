@@ -23,7 +23,7 @@ class ExpensesList extends StatelessWidget {
           ),
           body: () {
             var expenses = expensesProvider.getForMonth(selectedDate.month, selectedDate.year);
-            if (expenses.length == 0) {
+            if (expenses.isEmpty) {
               return Center(child: Text("Start adding expenses"), key: Key("ExpensesList_empty_state"));
             }
 
@@ -33,7 +33,8 @@ class ExpensesList extends StatelessWidget {
                   separatorBuilder: (context, index) => Divider(height: 7),
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseEditView(expense: expenses.elementAt(index)))),
+                      onTap: () =>
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseEditView(expense: expenses.elementAt(index)))),
                       child: ExpensesListItem(expenses.elementAt(index)),
                     );
                   }),

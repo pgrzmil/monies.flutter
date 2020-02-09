@@ -17,7 +17,7 @@ void main() {
 
   tearDown(() async {
     final preferences = await SharedPreferences.getInstance();
-    preferences.clear();
+    await preferences.clear();
   });
 
   testWidgets('Removes expense', (WidgetTester tester) async {

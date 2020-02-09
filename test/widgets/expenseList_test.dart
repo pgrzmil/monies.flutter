@@ -22,7 +22,7 @@ void main() {
 
   tearDown(() async {
     final preferences = await SharedPreferences.getInstance();
-    preferences.clear();
+    await preferences.clear();
   });
 
   testWidgets('Shows list view with loaded expenses', (WidgetTester tester) async {
@@ -38,7 +38,7 @@ void main() {
   testWidgets('Shows empty expenses list', (WidgetTester tester) async {
     await tester.runAsync(() async {
       final expenses = await expensesProvider.getAllAsync();
-      while (expenses.length != 0) {
+      while (expenses.isNotEmpty) {
         expensesProvider.remove(expenses[0]);
       } //clear expenses list
       await tester.pumpWidget(TestWidget(child: ExpensesList(), expensesProvider: expensesProvider));
@@ -54,7 +54,7 @@ void main() {
 
   testWidgets('Returns progress indicator on loading expenses', (WidgetTester tester) async {
     await tester.pumpWidget(TestWidget(child: ExpensesList(), expensesProvider: expensesProvider));
-    
+
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 
@@ -80,8 +80,8 @@ void main() {
   });
 
   testWidgets('Navigates to edit view after tapping any list item', (WidgetTester tester) async {
-    final random = new Random();
-    
+    final random = Random();
+
     await tester.pumpWidget(TestWidget(child: ExpensesList(), expensesProvider: expensesProvider));
     await tester.pumpAndSettle(); //wait for Future builder to finish
 

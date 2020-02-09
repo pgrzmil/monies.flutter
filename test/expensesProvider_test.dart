@@ -12,7 +12,7 @@ void main() {
   });
 
   tearDown(() async {
-    preferences.clear();
+    await preferences.clear();
   });
 
   group('Adding expense', () {
@@ -60,7 +60,7 @@ void main() {
       expect(expenseFromList.title, equals("test title"));
       expect(expenseFromList.location, equals("test location"));
       expect(expenseFromList.amount, equals(123.45));
-      
+
       expect(preferences.getStringList("Expenses").length, equals(1));
     });
 
@@ -102,7 +102,7 @@ void main() {
       expect(expenseFromList.title, equals("test title"));
       expect(expenseFromList.location, equals("test location"));
       expect(expenseFromList.amount, equals(123.45));
-      
+
       expect(preferences.getStringList("Expenses").length, equals(1));
 
       expect(callbackFired, isTrue);
@@ -112,7 +112,7 @@ void main() {
       final expensesProvider = ExpensesProvider();
       TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Expense should not be edited and change notification should not be called"));
-      
+
       var expense = Expense.empty();
 
       expect((await expensesProvider.getAllAsync()).length, equals(1));
@@ -132,7 +132,7 @@ void main() {
       expect(expenseFromList.title, isNot(equals("test title")));
       expect(expenseFromList.location, isNot(equals("test location")));
       expect(expenseFromList.amount, isNot(equals(123.45)));
-      
+
       expect(preferences.getStringList("Expenses").length, equals(1));
     });
 
@@ -173,7 +173,7 @@ void main() {
       final expensesProvider = ExpensesProvider();
       TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Expense should not be removed and change notification should not be called"));
-      
+
       var expense = Expense.fromValues("test title", "test location", 123.45, DateTime(2020, 1, 23));
 
       expect((await expensesProvider.getAllAsync()).length, equals(1));
@@ -261,7 +261,6 @@ void main() {
       expect(retrievedExpense, isNull);
       expect(preferences.getStringList("Expenses").length, equals(2));
     });
-
 
     test('Returns null when passing null id', () async {
       final expensesProvider = ExpensesProvider();

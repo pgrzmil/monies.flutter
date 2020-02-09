@@ -31,7 +31,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
   @override
   Widget build(BuildContext context) {
     //MoneyMaskedTextController could be working better. In case of too much free time can be fixed this in the future.
-    final moneyFormatController = new MoneyMaskedTextController(initialValue: widget.expense.amount, rightSymbol: " zł", decimalSeparator: ",", thousandSeparator: " ");
+    final moneyFormatController = MoneyMaskedTextController(initialValue: widget.expense.amount, rightSymbol: " zł", decimalSeparator: ",", thousandSeparator: " ");
     final isEmptyValidator = (value) => value.isEmpty ? "Enter value" : null;
 
     return Card(
@@ -113,7 +113,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
     if (date != null) {
       setState(() {
         pickedDate = date;
-        dateTextController.text = new DateFormat('dd-MM-yyyy').format(date);
+        dateTextController.text = DateFormat('dd-MM-yyyy').format(date);
       });
     }
   }
