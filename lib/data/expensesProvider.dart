@@ -6,22 +6,19 @@ class ExpensesProvider extends BaseProvider<Expense> {
 
   @override
   List<Expense> getAll() {
-    sortByDate();
+    _sortByDate();
     return super.getAll();
   }
 
-  void sortByDate() {
+  void _sortByDate() {
     items.sort((exp1, exp2) => exp1.date.compareTo(exp2.date));
   }
-
+ 
+  ///Retrieves `count` of the latest expenses for given `month` and `year` 
   List<Expense> getLatest(int count, int month, int year) {
-    //First reverse because take method gets items from the beginning. Second one to keep original order of the items. 
-    return getAll()
-                  .reversed
-                  .where((item) => item.date.month == month && item.date.year == year)
-                  .take(count)
-                  .toList()
-                  .reversed
-                  .toList();
+    final monthsExpenses = getAll().where((item) => item.date.month == month && item.date.year == year);
+    var skipCount = monthsExpenses.length > count ? monthsExpenses.length - count : 0;
+
+    return monthsExpenses.skip(skipCount).toList();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:monies/data/expensesProvider.dart';
 import 'package:monies/widgets/settings.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,7 @@ class Dashboard extends StatelessWidget implements WidgetWithTitle {
   @override
   Widget build(BuildContext context) {
     return Consumer<ExpensesProvider>(builder: (context, expensesProvider, _) {
-      final lastExpenses = expensesProvider.getLatest(3, 2, 2020);
+      final lastExpenses = expensesProvider.getLatest(3, 12, 2019);
       return Scaffold(
         appBar: AppBar(
           title: Text(title),
@@ -41,16 +42,15 @@ class Dashboard extends StatelessWidget implements WidgetWithTitle {
                 child: Column(
                   children: [
                     Text("Expenses"),
-                    SizedBox(
-                      //temporary fix for render error
-                      height: 170,
-                      child: ListView.separated(
-                        itemCount: lastExpenses.length,
-                        separatorBuilder: (context, index) => Divider(height: 5),
-                        itemBuilder: (context, index) {
-                          return ExpensesListItem(lastExpenses[index]);
-                        },
-                      ),
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: lastExpenses.length,
+                      padding: EdgeInsets.only(bottom:5),
+                      separatorBuilder: (context, index) => Divider(height: 5),
+                      itemBuilder: (context, index) {
+                        return ExpensesListItem(lastExpenses[index]);
+                      },
                     ),
                   ],
                 ),
