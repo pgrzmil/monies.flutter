@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:monies/utils/formatters.dart';
 import 'package:uuid/uuid.dart';
 import 'baseModel.dart';
 part 'expense.g.dart';
@@ -14,8 +14,8 @@ class Expense implements BaseModel {
   DateTime date;
   String categoryId;
 
-  String get amountString => '${amount.toStringAsFixed(2)} zł';
-  String get dateString => date != null ? DateFormat('dd/MM/yyyy').format(date) : "";
+  String get amountString => Format.money(amount);
+  String get dateString => Format.date(date);
   String get displayTitle => location.isNotEmpty ? title + " - " + location : title;
 
   Expense(this.id, this.title, this.location, this.amount, this.date, this.categoryId);

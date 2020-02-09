@@ -14,17 +14,20 @@ class Dashboard extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           title: Center(
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              FlatButton(
-                child: Icon(Icons.arrow_left),
-                onPressed: dashboardProvider.switchToPreviousMonth,
-              ),
-              Text(dashboardProvider.title),
-              FlatButton(
-                child: Icon(Icons.arrow_right),
-                onPressed: dashboardProvider.switchToNextMonth,
-              ),
-            ]),
+            child: Row( //Month selector widget
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FlatButton(
+                  child: Icon(Icons.arrow_left),
+                  onPressed: dashboardProvider.switchToPreviousMonth,
+                ),
+                Text(dashboardProvider.title),
+                FlatButton(
+                  child: Icon(Icons.arrow_right),
+                  onPressed: dashboardProvider.switchToNextMonth,
+                ),
+              ],
+            ),
           ),
           actions: <Widget>[
             IconButton(
@@ -36,14 +39,14 @@ class Dashboard extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            //dashboard component
+            //dashboard widget
             Center(
               child: Column(
                 children: [Text("Expenses sum")],
               ),
             ),
 
-            //Expenses component
+            //Expenses widget
             Card(
               child: InkWell(
                 child: Column(

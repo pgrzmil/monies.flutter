@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/expensesProvider.dart';
-import 'package:monies/testDataHelpers.dart';
+import 'package:monies/utils/testDataHelpers.dart';
 import 'package:monies/widgets/expenses/expenseAdd.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../helpers/testWidget.dart';

@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:monies/data/expensesProvider.dart';
 import 'package:monies/data/models/expense.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:monies/testDataHelpers.dart';
+import 'package:monies/utils/testDataHelpers.dart';
 
 void main() {
   SharedPreferences preferences;

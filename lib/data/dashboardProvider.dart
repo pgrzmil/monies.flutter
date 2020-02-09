@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:monies/data/models/expense.dart';
+import 'package:monies/utils/formatters.dart';
 
 import 'expensesProvider.dart';
 
@@ -12,8 +13,10 @@ class DashboardProvider extends ChangeNotifier {
 
   DashboardProvider(this._expensesProvider);
 
-  String get title => DateFormat.MMMM().add_y().format(_currentDate);
+  String get title => Format.monthAndYear(_currentDate);
+
   Iterable<Expense> get lastExpenses => _expensesProvider.getLatest(3, _currentDate.month, _currentDate.year);
+
   DateTime get currentDate => _currentDate;
 
   void switchToNextMonth() {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:intl/intl.dart';
 import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/models/category.dart';
 import 'package:monies/data/models/expense.dart';
+import 'package:monies/utils/formatters.dart';
 import 'package:provider/provider.dart';
 
 class ExpenseForm extends StatefulWidget {
@@ -31,8 +31,8 @@ class _ExpenseFormState extends State<ExpenseForm> {
   @override
   Widget build(BuildContext context) {
     //MoneyMaskedTextController could be working better. In case of too much free time can be fixed this in the future.
-    final moneyFormatController = MoneyMaskedTextController(initialValue: widget.expense.amount, rightSymbol: " zł", decimalSeparator: ",", thousandSeparator: " ");
-    final isEmptyValidator = (value) => value.isEmpty ? "Enter value" : null;
+    final moneyFormatController =
+        MoneyMaskedTextController(initialValue: widget.expense.amount, rightSymbol: " zł", decimalSeparator: ",", thousandSeparator: " ");
 
     return Card(
       child: SingleChildScrollView(
@@ -46,14 +46,14 @@ class _ExpenseFormState extends State<ExpenseForm> {
                 TextFormField(
                   key: Key("titleField"),
                   initialValue: widget.expense.title,
-                  validator: isEmptyValidator,
+                  validator: Validator.notEmpty(),
                   decoration: InputDecoration(labelText: "Expense title"),
                   onSaved: (value) => widget.expense.title = value,
                 ),
                 TextFormField(
                   key: Key("locationField"),
                   initialValue: widget.expense.location,
-                  validator: isEmptyValidator,
+                  validator: Validator.notEmpty(),
                   decoration: InputDecoration(labelText: "Location"),
                   onSaved: (value) => widget.expense.location = value,
                 ),
@@ -67,7 +67,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
                 TextFormField(
                   key: Key("dateField"),
                   controller: dateTextController,
-                  validator: isEmptyValidator,
+                  validator: Validator.notEmpty(),
                   readOnly: true,
                   decoration: InputDecoration(labelText: "Date"),
                   onTap: () => _selectDate(context),
@@ -83,11 +83,9 @@ class _ExpenseFormState extends State<ExpenseForm> {
                     key: Key("categoryDropDown"),
                     decoration: InputDecoration(labelText: "Category"),
                     value: pickedCategory,
-                    validator: (value) => value == null ? "Pick category" : null,
+                    validator: Validator.notNull("Pick category"),
                     onChanged: (ExpenseCategory newValue) {
-                      setState(() {
-                        pickedCategory = newValue;
-                      });
+                      setState(() => pickedCategory = newValue);
                     },
                     items: provider.getAll().map<DropdownMenuItem<ExpenseCategory>>((ExpenseCategory value) {
                       return DropdownMenuItem<ExpenseCategory>(value: value, child: Text(value.title));
@@ -113,9 +111,8 @@ class _ExpenseFormState extends State<ExpenseForm> {
     if (date != null) {
       setState(() {
         pickedDate = date;
-        dateTextController.text = DateFormat('dd/MM/yyyy').format(date);
+        dateTextController.text = Format.date(date);
       });
     }
   }
 }
-

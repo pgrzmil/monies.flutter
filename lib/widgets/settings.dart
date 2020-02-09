@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/expensesProvider.dart';
-import 'package:monies/testDataHelpers.dart';
+import 'package:monies/utils/testDataHelpers.dart';
 import 'package:provider/provider.dart';
 
 class Settings extends StatelessWidget {
