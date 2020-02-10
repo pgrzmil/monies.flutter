@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:monies/data/categoriesProvider.dart';
+import 'package:monies/data/models/category.dart';
 import 'package:provider/provider.dart';
 import '../../data/models/expense.dart';
 
@@ -19,11 +20,8 @@ class ExpensesListItem extends StatelessWidget {
             return Container(
               padding: EdgeInsets.only(right: 5),
               child: CircleAvatar(
-                backgroundColor: category?.color ?? Colors.deepPurple[500],
-                child: Icon(
-                  category?.icon ?? Icons.attach_money,
-                  color: Colors.white,
-                ),
+                backgroundColor: category?.color ?? ExpenseCategory.defaultColor,
+                child: Icon(category?.icon ?? ExpenseCategory.defaultIcon, color: Colors.white),
               ),
             );
           }),

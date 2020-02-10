@@ -13,11 +13,16 @@ class ExpenseCategory implements BaseModel {
   int colorCode;
   int iconCode;
 
-  IconData get icon => IconData(iconCode, fontFamily: 'MaterialIcons');
-  Color get color => Color(colorCode);
+  static get defaultIcon => Icons.attach_money;
+  static get defaultColor => Colors.green[400];
+
+  IconData get icon => IconData(iconCode ?? defaultIcon.codePoint, fontFamily: 'MaterialIcons');
+  Color get color => Color(colorCode ?? defaultColor.value);
 
   ExpenseCategory(this.id, this.title, this.order, this.colorCode, this.iconCode);
-  ExpenseCategory.fromValues(this.title, this.order) : id = Uuid().v4();
+  ExpenseCategory.fromValues(this.title, this.order, this.colorCode, this.iconCode) : id = Uuid().v4();
+
+  factory ExpenseCategory.empty() => ExpenseCategory.fromValues("", 0, defaultColor.value, defaultIcon.codePoint);
 
   //JSON methods
   static ExpenseCategory fromJsonString(String jsonString) => _$ExpenseCategoryFromJson(json.decode(jsonString));
