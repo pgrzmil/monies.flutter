@@ -6,14 +6,9 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
 
   @override
   List<Expense> getAll() {
-    _sortByDate();
-    return super.getAll();
+    return super.getAll().sortByDate();
   }
 
-  void _sortByDate() {
-    items.sort((exp1, exp2) => exp1.date.compareTo(exp2.date));
-  }
- 
   ///Retrieves `count` of the latest expenses for given `month` and `year` 
   List<Expense> getLatest(int count, int month, int year) {
     final monthsExpenses = getForMonth(month, year);
@@ -24,6 +19,26 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
 
   ///Retrieves expenses for given `month` and `year`
   Iterable<Expense> getForMonth(int month, int year) {
-    return getAll().where((item) => item.date.month == month && item.date.year == year);
+    return getAll().filterByDate(month, year);
+  }
+}
+
+extension ExpensesExtension on Iterable<Expense> {
+  Iterable<Expense> filterByCategory(String categoryId) {
+    return categoryId == null ? this : this.where((expense) => expense.categoryId == categoryId);
+  }
+  
+  Iterable<Expense> filterByDate(int month, int year) {
+    return this.where((expense) => expense.date.month == month && expense.date.year == year);
+  }
+
+  List<Expense> sortByDate() {
+    var sorted = this.toList();
+    sorted.sort((exp1, exp2) => exp1.date.compareTo(exp2.date));
+    return sorted;
+  }
+
+  double sum() {
+    return fold(0, (value, expense) => value + expense.amount);
   }
 }
