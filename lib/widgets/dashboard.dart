@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:monies/data/dashboardProvider.dart';
 import 'package:monies/utils/formatters.dart';
+import 'package:monies/widgets/expenses/expensesEmptyState.dart';
 import 'package:monies/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
@@ -71,16 +72,23 @@ class Dashboard extends StatelessWidget {
                   child: Column(
                     children: [
                       Text("Expenses"),
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: dashboardProvider.lastExpenses.length,
-                        padding: EdgeInsets.only(bottom: 5),
-                        separatorBuilder: (context, index) => Divider(height: 5),
-                        itemBuilder: (context, index) {
-                          return ExpensesListItem(dashboardProvider.lastExpenses.elementAt(index));
-                        },
-                      ),
+                      () {
+                        final expenses = dashboardProvider.lastExpenses;
+                        if (expenses.isEmpty) {
+                          return ExpensesEmptyState();
+                        }
+                        
+                        return ListView.separated(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: expenses.length,
+                          padding: EdgeInsets.only(bottom: 5),
+                          separatorBuilder: (context, index) => Divider(height: 0),
+                          itemBuilder: (context, index) {
+                            return ExpensesListItem(expenses.elementAt(index));
+                          },
+                        );
+                      }()
                     ],
                   ),
                   onTap: () =>

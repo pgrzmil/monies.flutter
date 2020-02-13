@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:monies/data/models/category.dart';
+import 'package:monies/widgets/categories/categoryIcon.dart';
 
 class CategoriesListItem extends StatelessWidget {
   final ExpenseCategory category;
   final void Function() onTap;
+
   CategoriesListItem({this.category, this.onTap});
 
   @override
@@ -11,13 +13,7 @@ class CategoriesListItem extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: category?.color ?? Colors.deepPurple[500],
-          child: Icon(
-            category?.icon ?? Icons.attach_money,
-            color: Colors.white,
-          ),
-        ),
+        leading: CategoryIcon(category: category),
         title: Text(category.title),
         onTap: onTap,
       ),

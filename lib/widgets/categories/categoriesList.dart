@@ -4,7 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/models/category.dart';
 import 'package:monies/utils/formatters.dart';
-import 'package:monies/widgets/categoriesListItem.dart';
+import 'categoriesListItem.dart';
 import 'package:provider/provider.dart';
 
 class CategoriesList extends StatelessWidget {
@@ -19,7 +19,6 @@ class CategoriesList extends StatelessWidget {
             title: Text("Categories"),
           ),
           body: ListView.separated(
-              padding: EdgeInsets.only(top: 10),
               itemCount: categories.length,
               separatorBuilder: (context, index) => Divider(height: 0),
               itemBuilder: (context, index) {

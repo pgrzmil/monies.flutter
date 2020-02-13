@@ -12,7 +12,7 @@ abstract class Format {
   }
 
   static String money(double amount, {Locale locale}) {
-    return "${amount.toStringAsFixed(2)} zł";
+    return "${amount.toStringAsFixed(2)} zł".replaceAll(".", ",");
   }
 }
 
