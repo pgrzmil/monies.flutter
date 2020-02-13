@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:monies/data/categoriesProvider.dart';
-import 'package:monies/data/models/category.dart';
+import 'package:monies/widgets/categories/categoryIcon.dart';
 import 'package:provider/provider.dart';
 import '../../data/models/expense.dart';
 
@@ -11,32 +11,27 @@ class ExpensesListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<CategoriesProvider>(context, listen: false);
+    final category = provider.getBy(id: expense.categoryId);
+
     return Container(
-      padding: EdgeInsets.all(5),
+      color: Colors.white,
+      padding: EdgeInsets.all(10),
       child: Row(
-        children: <Widget>[
-          Consumer<CategoriesProvider>(builder: (context, provider, child) {
-            final category = provider.getBy(id: expense.categoryId);
-            return Container(
-              padding: EdgeInsets.only(right: 5),
-              child: CircleAvatar(
-                backgroundColor: category?.color ?? ExpenseCategory.defaultColor,
-                child: Icon(category?.icon ?? ExpenseCategory.defaultIcon, color: Colors.white),
-              ),
-            );
-          }),
+        children: [
+          Container(
+            padding: EdgeInsets.only(right: 10),
+            child: CategoryIcon(category: category),
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+            children: [
               Text(expense.displayTitle),
               Text(expense.dateString),
             ],
           ),
           Spacer(),
-          Container(
-            padding: EdgeInsets.all(5),
-            child: Text(expense.amountString),
-          ),
+          Text(expense.amountString),
         ],
       ),
     );
