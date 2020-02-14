@@ -11,9 +11,6 @@ class ExpensesListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<CategoriesProvider>(context, listen: false);
-    final category = provider.getBy(id: expense.categoryId);
-
     return Container(
       color: Colors.white,
       padding: EdgeInsets.all(10),
@@ -21,7 +18,10 @@ class ExpensesListItem extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.only(right: 10),
-            child: CategoryIcon(category: category),
+            child: Consumer<CategoriesProvider>(builder: (_, categoriesProvider, __) {
+              final category = categoriesProvider.getBy(id: expense.categoryId);
+              return CategoryIcon(category: category);
+            }),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
