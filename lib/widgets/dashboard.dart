@@ -4,6 +4,7 @@ import 'package:monies/data/dashboardProvider.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/controls/swipeable.dart';
 import 'package:monies/widgets/expenses/expensesEmptyState.dart';
+import 'package:monies/widgets/incomes/incomesList.dart';
 import 'package:monies/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
@@ -59,8 +60,16 @@ class Dashboard extends StatelessWidget {
                           Text("Balance", style: TextStyle(fontSize: 10)),
                           Text(Format.money(dashboardProvider.expensesSum), style: TextStyle(fontSize: 26)),
                           Text("Expenses sum", style: TextStyle(fontSize: 10)),
-                          Text(Format.money(dashboardProvider.incomesSum), style: TextStyle(fontSize: 26)),
-                          Text("Incomes sum", style: TextStyle(fontSize: 10)),
+                          InkWell(
+                            child: Column(
+                              children: [
+                                Text(Format.money(dashboardProvider.incomesSum), style: TextStyle(fontSize: 26)),
+                                Text("Incomes sum", style: TextStyle(fontSize: 10)),
+                              ],
+                            ),
+                            onTap: () => Navigator.push(
+                                context, MaterialPageRoute(builder: (context) => IncomesList(selectedDate: dashboardProvider.currentDate))),
+                          )
                         ],
                       ),
                     ),
