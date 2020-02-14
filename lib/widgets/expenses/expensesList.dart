@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'expenseAdd.dart';
 import 'expenseEdit.dart';
 import './expensesListItem.dart';
+import '../../data/extensions/withAmount.dart';
 
 class ExpensesList extends StatefulWidget {
   final DateTime selectedDate;

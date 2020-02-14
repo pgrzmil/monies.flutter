@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:monies/data/models/expense.dart';
 import 'package:monies/utils/formatters.dart';
-
+import 'extensions/withAmount.dart';
 import 'expensesProvider.dart';
 
 class DashboardProvider extends ChangeNotifier {

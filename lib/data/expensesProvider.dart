@@ -1,3 +1,4 @@
+import 'package:monies/data/models/modules.dart';
 import 'baseStorageProvider.dart';
 import 'models/expense.dart';
 
@@ -26,19 +27,5 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
 extension ExpensesExtension on Iterable<Expense> {
   Iterable<Expense> filterByCategory(String categoryId) {
     return categoryId == null ? this : this.where((expense) => expense.categoryId == categoryId);
-  }
-  
-  Iterable<Expense> filterByDate(int month, int year) {
-    return this.where((expense) => expense.date.month == month && expense.date.year == year);
-  }
-
-  List<Expense> sortByDate() {
-    var sorted = this.toList();
-    sorted.sort((exp1, exp2) => exp1.date.compareTo(exp2.date));
-    return sorted;
-  }
-
-  double sum() {
-    return fold(0, (value, expense) => value + expense.amount);
   }
 }

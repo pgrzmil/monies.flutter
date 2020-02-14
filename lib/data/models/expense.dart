@@ -2,7 +2,7 @@ import 'modules.dart';
 part 'expense.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Expense implements BaseModel {
+class Expense implements BaseModel, WithAmount, WithDate {
   final String id;
   String title;
   String location;

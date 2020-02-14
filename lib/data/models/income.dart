@@ -2,7 +2,7 @@ import 'modules.dart';
 part 'income.g.dart';
 
 @JsonSerializable()
-class Income implements BaseModel {
+class Income implements BaseModel, WithAmount, WithDate {
   final String id;
   String title;
   double amount;
