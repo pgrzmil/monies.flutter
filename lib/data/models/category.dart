@@ -19,7 +19,7 @@ class ExpenseCategory implements BaseModel {
   ExpenseCategory(this.id, this.title, this.order, this.colorCode, this.iconCode);
   ExpenseCategory.fromValues(this.title, this.order, this.colorCode, this.iconCode) : id = Uuid().v4();
 
-  factory ExpenseCategory.empty() => ExpenseCategory.fromValues("", 0, defaultColor.value, defaultIcon.codePoint);
+  factory ExpenseCategory.empty() => ExpenseCategory.fromValues("", 0, null, null);
 
   //JSON methods
   static ExpenseCategory fromJsonString(String jsonString) => _$ExpenseCategoryFromJson(json.decode(jsonString));

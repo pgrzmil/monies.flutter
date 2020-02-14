@@ -62,7 +62,7 @@ class CategoriesList extends StatelessWidget {
   }
 
   void _settingModalBottomSheet(BuildContext context, ExpenseCategory category, Function(ExpenseCategory category) onSave) {
-    final colorTextController = TextEditingController(text: category.colorCode.toRadixString(16));
+    final colorTextController = TextEditingController(text: category.colorCode?.toRadixString(16) ?? "");
 
     showModalBottomSheet(
       context: context,
@@ -119,7 +119,7 @@ class CategoriesList extends StatelessWidget {
                           ),
                           TextFormField(
                             key: Key("iconField"),
-                            initialValue: category.iconCode.toString(),
+                            initialValue: category.iconCode?.toString(),
                             validator: Validator.notEmpty(),
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(labelText: "Icon code"),

@@ -17,7 +17,7 @@ class Expense implements BaseModel {
   Expense(this.id, this.title, this.location, this.amount, this.date, this.categoryId);
   Expense.fromValues(this.title, this.location, this.amount, this.date, this.categoryId) : id = Uuid().v4();
 
-  factory Expense.empty() => Expense.fromValues("", "", 0, DateTime.now(), "");
+  factory Expense.empty() => Expense.fromValues("", "", 0, DateTime.now(), null);
 
   //JSON methods
   factory Expense.fromJson(Map<String, dynamic> json) => _$ExpenseFromJson(json);
