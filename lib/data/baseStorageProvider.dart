@@ -46,6 +46,12 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
     }
   }
 
+  Future clear() async {
+    items.clear();
+    notifyListeners();
+    await _persist();
+  }
+
   bool _contains(T item) => items.any((e) => e.id == item.id);
   bool _isNotNull(T item) => item != null;
 
