@@ -68,7 +68,7 @@ void main() {
     await tester.tap(find.text("OK").first);
     await tester.pumpAndSettle();
 
-    final categoryField = find.byWidgetPredicate((widget) => widget is DropdownButtonFormField && widget.key == Key("categoryDropDown"));
+    final categoryField = find.byKey(Key("categoryDropDown"));
     expect(categoryField, findsOneWidget);
     await tester.tap(categoryField);
     await tester.pumpAndSettle();
