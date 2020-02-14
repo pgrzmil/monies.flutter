@@ -83,7 +83,7 @@ void main() {
     final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23), "cat_id");
 
     expect(expense, isNotNull);
-    expect(expense.amountString, "123.45 zł");
+    expect(expense.amountString, "123,45 zł");
   });
 
    test('Returns date string', () {

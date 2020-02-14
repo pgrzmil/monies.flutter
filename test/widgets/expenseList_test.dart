@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:monies/data/expensesProvider.dart';
 import 'package:monies/widgets/expenses/expenseAdd.dart';
 import 'package:monies/widgets/expenses/expenseEdit.dart';
+import 'package:monies/widgets/expenses/expensesEmptyState.dart';
 import 'package:monies/widgets/expenses/expensesList.dart';
 import 'package:monies/widgets/expenses/expensesListItem.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,14 +38,12 @@ void main() {
 
   testWidgets('Shows empty expenses list', (WidgetTester tester) async {
     await tester.runAsync(() async {
-      final expenses = expensesProvider.getAll();
-      while (expenses.isNotEmpty) {
-        await expensesProvider.remove(expenses[0]);
-      } //clear expenses list
+      await expensesProvider.clear();
       await tester.pumpWidget(TestWidget(child: ExpensesList(selectedDate: DateTime(2019, 12, 1)), expensesProvider: expensesProvider));
       await tester.pumpAndSettle(Duration(milliseconds: 500)); //wait for Future builder to finish
 
-      expect(find.byWidgetPredicate((widget) => widget.key == Key("ExpensesList_empty_state")), findsOneWidget);
+      expect(find.byWidgetPredicate((widget) => widget.key == Key("expensesList_empty_state")), findsOneWidget);
+      expect(find.byType(ExpensesEmptyState), findsOneWidget);
       expect(find.byType(ExpensesListItem), findsNothing);
 
       final addButton = find.byIcon(Icons.add);

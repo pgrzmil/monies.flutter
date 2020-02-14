@@ -14,7 +14,6 @@ class ExpensesEmptyState extends StatelessWidget {
         "Empty!\nStart adding expenses.",
         style: TextStyle(fontSize: 20, color: Colors.grey),
         textAlign: TextAlign.center,
-        key: key,
       ),
     );
   }

@@ -25,7 +25,7 @@ class TestDataHelpers {
   }
 
   static void loadTestExpenses(ExpensesProvider expensesProvider) {
-    expensesProvider.add(Expense("1", "Zakupy tygodniowe", "Lidl", 136.65, DateTime(2019, 12, 19), "cat3"));
+    expensesProvider.add(Expense("1", "Zakupy tygodniowe", "Lidl", 136.65, DateTime(2019, 12, 19), "cat0"));
     expensesProvider.add(Expense("2", "Mycie samochodu", "Myjnia felicity", 9.00, DateTime(2019, 12, 9), "cat2"));
     expensesProvider.add(Expense("3", "Paliwo", "Orlen", 249.78, DateTime(2019, 12, 6), "cat2"));
     expensesProvider.add(Expense("4", "Spodnie, koszulka", "Medicine", 149.98, DateTime(2019, 12, 15), "cat4"));
@@ -35,7 +35,7 @@ class TestDataHelpers {
   static void loadTestCategories(CategoriesProvider categoriesProvider) {
     categoriesProvider.add(ExpenseCategory("cat1", "Rachunki", 4, Colors.grey[500].value, Icons.event.codePoint));
     categoriesProvider.add(ExpenseCategory("cat2", "Transport i paliwo", 2, Colors.green[500].value, Icons.train.codePoint));
-    categoriesProvider.add(ExpenseCategory("cat3", "Wydatki codzienne", 1, Colors.red[500].value, Icons.shopping_basket.codePoint));
+    categoriesProvider.add(ExpenseCategory("cat0", "Wydatki codzienne", 0, Colors.red[500].value, Icons.shopping_basket.codePoint));
     categoriesProvider.add(ExpenseCategory("cat4", "Odziez i dodatki", 3, Colors.blue[500].value, Icons.spa.codePoint));
   }
 }

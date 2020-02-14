@@ -65,6 +65,6 @@ void main() {
     expect(addedExpense.date.year, equals(now.year));
     expect(addedExpense.date.month, equals(now.month));
     expect(addedExpense.date.day, equals(now.day));
-    expect(addedExpense.categoryId, equals("cat1"));
+    expect(addedExpense.categoryId, equals("cat0"));
   });
 }

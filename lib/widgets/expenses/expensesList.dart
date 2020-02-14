@@ -58,7 +58,7 @@ class _ExpensesListState extends State<ExpensesList> {
                       Text(sumText(expenses)),
                     ],
                   )),
-              if (expenses.isEmpty) ExpensesEmptyState(key: Key("ExpensesList_empty_state")),
+              if (expenses.isEmpty) ExpensesEmptyState(key: Key("expensesList_empty_state")),
 
               ListView.separated(
                   shrinkWrap: true,
