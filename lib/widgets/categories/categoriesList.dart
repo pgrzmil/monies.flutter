@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/models/category.dart';
 import 'package:monies/utils/formatters.dart';
+import 'package:monies/widgets/categories/categoryIcon.dart';
 import 'categoriesListItem.dart';
 import 'package:provider/provider.dart';
 
@@ -74,12 +75,7 @@ class CategoriesList extends StatelessWidget {
                 key: formKey,
                 child: Column(children: <Widget>[
                   Row(children: <Widget>[
-                    CircleColor(
-                      color: category.color,
-                      circleSize: 50,
-                      iconSelected: category.icon,
-                      isSelected: true,
-                    ),
+                    CategoryIcon(category: category),
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.only(left: 15),
