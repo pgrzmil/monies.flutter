@@ -5,6 +5,7 @@ import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/models/category.dart';
 import 'package:monies/data/models/expense.dart';
 import 'package:monies/utils/formatters.dart';
+import 'package:monies/widgets/controls/datePickerTextFormField.dart';
 import 'package:provider/provider.dart';
 
 class ExpenseForm extends StatefulWidget {
@@ -18,15 +19,7 @@ class ExpenseForm extends StatefulWidget {
 }
 
 class _ExpenseFormState extends State<ExpenseForm> {
-  final dateTextController = TextEditingController();
-  DateTime pickedDate;
   ExpenseCategory pickedCategory;
-
-  @override
-  void initState() {
-    super.initState();
-    dateTextController.text = widget.expense.dateString;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,18 +57,13 @@ class _ExpenseFormState extends State<ExpenseForm> {
                   controller: moneyFormatController,
                   onSaved: (value) => widget.expense.amount = moneyFormatController.numberValue ?? 0,
                 ),
-                TextFormField(
+                DatePickerTextFormField(
                   key: Key("dateField"),
-                  controller: dateTextController,
+                  initialDate: widget.expense.date,
+                  dateFormatter: Format.date,
                   validator: Validator.notEmpty(),
-                  readOnly: true,
                   decoration: InputDecoration(labelText: "Date"),
-                  onTap: () => _selectDate(context),
-                  onSaved: (value) {
-                    if (pickedDate != null) {
-                      widget.expense.date = pickedDate;
-                    }
-                  },
+                  onDatePicked: (date) => widget.expense.date = date,
                 ),
                 Consumer<CategoriesProvider>(builder: (context, provider, child) {
                   if (pickedCategory == null) pickedCategory = provider.getBy(id: widget.expense.categoryId);
@@ -103,16 +91,5 @@ class _ExpenseFormState extends State<ExpenseForm> {
         ),
       ),
     );
-  }
-
-  _selectDate(BuildContext context) async {
-    final date = await showDatePicker(
-        context: context, initialDate: widget.expense.date ?? DateTime.now(), firstDate: DateTime(2019), lastDate: DateTime(2101));
-    if (date != null) {
-      setState(() {
-        pickedDate = date;
-        dateTextController.text = Format.date(date);
-      });
-    }
   }
 }

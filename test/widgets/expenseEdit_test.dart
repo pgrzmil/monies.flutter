@@ -61,7 +61,7 @@ void main() {
     expect(amountTextField, findsOneWidget);
     await tester.enterText(amountTextField, "543.21");
 
-    final dateTextField = find.byWidgetPredicate((widget) => widget is TextFormField && widget.key == Key("dateField"));
+    final dateTextField = find.byKey(Key("dateField"));
     expect(dateTextField, findsOneWidget);
     await tester.tap(dateTextField);
     await tester.pumpAndSettle();
