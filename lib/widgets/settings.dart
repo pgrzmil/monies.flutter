@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/expensesProvider.dart';
+import 'package:monies/data/incomesProvider.dart';
 import 'package:monies/utils/testDataHelpers.dart';
 import 'package:monies/widgets/categories/categoriesList.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,7 @@ class Settings extends StatelessWidget {
       ),
       body: Center(
         child: Column(
-          children: <Widget>[
+          children: [
             RaisedButton(
               child: Text("Add random expense"),
               onPressed: () {
@@ -34,6 +35,13 @@ class Settings extends StatelessWidget {
               onPressed: () {
                 final provider = Provider.of<CategoriesProvider>(context, listen: false);
                 TestDataHelpers.loadTestCategories(provider);
+              },
+            ),
+            RaisedButton(
+              child: Text("Load test incomes"),
+              onPressed: () {
+                final provider = Provider.of<IncomesProvider>(context, listen: false);
+                TestDataHelpers.loadIncomes(provider, forMonth: DateTime.now());
               },
             ),
             RaisedButton(

@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/expensesProvider.dart';
+import 'package:monies/data/incomesProvider.dart';
 import 'package:monies/data/models/category.dart';
 import 'package:monies/data/models/expense.dart';
+import 'package:monies/data/models/income.dart';
 
 class TestDataHelpers {
   static Future<Expense> addRandomExpense(ExpensesProvider expensesProvider) async {
@@ -37,5 +39,10 @@ class TestDataHelpers {
     categoriesProvider.add(ExpenseCategory("cat2", "Transport i paliwo", 2, Colors.green[500].value, Icons.train.codePoint));
     categoriesProvider.add(ExpenseCategory("cat0", "Wydatki codzienne", 0, Colors.red[500].value, Icons.shopping_basket.codePoint));
     categoriesProvider.add(ExpenseCategory("cat4", "Odziez i dodatki", 3, Colors.blue[500].value, Icons.spa.codePoint));
+  }
+
+  static void loadIncomes(IncomesProvider incomesProvider, {DateTime forMonth}) {
+    incomesProvider.add(Income("inc1", "Pensja", 4550, forMonth));
+    incomesProvider.add(Income("inc2", "Zwrot wydatków", 380, forMonth));
   }
 }

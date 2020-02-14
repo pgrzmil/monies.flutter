@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:monies/data/incomesProvider.dart';
 import 'package:monies/data/models/expense.dart';
 import 'package:monies/utils/formatters.dart';
 import 'extensions/withAmount.dart';
@@ -7,10 +8,11 @@ import 'expensesProvider.dart';
 
 class DashboardProvider extends ChangeNotifier {
   final ExpensesProvider _expensesProvider;
+  final IncomesProvider _incomesProvider;
 
   DateTime _currentDate = DateTime.now();
 
-  DashboardProvider(this._expensesProvider);
+  DashboardProvider(this._expensesProvider, this._incomesProvider);
 
   String get title => Format.monthAndYear(_currentDate);
 
@@ -23,7 +25,7 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   double get incomesSum {
-    return 5000;
+    return _incomesProvider.getForMonth(_currentDate.month, _currentDate.year).sum();
   }
 
   double get balance {
