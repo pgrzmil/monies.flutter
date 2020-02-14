@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:monies/data/dashboardProvider.dart';
 import 'package:monies/utils/formatters.dart';
+import 'package:monies/widgets/controls/swipeable.dart';
 import 'package:monies/widgets/expenses/expensesEmptyState.dart';
 import 'package:monies/widgets/settings.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,6 @@ import 'expenses/expensesListItem.dart';
 class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String swipeDirection = "";
     return Consumer<DashboardProvider>(builder: (context, dashboardProvider, _) {
       return Scaffold(
         appBar: AppBar(
@@ -40,23 +40,9 @@ class Dashboard extends StatelessWidget {
             ),
           ],
         ),
-        body: GestureDetector(
-          onHorizontalDragUpdate: (details) {
-            if (details.delta.dx > 20) {
-              swipeDirection = "right";
-            } else if (details.delta.dx < -20) {
-              swipeDirection = "left";
-            }
-          },
-          onHorizontalDragEnd: (details) {
-            if (swipeDirection == "right") {
-              dashboardProvider.switchToNextMonth();
-              swipeDirection = "";
-            } else if (swipeDirection == "left") {
-              dashboardProvider.switchToPreviousMonth();
-              swipeDirection = "";
-            }
-          },
+        body: Swipeable(
+          onLeftSwipe: dashboardProvider.switchToPreviousMonth,
+          onRightSwipe: dashboardProvider.switchToNextMonth,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
