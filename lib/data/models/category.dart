@@ -1,11 +1,8 @@
-import 'dart:convert';
+import 'modules.dart';
 import 'package:flutter/material.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:uuid/uuid.dart';
-import 'baseModel.dart';
 part 'category.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class ExpenseCategory implements BaseModel {
   final String id;
   String title;

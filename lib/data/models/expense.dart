@@ -1,8 +1,4 @@
-import 'dart:convert';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:monies/utils/formatters.dart';
-import 'package:uuid/uuid.dart';
-import 'baseModel.dart';
+import 'modules.dart';
 part 'expense.g.dart';
 
 @JsonSerializable(explicitToJson: true)
