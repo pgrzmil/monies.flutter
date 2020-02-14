@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:monies/data/models/expense.dart';
+import 'package:monies/utils/formatters.dart';
 
 void main() {
   group('JSON parsing', () {
@@ -77,6 +78,19 @@ void main() {
 
       fail("FormatException should be raised");
     });
+  });
+
+  test('.empty() returns correctly initialized object', () {
+    final expense = Expense.empty();
+
+    expect(expense, isNotNull);
+    expect(expense.id, isNot(equals("")));
+    expect(expense.title, equals(""));
+    expect(expense.location, equals(""));
+    expect(expense.amount, equals(0));
+    expect(expense.date, isNotNull);
+    expect(expense.dateString, equals(Format.date(DateTime.now())));
+    expect(expense.categoryId, isNull);
   });
 
   test('Returns amount string', () {
