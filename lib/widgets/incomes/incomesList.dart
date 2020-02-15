@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:monies/data/incomesProvider.dart';
 import 'package:monies/utils/formatters.dart';
+import 'package:monies/widgets/controls/dialogs.dart';
 import 'package:provider/provider.dart';
 
 import 'incomesListItem.dart';
@@ -18,9 +19,7 @@ class IncomesList extends StatelessWidget {
       builder: (context, incomesProvider, child) {
         final incomes = incomesProvider.getForMonth(selectedDate.month, selectedDate.year);
         return Scaffold(
-          appBar: AppBar(
-            title: Text("Incomes (${Format.monthAndYear(selectedDate)})"),
-          ),
+          appBar: AppBar(title: Text("Incomes (${Format.monthAndYear(selectedDate)})")),
           body: ListView.separated(
               itemCount: incomes.length,
               separatorBuilder: (context, index) => Divider(height: 0),
@@ -39,11 +38,11 @@ class IncomesList extends StatelessWidget {
                       caption: 'Remove',
                       color: Colors.redAccent,
                       icon: Icons.delete,
-                      // onTap: () async {
-                      //   if (await _showConfirmationDialog(context)) {
-                      //     await incomesProvider.remove(category);
-                      //   }
-                      // },
+                      onTap: () async {
+                        if (await Dialogs.confirmation(context, text: "Do you want to remove income?Ś")) {
+                          await incomesProvider.remove(income);
+                        }
+                      },
                     ),
                     IconSlideAction(
                       caption: 'Edit',

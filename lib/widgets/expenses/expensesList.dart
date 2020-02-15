@@ -31,9 +31,7 @@ class _ExpensesListState extends State<ExpensesList> {
         var expenses = expensesProvider.getForMonth(widget.selectedDate.month, widget.selectedDate.year).filterByCategory(categoryFilter).toList();
 
         return Scaffold(
-          appBar: AppBar(
-            title: Text("Expenses (${Format.monthAndYear(widget.selectedDate)})"),
-          ),
+          appBar: AppBar(title: Text("Expenses (${Format.monthAndYear(widget.selectedDate)})")),
           body: Column(
             children: [
               Container(
@@ -60,7 +58,6 @@ class _ExpensesListState extends State<ExpensesList> {
                     ],
                   )),
               if (expenses.isEmpty) ExpensesEmptyState(key: Key("expensesList_empty_state")),
-
               ListView.separated(
                   shrinkWrap: true,
                   itemCount: expenses.length,

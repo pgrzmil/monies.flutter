@@ -3,15 +3,19 @@ import 'package:monies/data/models/category.dart';
 
 class CategoryIcon extends StatelessWidget {
   final ExpenseCategory category;
-
-  const CategoryIcon({Key key, this.category}) : super(key: key);
+  final double radius;
+  final Color color;
+  final IconData icon;
+  
+  const CategoryIcon({Key key, this.category, this.radius, this.color, this.icon}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      backgroundColor: category?.color ?? ExpenseCategory.defaultColor,
+      radius: radius,
+      backgroundColor: color ?? category?.color ?? ExpenseCategory.defaultColor,
       child: Icon(
-        category?.icon ?? ExpenseCategory.defaultIcon,
+        icon ?? category?.icon ?? ExpenseCategory.defaultIcon,
         color: Colors.white,
       ),
     );

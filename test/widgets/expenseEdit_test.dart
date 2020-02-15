@@ -41,6 +41,12 @@ void main() {
     await tester.tap(removeButton);
     await tester.pumpAndSettle();
 
+    final confirmButton = find.byKey(Key("confirm_dialog_button_ok"));
+    expect(confirmButton, findsOneWidget);
+    
+    await tester.tap(confirmButton);
+    await tester.pumpAndSettle();
+
     expect(expensesProvider.getAll().length, equals(4));
   });
 

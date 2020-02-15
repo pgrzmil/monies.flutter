@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:monies/data/expensesProvider.dart';
 import 'package:monies/data/models/expense.dart';
+import 'package:monies/widgets/controls/dialogs.dart';
 import 'package:provider/provider.dart';
 import 'expenseForm.dart';
 
@@ -27,9 +28,11 @@ class _ExpenseEditViewState extends State<ExpenseEditView> {
         actions: [
           IconButton(
             icon: Icon(Icons.delete),
-            onPressed: () {
-              Provider.of<ExpensesProvider>(context, listen: false).remove(widget.expense);
-              Navigator.pop(context);
+            onPressed: () async {
+              if (await Dialogs.confirmation(context, text: "Do you want to remove expense?")) {
+                await Provider.of<ExpensesProvider>(context, listen: false).remove(widget.expense);
+                Navigator.pop(context);
+              }
             },
           ),
         ],
