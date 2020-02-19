@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:monies/data/incomesProvider.dart';
+import 'package:monies/data/models/income.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/controls/dialogs.dart';
+import 'package:monies/widgets/controls/formSheetContent.dart';
 import 'package:provider/provider.dart';
 
+import 'incomesForm.dart';
 import 'incomesListItem.dart';
 
 class IncomesList extends StatelessWidget {
@@ -31,7 +34,7 @@ class IncomesList extends StatelessWidget {
                   controller: slidableController,
                   child: IncomesListItem(
                     income: income,
-                    onTap: () => "", //_settingModalBottomSheet(context, income, (category) => incomesProvider.edit(category)),
+                    onTap: () => _showEditSheet(context, income, onSave: (income) => incomesProvider.edit(income)),
                   ),
                   secondaryActions: <Widget>[
                     IconSlideAction(
@@ -39,7 +42,7 @@ class IncomesList extends StatelessWidget {
                       color: Colors.redAccent,
                       icon: Icons.delete,
                       onTap: () async {
-                        if (await Dialogs.confirmation(context, text: "Do you want to remove income?Ś")) {
+                        if (await Dialogs.confirmation(context, text: "Do you want to remove income?")) {
                           await incomesProvider.remove(income);
                         }
                       },
@@ -48,15 +51,27 @@ class IncomesList extends StatelessWidget {
                       caption: 'Edit',
                       color: Colors.greenAccent,
                       icon: Icons.edit,
-                      // onTap: () => _settingModalBottomSheet(context, category, (category) => incomesProvider.edit(category)),
+                      onTap: () => _showEditSheet(context, income, onSave: (income) => incomesProvider.edit(income)),
                     ),
                   ],
                 );
               }),
           floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
-            onPressed: () => "", // _settingModalBottomSheet(context, ExpenseCategory.empty(), (category) => incomesProvider.add(category)),
+            onPressed: () => _showEditSheet(context, Income.empty(), onSave: (income) => incomesProvider.add(income)),
           ),
+        );
+      },
+    );
+  }
+
+  void _showEditSheet(BuildContext context, Income income, {Function(Income income) onSave}) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return FormSheetContent(
+          formBuilder: (formKey) => IncomesForm(formKey: formKey, income: income),
+          onSave: () => onSave(income),
         );
       },
     );
