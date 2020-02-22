@@ -9,6 +9,8 @@ import 'package:monies/data/incomesProvider.dart';
 import 'package:monies/data/models/category.dart';
 import 'package:monies/data/models/expense.dart';
 import 'package:monies/data/models/income.dart';
+import 'package:monies/data/models/recurringExpense.dart';
+import 'package:monies/data/recurringExpensesProvider.dart';
 
 class TestDataHelpers {
   static Future<Expense> addRandomExpense(ExpensesProvider expensesProvider) async {
@@ -44,5 +46,11 @@ class TestDataHelpers {
   static void loadIncomes(IncomesProvider incomesProvider, {DateTime forMonth}) {
     incomesProvider.add(Income("inc1", "Pensja", 4550, forMonth));
     incomesProvider.add(Income("inc2", "Zwrot wydatków", 380, forMonth));
+  }
+
+  static void loadTestRecurringExpenses(RecurringExpensesProvider expensesProvider) {
+    expensesProvider.add(RecurringExpense("rec1", "Rachunek za internet", "UPC", 48.0, null, "cat0", DateTime(2019, 12, 9), Frequency.monthly));
+    expensesProvider.add(RecurringExpense("rec2", "HBO GO", "", 19.99, null, "cat2", DateTime(2019, 12, 18), Frequency.monthly));
+    expensesProvider.add(RecurringExpense("rec3", "Rachunek za telefon", "Orange", 38.0, null, "cat2", DateTime(2019, 12, 7), Frequency.monthly));
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/expensesProvider.dart';
 import 'package:monies/data/incomesProvider.dart';
+import 'package:monies/data/recurringExpensesProvider.dart';
 import 'package:monies/utils/testDataHelpers.dart';
 import 'package:monies/widgets/categories/categoriesList.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +43,13 @@ class Settings extends StatelessWidget {
               onPressed: () {
                 final provider = Provider.of<IncomesProvider>(context, listen: false);
                 TestDataHelpers.loadIncomes(provider, forMonth: DateTime.now());
+              },
+            ),
+            RaisedButton(
+              child: Text("Load test recurring expenses"),
+              onPressed: () {
+                final provider = Provider.of<RecurringExpensesProvider>(context, listen: false);
+                TestDataHelpers.loadTestRecurringExpenses(provider);
               },
             ),
             RaisedButton(
