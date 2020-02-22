@@ -7,12 +7,10 @@ import 'extensions/withAmount.dart';
 import 'expensesProvider.dart';
 
 class DashboardProvider extends ChangeNotifier {
-  final ExpensesProvider _expensesProvider;
-  final IncomesProvider _incomesProvider;
+   ExpensesProvider _expensesProvider;
+   IncomesProvider _incomesProvider;
 
   DateTime _currentDate = DateTime.now();
-
-  DashboardProvider(this._expensesProvider, this._incomesProvider);
 
   String get title => Format.monthAndYear(_currentDate);
 
@@ -40,5 +38,12 @@ class DashboardProvider extends ChangeNotifier {
   void switchToPreviousMonth() {
     _currentDate = Jiffy(_currentDate).subtract(months: 1);
     notifyListeners();
+  }
+
+  DashboardProvider setProviders(ExpensesProvider expensesProvider, IncomesProvider incomeProvider) {
+    _incomesProvider = incomeProvider;
+    _expensesProvider = expensesProvider;
+    notifyListeners();
+    return this;
   }
 }

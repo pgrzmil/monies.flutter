@@ -1,9 +1,16 @@
 import 'package:monies/data/models/modules.dart';
+import 'package:monies/data/recurringExpensesProvider.dart';
 import 'baseStorageProvider.dart';
 import 'models/expense.dart';
 
 class ExpensesProvider extends BaseStorageProvider<Expense> {
+  RecurringExpensesProvider _recurringExpensesProvider;
   ExpensesProvider() : super(storeKey: "Expenses", fromJsonString: Expense.fromJsonString);
+
+  set recurringExpensesProvider(RecurringExpensesProvider recurringExpensesProvider) {
+    _recurringExpensesProvider = recurringExpensesProvider;
+    notifyListeners();
+  }
 
   @override
   List<Expense> getAll() {
