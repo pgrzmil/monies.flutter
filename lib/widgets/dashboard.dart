@@ -42,8 +42,8 @@ class Dashboard extends StatelessWidget {
           ],
         ),
         body: Swipeable(
-          onLeftSwipe: dashboardProvider.switchToPreviousMonth,
-          onRightSwipe: dashboardProvider.switchToNextMonth,
+          onLeftSwipe: dashboardProvider.switchToNextMonth,
+          onRightSwipe: dashboardProvider.switchToPreviousMonth,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -68,7 +68,7 @@ class Dashboard extends StatelessWidget {
                               ],
                             ),
                             onTap: () => Navigator.push(
-                                context, MaterialPageRoute(builder: (context) => IncomesList(selectedDate: dashboardProvider.currentDate))),
+                                context, MaterialPageRoute(builder: (_) => IncomesList(selectedDate: dashboardProvider.currentDate))),
                           )
                         ],
                       ),

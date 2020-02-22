@@ -6,13 +6,16 @@ class CategoriesProvider extends BaseStorageProvider<ExpenseCategory> {
 
 @override
   List<ExpenseCategory> getAll() {
-    _sortByOrder();
-    return super.getAll();
-  }
-
-  void _sortByOrder() {
-    items.sort((cat1, cat2) => cat1.order.compareTo(cat2.order));
+    return super.getAll().sortByOrder();
   }
 
   String titleFor({String id}) => items.firstWhere((x) => x.id == id, orElse: () => null)?.title;
+}
+
+extension CategoriesExtension on Iterable<ExpenseCategory> {
+  Iterable<ExpenseCategory> sortByOrder() {
+    var sorted = this.toList();
+    sorted.sort((cat1, cat2) => cat1.order.compareTo(cat2.order));
+    return sorted;
+  }
 }
