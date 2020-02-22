@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/expensesProvider.dart';
 import 'package:monies/data/models/expense.dart';
 import 'package:monies/utils/formatters.dart';
+import 'package:monies/widgets/controls/dialogs.dart';
 import 'package:monies/widgets/expenses/expensesEmptyState.dart';
 import 'package:provider/provider.dart';
 import 'expenseAdd.dart';
@@ -45,7 +47,12 @@ class _ExpensesListState extends State<ExpensesList> {
               PopupMenuButton(
                 onSelected: (_) => expensesProvider.refreshRecurring(widget.selectedDate.month, widget.selectedDate.year),
                 itemBuilder: (BuildContext context) {
-                  return [PopupMenuItem(child: Text("Reset recurring expenses"), value: "ResetRecurring",)];
+                  return [
+                    PopupMenuItem(
+                      child: Text("Reset recurring expenses"),
+                      value: "ResetRecurring",
+                    )
+                  ];
                 },
               )
             ],
@@ -81,9 +88,28 @@ class _ExpensesListState extends State<ExpensesList> {
                   itemCount: expenses.length,
                   separatorBuilder: (context, index) => Divider(height: 0),
                   itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () => navigateToEdit(expenses.elementAt(index)),
-                      child: ExpensesListItem(expenses.elementAt(index)),
+                    final slidableController = SlidableController();
+                    final expense = expenses.elementAt(index);
+                    return Slidable(
+                      actionPane: SlidableBehindActionPane(),
+                      actionExtentRatio: 0.25,
+                      controller: slidableController,
+                      child: InkWell(
+                        onTap: () => navigateToEdit(expense),
+                        child: ExpensesListItem(expense),
+                      ),
+                      secondaryActions: <Widget>[
+                        IconSlideAction(
+                          caption: 'Remove',
+                          color: Colors.redAccent,
+                          icon: Icons.delete,
+                          onTap: () async {
+                            if (await Dialogs.confirmation(context, text: "Do you want to remove expense?")) {
+                              await expensesProvider.remove(expense);
+                            }
+                          },
+                        ),
+                      ],
                     );
                   }),
             ],
