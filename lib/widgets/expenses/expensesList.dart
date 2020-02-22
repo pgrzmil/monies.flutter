@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/expensesProvider.dart';
 import 'package:monies/data/models/expense.dart';
@@ -25,13 +26,30 @@ class _ExpensesListState extends State<ExpensesList> {
   String categoryFilter;
 
   @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback(
+        (_) => Provider.of<ExpensesProvider>(context, listen: false).updateWithRecurring(widget.selectedDate.month, widget.selectedDate.year));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<ExpensesProvider>(
       builder: (context, expensesProvider, child) {
         var expenses = expensesProvider.getForMonth(widget.selectedDate.month, widget.selectedDate.year).filterByCategory(categoryFilter).toList();
 
         return Scaffold(
-          appBar: AppBar(title: Text("Expenses (${Format.monthAndYear(widget.selectedDate)})")),
+          appBar: AppBar(
+            title: Text("Expenses (${Format.monthAndYear(widget.selectedDate)})"),
+            actions: <Widget>[
+              PopupMenuButton(
+                onSelected: (_) => expensesProvider.refreshRecurring(widget.selectedDate.month, widget.selectedDate.year),
+                itemBuilder: (BuildContext context) {
+                  return [PopupMenuItem(child: Text("Reset recurring expenses"), value: "ResetRecurring",)];
+                },
+              )
+            ],
+          ),
           body: Column(
             children: [
               Container(

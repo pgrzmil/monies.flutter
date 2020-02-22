@@ -7,7 +7,7 @@ typedef T ItemJsonSerializator<T>(String jsonString);
 abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   final List<T> items = [];
   final String storeKey;
-
+  
   ///Item's json deserializing method.
   ///
   ///There is no way to use item constructor or static method from generic type abstract
@@ -15,7 +15,7 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   final ItemJsonSerializator<T> fromJsonString;
 
   BaseStorageProvider({this.storeKey, this.fromJsonString}) {
-    _load();
+    load();
   }
 
   List<T> getAll() => items;
@@ -26,7 +26,15 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
     if (_isNotNull(item) && !_contains(item)) {
       items.add(item);
       notifyListeners();
-      await _persist();
+      await persist();
+    }
+  }
+
+  Future addAll(Iterable<T> array) async {
+     if (_isNotNull(array)) {
+      items.addAll(array.where((item) => !_contains(item)));
+      notifyListeners();
+      await persist();
     }
   }
 
@@ -34,7 +42,7 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
     if (_isNotNull(item) && _contains(item)) {
       //item reference is passed to widgets hence edit method only needs to store and notify about changes
       notifyListeners();
-      await _persist();
+      await persist();
     }
   }
 
@@ -42,25 +50,26 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
     if (_isNotNull(item) && _contains(item)) {
       items.remove(item);
       notifyListeners();
-      await _persist();
+      await persist();
     }
   }
 
   Future clear() async {
     items.clear();
     notifyListeners();
-    await _persist();
+    await persist();
   }
 
   bool _contains(T item) => items.any((e) => e.id == item.id);
-  bool _isNotNull(T item) => item != null;
+  bool _isNotNull(Object item) => item != null;
 
 // Persistence methods
-  _load() async {
+  load() async {
     if (items.isNotEmpty) return;
 
     final preferences = await SharedPreferences.getInstance();
     final serializedList = preferences.getStringList(storeKey);
+
     if (serializedList != null) {
       final deserializedItems = serializedList.map((jsonString) => fromJsonString(jsonString));
       items.addAll(deserializedItems.where((item) => !_contains(item)));
@@ -68,9 +77,10 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
     }
   }
 
-  Future<bool> _persist() async {
+  Future<bool> persist() async {
     final serializedList = items.map((item) => item.toJsonString()).toList();
     final preferences = await SharedPreferences.getInstance();
+    
     return preferences.setStringList(storeKey, serializedList);
   }
 }

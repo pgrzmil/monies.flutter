@@ -5,29 +5,31 @@ import 'package:monies/utils/formatters.dart';
 void main() {
   group('JSON parsing', () {
     test('Expense.toJson returns Map with String key', () {
-      final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23), "cat_id");
+      final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23), "cat_id", recurringExpenseId: "rec_expense_id");
 
       final json = expense.toJson();
 
       expect(json, isNotNull);
       expect(json, isA<Map<String, dynamic>>());
-      expect(json, hasLength(6));
+      expect(json, hasLength(7));
       expect(json.containsKey("id"), isTrue);
       expect(json.containsKey("title"), isTrue);
       expect(json.containsKey("location"), isTrue);
       expect(json.containsKey("amount"), isTrue);
       expect(json.containsKey("date"), isTrue);
       expect(json.containsKey("categoryId"), isTrue);
+      expect(json.containsKey("recurringExpenseId"), isTrue);
       expect(json["id"], equals("1"));
       expect(json["title"], equals("test_title"));
       expect(json["location"], equals("test_location"));
       expect(json["amount"], equals(123.45));
       expect(json["date"], equals("2020-01-23T00:00:00.000"));
       expect(json["categoryId"], equals("cat_id"));
+      expect(json["recurringExpenseId"], equals("rec_expense_id"));
     });
 
     test('Expense.fromJson returns Expense object', () {
-      final json = {"id": "1", "title": "test_title", "location": "test_location", "amount": 123.45, "date": "2020-01-23T00:00:00.000", "categoryId": "cat_id"};
+      final json = {"id": "1", "title": "test_title", "location": "test_location", "amount": 123.45, "date": "2020-01-23T00:00:00.000", "categoryId": "cat_id", "recurringExpenseId": "rec_expense_id"};
 
       final expense = Expense.fromJson(json);
 
@@ -39,6 +41,7 @@ void main() {
       expect(expense.amount, equals(123.45));
       expect(expense.date, DateTime(2020, 1, 23));
       expect(expense.categoryId, equals("cat_id"));
+      expect(expense.recurringExpenseId, equals("rec_expense_id"));
     });
 
     test('Expense.toJsonString returns valid json string', () {
@@ -48,11 +51,11 @@ void main() {
 
       expect(jsonString, isNotNull);
       expect(jsonString, isA<String>());
-      expect(jsonString, equals(r'{"id":"1","title":"test_title","location":"test_location","amount":123.45,"date":"2020-01-23T00:00:00.000","categoryId":"cat_id"}'));
+      expect(jsonString, equals(r'{"id":"1","title":"test_title","location":"test_location","amount":123.45,"date":"2020-01-23T00:00:00.000","categoryId":"cat_id","recurringExpenseId":null}'));
     });
 
     test('Expense.fromJsonString returns Expense object', () {
-      final jsonString = r'{"id":"1","title":"test_title","location":"test_location","amount":123.45,"date":"2020-01-23T00:00:00.000","categoryId":"cat_id"}';
+      final jsonString = r'{"id":"1","title":"test_title","location":"test_location","amount":123.45,"date":"2020-01-23T00:00:00.000","categoryId":"cat_id","recurringExpenseId":"rec_expense_id"}';
 
       final expense = Expense.fromJsonString(jsonString);
 
@@ -64,6 +67,7 @@ void main() {
       expect(expense.amount, equals(123.45));
       expect(expense.date, DateTime(2020, 1, 23));
       expect(expense.categoryId, equals("cat_id"));
+      expect(expense.recurringExpenseId, equals("rec_expense_id"));
     });
 
     test('Expense.fromJsonString throws FormatException when called with malformed string', () {
@@ -91,6 +95,7 @@ void main() {
     expect(expense.date, isNotNull);
     expect(expense.dateString, equals(Format.date(DateTime.now())));
     expect(expense.categoryId, isNull);
+    expect(expense.recurringExpenseId, isNull);
   });
 
   test('Returns amount string', () {

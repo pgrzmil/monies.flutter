@@ -26,7 +26,10 @@ class ExpensesListItem extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(expense.displayTitle),
+              Row(children: [
+                if (expense.recurringExpenseId != null && expense.recurringExpenseId.isNotEmpty) Icon(Icons.refresh),
+                Text(expense.displayTitle),
+              ]),
               Text(expense.dateString),
             ],
           ),

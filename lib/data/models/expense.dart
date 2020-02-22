@@ -9,13 +9,14 @@ class Expense implements BaseModel, WithAmount, WithDate {
   double amount;
   DateTime date;
   String categoryId;
+  final String recurringExpenseId;
 
   String get amountString => Format.money(amount);
   String get dateString => Format.date(date);
   String get displayTitle => location.isNotEmpty ? title + " - " + location : title;
 
-  Expense(this.id, this.title, this.location, this.amount, this.date, this.categoryId);
-  Expense.fromValues(this.title, this.location, this.amount, this.date, this.categoryId) : id = Uuid().v4();
+  Expense(this.id, this.title, this.location, this.amount, this.date, this.categoryId, {this.recurringExpenseId});
+  Expense.fromValues(this.title, this.location, this.amount, this.date, this.categoryId, {this.recurringExpenseId}) : id = Uuid().v4();
 
   factory Expense.empty() => Expense.fromValues("", "", 0, DateTime.now(), null);
 
