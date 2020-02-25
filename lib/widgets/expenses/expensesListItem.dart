@@ -7,7 +7,7 @@ import '../../data/models/expense.dart';
 class ExpensesListItem extends StatelessWidget {
   final Expense expense;
 
-  ExpensesListItem(this.expense);
+  ExpensesListItem({this.expense});
 
   @override
   Widget build(BuildContext context) {

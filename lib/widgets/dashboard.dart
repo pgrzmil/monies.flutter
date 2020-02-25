@@ -98,7 +98,7 @@ class Dashboard extends StatelessWidget {
                             padding: EdgeInsets.only(bottom: 5),
                             separatorBuilder: (context, index) => Divider(height: 0),
                             itemBuilder: (context, index) {
-                              return ExpensesListItem(expenses.elementAt(index));
+                              return ExpensesListItem(expense: expenses.elementAt(index));
                             },
                           );
                         }()

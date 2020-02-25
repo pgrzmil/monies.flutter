@@ -3,9 +3,8 @@ import 'package:monies/data/models/income.dart';
 
 class IncomesListItem extends StatelessWidget {
   final Income income;
-  final void Function() onTap;
 
-  IncomesListItem({this.income, this.onTap});
+  IncomesListItem({this.income});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,6 @@ class IncomesListItem extends StatelessWidget {
         title: Text(income.title, style: TextStyle(fontSize: 16)),
         subtitle: Text(income.dateString),
         trailing: Text(income.amountString, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-        onTap: onTap,
       ),
     );
   }

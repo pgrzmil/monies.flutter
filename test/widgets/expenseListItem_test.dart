@@ -28,7 +28,7 @@ void main() {
     await tester.pumpWidget(
       TestWidget(
         categoriesProvider: categoriesProvider,
-        child: ExpensesListItem(expense)
+        child: ExpensesListItem(expense: expense)
       ),
     );
 
