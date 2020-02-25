@@ -7,11 +7,17 @@ import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/controls/dialogs.dart';
 import 'package:monies/widgets/controls/emptyState.dart';
 import 'package:monies/widgets/controls/itemsList.dart';
+import 'package:monies/widgets/recurringExpenses/recurringExpenses.dart';
 import 'package:provider/provider.dart';
 import 'expenseAdd.dart';
 import 'expenseEdit.dart';
 import './expensesListItem.dart';
 import '../../data/extensions/withAmount.dart';
+
+enum _MenuItems {
+  showRecurring,
+  resetRecurring,
+}
 
 class ExpensesList extends StatefulWidget {
   final DateTime selectedDate;
@@ -75,6 +81,17 @@ class _ExpensesListState extends State<ExpensesList> {
     return items;
   }
 
+  menuItemSelected(_MenuItems itemValue, ExpensesProvider expensesProvider) {
+    switch (itemValue) {
+      case _MenuItems.showRecurring:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => RecurringExpensesList()));
+        break;
+      case _MenuItems.resetRecurring:
+        expensesProvider.refreshRecurring(widget.selectedDate.month, widget.selectedDate.year);
+        break;
+      default:
+    }
+  }
 
   AppBar _appBar(ExpensesProvider expensesProvider) {
     return AppBar(
