@@ -37,7 +37,6 @@ class ExpenseForm extends StatelessWidget {
                 TextFormField(
                   key: Key("locationField"),
                   initialValue: expense.location,
-                  validator: Validator.notEmpty(),
                   decoration: InputDecoration(labelText: "Location"),
                   onSaved: (value) => expense.location = value,
                 ),

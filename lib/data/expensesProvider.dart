@@ -6,8 +6,9 @@ import 'models/expense.dart';
 
 class ExpensesProvider extends BaseStorageProvider<Expense> {
   RecurringExpensesProvider _recurringExpensesProvider;
-  final String recurringAddedKey = "RecurringAddMap";
-  List<String> recurringAdded;
+  final String _recurringAddedKey = "RecurringAddMap";
+  ///Collection of values indicating for what month recurring expenses has been already generated
+  List<String> _recurringExpensesGeneratingMap;
 
   ExpensesProvider() : super(storeKey: "Expenses", fromJsonString: Expense.fromJsonString);
 
@@ -34,10 +35,11 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
     return getAll().filterByDate(month, year);
   }
 
-  String recurringId(int month, int year) => "$month/$year";
+//------- Recurring expenses handling ----------------
 
-  void updateWithRecurring(int month, int year) {
-    if (_recurringExpensesProvider == null || recurringAdded.contains(recurringId(month, year))) return;
+  ///Adds to expenses list recurring expenses instances for given `month` and `year`.
+  updateWithRecurring(int month, int year) {
+    if (_recurringExpensesProvider == null || _recurringExpensesGeneratingMap.contains(_recurringId(month, year))) return;
 
     var expenses = getAll().filterByDate(month, year);
     var rExpenses = _recurringExpensesProvider.expensesFor(month, year);
@@ -45,10 +47,28 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
     _setRecurringAdded(month, year);
   }
 
+  String _recurringId(int month, int year) => "$month/$year";
+
+  _setRecurringAdded(int month, int year) {
+    _recurringExpensesGeneratingMap.add(_recurringId(month, year));
+    persist();
+  }
+
+  ///Restores all recurring expenses instances for given `month` and `year` in case they were removed.
+  refreshRecurring(int month, int year) {
+    if (_recurringExpensesProvider == null) return;
+
+    _recurringExpensesGeneratingMap.remove(_recurringId(month, year));
+    items.removeWhere((expense) => expense.date.month == month && expense.date.year == year && expense.recurringExpenseId != null);
+    updateWithRecurring(month, year);
+  }
+
+//------- Persistence ----------------
+
   @override
   Future<bool> persist() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setStringList(recurringAddedKey, recurringAdded);
+    await preferences.setStringList(_recurringAddedKey, _recurringExpensesGeneratingMap);
 
     return super.persist();
   }
@@ -57,20 +77,7 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
   load() async {
     await super.load();
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    recurringAdded = preferences.getStringList(recurringAddedKey) ?? List<String>();
-  }
-
-  _setRecurringAdded(int month, int year) {
-    recurringAdded.add(recurringId(month, year));
-    persist();
-  }
-
-  void refreshRecurring(int month, int year) {
-    if (_recurringExpensesProvider == null) return;
-
-    recurringAdded.remove(recurringId(month, year));
-    items.removeWhere((expense) => expense.date.month == month && expense.date.year == year && expense.recurringExpenseId != null);
-    updateWithRecurring(month, year);
+    _recurringExpensesGeneratingMap = preferences.getStringList(_recurringAddedKey) ?? List<String>();
   }
 }
 

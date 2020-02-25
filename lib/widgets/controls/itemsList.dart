@@ -28,7 +28,9 @@ class ItemsList<T> extends StatelessWidget {
     this.emptyState,
     this.header,
     this.appBar,
-  }) : super(key: key);
+  })  : assert(onCellCreate != null),
+        assert(items != null),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +39,8 @@ class ItemsList<T> extends StatelessWidget {
       appBar: appBar ?? AppBar(title: Text(title)),
       body: Column(
         children: [
-          header,
-          if (items.isEmpty) emptyState,
+          if (header != null) header,
+          if (emptyState != null && items.isEmpty) emptyState,
           ListView.separated(
             shrinkWrap: true,
             itemCount: items.length,
@@ -51,7 +53,9 @@ class ItemsList<T> extends StatelessWidget {
                 controller: slidableController,
                 child: InkWell(
                   child: onCellCreate(item),
-                  onTap: () => onCellTap(item),
+                  onTap: () {
+                    if (onCellTap != null) onCellTap(item);
+                  },
                 ),
                 secondaryActions: <Widget>[
                   if (onRemove != null)
@@ -59,14 +63,18 @@ class ItemsList<T> extends StatelessWidget {
                       caption: 'Remove',
                       color: Colors.redAccent,
                       icon: Icons.delete,
-                      onTap: () => onRemove(item),
+                      onTap: () {
+                        if (onCellTap != null) onRemove(item);
+                      },
                     ),
                   if (onEdit != null)
                     IconSlideAction(
                       caption: 'Edit',
                       color: Colors.greenAccent,
                       icon: Icons.edit,
-                      onTap: () => onEdit(item),
+                      onTap: () {
+                        if (onCellTap != null) onEdit(item);
+                      },
                     ),
                 ],
               );

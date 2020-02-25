@@ -6,6 +6,11 @@ import 'models/expense.dart';
 class RecurringExpensesProvider extends BaseStorageProvider<RecurringExpense> {
   RecurringExpensesProvider() : super(storeKey: "RecurringExpenses", fromJsonString: RecurringExpense.fromJsonString);
 
+  @override
+  List<RecurringExpense> getAll() {
+    return super.getAll().sortByDate();
+  }
+
   ///Returns expenses for given `month` and `year` crated from recurring expenses
   Iterable<Expense> expensesFor(int month, int year) {
     final endOfTheMonth = Jiffy(DateTime(year, month)).endOf("M");
@@ -22,5 +27,13 @@ class RecurringExpensesProvider extends BaseStorageProvider<RecurringExpense> {
         recurringExpenseId: item.id,
       );
     });
+  }
+}
+
+extension _RecurringExpensesProviderExtensions on Iterable<RecurringExpense> {
+  List<RecurringExpense> sortByDate() {
+    var sorted = this.toList();
+    sorted.sort((exp1, exp2) => exp1.startDate.compareTo(exp2.startDate));
+    return sorted;
   }
 }

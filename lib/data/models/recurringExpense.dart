@@ -10,9 +10,11 @@ class RecurringExpense extends Expense {
   Frequency frequency;
   DateTime startDate;
 
-  RecurringExpense(id, title, location, amount, date, categoryId, this.startDate, this.frequency)
+  String get startDateString => Format.date(startDate);
+
+  RecurringExpense(String id, String title, String location, double amount, DateTime date, String categoryId, this.startDate, this.frequency)
       : super(id, title, location, amount, date, categoryId);
-  RecurringExpense.fromValues(title, location, amount, date, categoryId, this.startDate, this.frequency)
+  RecurringExpense.fromValues(String title, String location, double amount, DateTime date, String categoryId, this.startDate, this.frequency)
       : super.fromValues(title, location, amount, date, categoryId);
 
   factory RecurringExpense.empty() => RecurringExpense.fromValues("", "", 0, null, null, DateTime.now(), Frequency.monthly);

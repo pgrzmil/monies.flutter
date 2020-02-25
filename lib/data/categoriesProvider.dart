@@ -12,7 +12,7 @@ class CategoriesProvider extends BaseStorageProvider<ExpenseCategory> {
   String titleFor({String id}) => items.firstWhere((x) => x.id == id, orElse: () => null)?.title;
 }
 
-extension CategoriesExtension on Iterable<ExpenseCategory> {
+extension _CategoriesExtension on Iterable<ExpenseCategory> {
   Iterable<ExpenseCategory> sortByOrder() {
     var sorted = this.toList();
     sorted.sort((cat1, cat2) => cat1.order.compareTo(cat2.order));
