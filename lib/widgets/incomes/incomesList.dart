@@ -3,10 +3,10 @@ import 'package:monies/data/incomesProvider.dart';
 import 'package:monies/data/models/income.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/controls/dialogs.dart';
+import 'package:monies/widgets/controls/emptyState.dart';
 import 'package:monies/widgets/controls/formSheetContent.dart';
 import 'package:monies/widgets/controls/itemsList.dart';
 import 'package:monies/widgets/controls/sumHeader.dart';
-import 'package:monies/widgets/incomes/incomesEmptyState.dart';
 import 'package:provider/provider.dart';
 import '../../data/extensions/withAmount.dart';
 
@@ -27,7 +27,7 @@ class IncomesList extends StatelessWidget {
           items: incomes,
           title: "Incomes (${Format.monthAndYear(selectedDate)})",
           header: SumHeader(sumText: incomes.sumText()),
-          emptyState: IncomesEmptyState(key: Key("incomesList_empty_state")),
+          emptyState: EmptyState(text: "Empty!\nStart adding incomes.", key: Key("incomesList_empty_state")),
           onAdd: () => _showEditSheet(context, Income.empty(), onSave: (income) => incomesProvider.add(income)),
           onEdit: (income) => _showEditSheet(context, income, onSave: (income) => incomesProvider.edit(income)),
           onCellTap: (income) => _showEditSheet(context, income, onSave: (income) => incomesProvider.edit(income)),

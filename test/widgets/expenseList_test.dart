@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:monies/data/expensesProvider.dart';
+import 'package:monies/widgets/controls/emptyState.dart';
 import 'package:monies/widgets/expenses/expenseAdd.dart';
 import 'package:monies/widgets/expenses/expenseEdit.dart';
-import 'package:monies/widgets/expenses/expensesEmptyState.dart';
 import 'package:monies/widgets/expenses/expensesList.dart';
 import 'package:monies/widgets/expenses/expensesListItem.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,7 +43,7 @@ void main() {
       await tester.pumpAndSettle(Duration(milliseconds: 500)); //wait for Future builder to finish
 
       expect(find.byWidgetPredicate((widget) => widget.key == Key("expensesList_empty_state")), findsOneWidget);
-      expect(find.byType(ExpensesEmptyState), findsOneWidget);
+      expect(find.byType(EmptyState), findsOneWidget);
       expect(find.byType(ExpensesListItem), findsNothing);
 
       final addButton = find.byIcon(Icons.add);

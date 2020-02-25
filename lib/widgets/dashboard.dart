@@ -3,11 +3,11 @@ import 'package:flutter/rendering.dart';
 import 'package:monies/data/dashboardProvider.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/controls/swipeable.dart';
-import 'package:monies/widgets/expenses/expensesEmptyState.dart';
 import 'package:monies/widgets/incomes/incomesList.dart';
 import 'package:monies/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
+import 'controls/emptyState.dart';
 import 'expenses/expensesList.dart';
 import 'expenses/expensesListItem.dart';
 
@@ -88,7 +88,7 @@ class Dashboard extends StatelessWidget {
                         () {
                           final expenses = dashboardProvider.lastExpenses;
                           if (expenses.isEmpty) {
-                            return ExpensesEmptyState();
+                            return EmptyState(text: "Empty!\nStart adding expenses.");
                           }
 
                           return ListView.separated(

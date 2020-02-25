@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ExpensesEmptyState extends StatelessWidget {
+class EmptyState extends StatelessWidget {
+  final String text;
 
-  const ExpensesEmptyState({Key key}) : super(key: key);
-  
+  const EmptyState({Key key, this.text}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,7 +12,7 @@ class ExpensesEmptyState extends StatelessWidget {
       alignment: Alignment(0, 0),
       color: Colors.white,
       child: Text(
-        "Empty!\nStart adding expenses.",
+        text,
         style: TextStyle(fontSize: 20, color: Colors.grey),
         textAlign: TextAlign.center,
       ),

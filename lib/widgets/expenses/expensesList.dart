@@ -5,8 +5,8 @@ import 'package:monies/data/expensesProvider.dart';
 import 'package:monies/data/models/expense.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/controls/dialogs.dart';
+import 'package:monies/widgets/controls/emptyState.dart';
 import 'package:monies/widgets/controls/itemsList.dart';
-import 'package:monies/widgets/expenses/expensesEmptyState.dart';
 import 'package:provider/provider.dart';
 import 'expenseAdd.dart';
 import 'expenseEdit.dart';
@@ -44,7 +44,7 @@ class _ExpensesListState extends State<ExpensesList> {
           items: expenses,
           appBar: _appBar(expensesProvider),
           header: _header(expenses.sumText()),
-          emptyState: ExpensesEmptyState(key: Key("expensesList_empty_state")),
+          emptyState: EmptyState(text: "Empty!\nStart adding expenses.", key: Key("expensesList_empty_state")),
           onAdd: navigateToAdd,
           onEdit: (expense) => navigateToEdit(expense),
           onCellTap: (expense) => navigateToEdit(expense),
