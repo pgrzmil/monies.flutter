@@ -34,16 +34,18 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   List<Series> get categoriesChartDate {
-    return _analyticsProvider.categoriesChartData(_currentDate.month, _currentDate.year);
+    return _analyticsProvider.categoriesChartData;
   }
 
   void switchToNextMonth() {
     _currentDate = Jiffy(_currentDate).add(months: 1);
+    _analyticsProvider.setCurrentDate(_currentDate);
     notifyListeners();
   }
 
   void switchToPreviousMonth() {
     _currentDate = Jiffy(_currentDate).subtract(months: 1);
+    _analyticsProvider.setCurrentDate(_currentDate);
     notifyListeners();
   }
 

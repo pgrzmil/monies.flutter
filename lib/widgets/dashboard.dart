@@ -19,22 +19,20 @@ class Dashboard extends StatelessWidget {
     return Consumer<DashboardProvider>(builder: (context, dashboardProvider, _) {
       return Scaffold(
         appBar: AppBar(
-          title: Center(
-            child: Row(
-              //Month selector widget
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FlatButton(
-                  child: Icon(Icons.arrow_left),
-                  onPressed: dashboardProvider.switchToPreviousMonth,
-                ),
-                Text(dashboardProvider.title),
-                FlatButton(
-                  child: Icon(Icons.arrow_right),
-                  onPressed: dashboardProvider.switchToNextMonth,
-                ),
-              ],
-            ),
+          title: Row(
+            //Month selector widget
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FlatButton(
+                child: Icon(Icons.arrow_left),
+                onPressed: dashboardProvider.switchToPreviousMonth,
+              ),
+              Text(dashboardProvider.title),
+              FlatButton(
+                child: Icon(Icons.arrow_right),
+                onPressed: dashboardProvider.switchToNextMonth,
+              ),
+            ],
           ),
           actions: [
             IconButton(
@@ -126,7 +124,7 @@ class Dashboard extends StatelessWidget {
                     ],
                   ),
                   onTap: () => Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => AnalyticsDashboard(selectedDate: dashboardProvider.currentDate))),
+                      context, MaterialPageRoute(builder: (context) => AnalyticsDashboard())),
                 ),
               ),
             ],
