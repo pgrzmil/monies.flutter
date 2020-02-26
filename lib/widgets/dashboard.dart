@@ -7,6 +7,7 @@ import 'package:monies/widgets/incomes/incomesList.dart';
 import 'package:monies/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
+import 'analytics/analyticsDashboard.dart';
 import 'controls/emptyState.dart';
 import 'expenses/expensesList.dart';
 import 'expenses/expensesListItem.dart';
@@ -112,13 +113,16 @@ class Dashboard extends StatelessWidget {
 
               //analytics component
               Card(
-                child: Column(
+                child: InkWell(child: Column(
                   children: [
                     Text("Analytics"),
                     SizedBox(height: 100, width: 100, child: Icon(Icons.pie_chart)),
                   ],
                 ),
-              )
+                onTap: () =>
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => AnalyticsDashboard(selectedDate: dashboardProvider.currentDate))),
+                ),
+              ),
             ],
           ),
         ),

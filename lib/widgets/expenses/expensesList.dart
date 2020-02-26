@@ -21,17 +21,20 @@ enum _MenuItems {
 
 class ExpensesList extends StatefulWidget {
   final DateTime selectedDate;
+  final String categoryFilter;
 
-  const ExpensesList({Key key, this.selectedDate}) : super(key: key);
+  const ExpensesList({Key key, this.selectedDate, this.categoryFilter}) : super(key: key);
 
   @override
-  _ExpensesListState createState() => _ExpensesListState();
+  _ExpensesListState createState() => _ExpensesListState(categoryFilter);
 }
 
 class _ExpensesListState extends State<ExpensesList> {
   final _filterAllValue = "All";
 
   String categoryFilter;
+
+  _ExpensesListState(this.categoryFilter);
 
   @override
   void initState() {

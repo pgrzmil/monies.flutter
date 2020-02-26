@@ -40,8 +40,8 @@ class DashboardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  DashboardProvider setProviders(ExpensesProvider expensesProvider, IncomesProvider incomeProvider) {
-    _incomesProvider = incomeProvider;
+  DashboardProvider setProviders({ExpensesProvider expensesProvider, IncomesProvider incomesProvider}) {
+    _incomesProvider = incomesProvider;
     _expensesProvider = expensesProvider;
     notifyListeners();
     return this;

@@ -4,8 +4,9 @@ import 'package:monies/widgets/categories/categoryIcon.dart';
 
 class CategoriesListItem extends StatelessWidget {
   final ExpenseCategory category;
+  final Widget trailing;
 
-  CategoriesListItem({this.category});
+  CategoriesListItem({this.category, this.trailing});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,7 @@ class CategoriesListItem extends StatelessWidget {
       child: ListTile(
         leading: CategoryIcon(category: category),
         title: Text(category.title),
+        trailing: trailing,
       ),
     );
   }

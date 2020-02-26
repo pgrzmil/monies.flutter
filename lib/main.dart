@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:monies/data/analyticsProvider.dart';
 import 'package:monies/data/dashboardProvider.dart';
 import 'package:monies/data/incomesProvider.dart';
 import 'package:monies/data/recurringExpensesProvider.dart';
@@ -27,8 +28,14 @@ class App extends StatelessWidget {
         ChangeNotifierProxyProvider2<ExpensesProvider, IncomesProvider, DashboardProvider>(
           create: (context) => DashboardProvider(),
           update: (context, expensesProvider, incomesProvider, dashboardProvider) {
-            return dashboardProvider.setProviders(expensesProvider, incomesProvider);
-          }
+            return dashboardProvider.setProviders(expensesProvider: expensesProvider, incomesProvider: incomesProvider);
+          },
+        ),
+        ChangeNotifierProxyProvider2<ExpensesProvider, CategoriesProvider, AnalyticsProvider>(
+          create: (context) => AnalyticsProvider(),
+          update: (context, expensesProvider, categoriesProvider, dashboardProvider) {
+            return dashboardProvider.setProviders(expensesProvider: expensesProvider, categoriesProvider: categoriesProvider);
+          },
         )
       ],
       child: MaterialApp(
