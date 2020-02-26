@@ -8,6 +8,7 @@ import 'package:monies/widgets/settings.dart';
 import 'package:provider/provider.dart';
 
 import 'analytics/analyticsDashboard.dart';
+import 'controls/donutChart.dart';
 import 'controls/emptyState.dart';
 import 'expenses/expensesList.dart';
 import 'expenses/expensesListItem.dart';
@@ -68,8 +69,8 @@ class Dashboard extends StatelessWidget {
                                 Text("Incomes sum", style: TextStyle(fontSize: 10)),
                               ],
                             ),
-                            onTap: () => Navigator.push(
-                                context, MaterialPageRoute(builder: (_) => IncomesList(selectedDate: dashboardProvider.currentDate))),
+                            onTap: () =>
+                                Navigator.push(context, MaterialPageRoute(builder: (_) => IncomesList(selectedDate: dashboardProvider.currentDate))),
                           )
                         ],
                       ),
@@ -113,14 +114,19 @@ class Dashboard extends StatelessWidget {
 
               //analytics component
               Card(
-                child: InkWell(child: Column(
-                  children: [
-                    Text("Analytics"),
-                    SizedBox(height: 100, width: 100, child: Icon(Icons.pie_chart)),
-                  ],
-                ),
-                onTap: () =>
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => AnalyticsDashboard(selectedDate: dashboardProvider.currentDate))),
+                child: InkWell(
+                  child: Column(
+                    children: [
+                      Text("Analytics"),
+                      SizedBox(
+                        height: 300,
+                        width: 400,
+                        child: DonutPieChart(dashboardProvider.categoriesChartDate, animate: true),
+                      ),
+                    ],
+                  ),
+                  onTap: () => Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => AnalyticsDashboard(selectedDate: dashboardProvider.currentDate))),
                 ),
               ),
             ],

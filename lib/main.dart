@@ -25,16 +25,20 @@ class App extends StatelessWidget {
             return expensesProvider;
           },
         ),
-        ChangeNotifierProxyProvider2<ExpensesProvider, IncomesProvider, DashboardProvider>(
-          create: (context) => DashboardProvider(),
-          update: (context, expensesProvider, incomesProvider, dashboardProvider) {
-            return dashboardProvider.setProviders(expensesProvider: expensesProvider, incomesProvider: incomesProvider);
-          },
-        ),
         ChangeNotifierProxyProvider2<ExpensesProvider, CategoriesProvider, AnalyticsProvider>(
           create: (context) => AnalyticsProvider(),
           update: (context, expensesProvider, categoriesProvider, dashboardProvider) {
             return dashboardProvider.setProviders(expensesProvider: expensesProvider, categoriesProvider: categoriesProvider);
+          },
+        ),
+        ChangeNotifierProxyProvider3<ExpensesProvider, IncomesProvider, AnalyticsProvider, DashboardProvider>(
+          create: (context) => DashboardProvider(),
+          update: (context, expensesProvider, incomesProvider, analyticsProvider, dashboardProvider) {
+            return dashboardProvider.setProviders(
+              expensesProvider: expensesProvider,
+              incomesProvider: incomesProvider,
+              analyticsProvider: analyticsProvider,
+            );
           },
         )
       ],
