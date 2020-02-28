@@ -41,3 +41,9 @@ lib/generated_plugin_registrant.dart
 TODO
 *.generated
 /coverage/
+
+android/vendor/
+android/fastlane/report.xml
+ios/build/Runner.xcarchive
+report.xml
+ios/build

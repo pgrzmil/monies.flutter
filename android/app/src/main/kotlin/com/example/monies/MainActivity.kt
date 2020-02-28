@@ -1,4 +1,4 @@
-package com.example.monies
+package com.pgrzmil.moniesapp
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

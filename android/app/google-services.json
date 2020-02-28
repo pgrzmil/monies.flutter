@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "95816973391",
+    "firebase_url": "https://monies-bcc9e.firebaseio.com",
+    "project_id": "monies-bcc9e",
+    "storage_bucket": "monies-bcc9e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:95816973391:android:1c8b8225140c5b7a4f7e3a",
+        "android_client_info": {
+          "package_name": "com.pgrzmil.moniesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "95816973391-ds57bjj0vnf8f6mvolfpnrd2emfjas5j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAm8k3v0iNASEc5LiFo96QsVtiYDfMPmNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "95816973391-ds57bjj0vnf8f6mvolfpnrd2emfjas5j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "95816973391-qodfq0gjg5ufpp1mjrknusq0e9r2hok8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pgrzmil.moniesapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
