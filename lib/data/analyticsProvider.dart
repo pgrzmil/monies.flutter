@@ -34,17 +34,28 @@ class AnalyticsProvider extends ChangeNotifier {
     return this;
   }
 
-  List<Series> get categoriesChartData {
+  List<Series<CategoryWithSum, String>> get categoriesChartData {
     final data = sumByCategory;
+    if (data.isEmpty || data.every((item) => item.sum == 0)) {
+      return [
+        Series<CategoryWithSum, String>(
+          id: "EmptyChart",
+          domainFn: (_, __) => "",
+          measureFn: (CategoryWithSum item, _) => item.sum,
+          data: [CategoryWithSum(null, 1)],
+          colorFn: (_, __) => Color(a: 18, r: 0, g: 0, b: 0),
+        ),
+      ];
+    }
     return [
       Series<CategoryWithSum, String>(
         id: 'sumByCategoryChart',
-        domainFn: (CategoryWithSum sales, _) => sales.category.title,
-        measureFn: (CategoryWithSum sales, _) => sales.sum,
-        colorFn: (CategoryWithSum sales, _) =>
-            Color(a: sales.category.color.alpha, r: sales.category.color.red, g: sales.category.color.green, b: sales.category.color.blue),
-        labelAccessorFn: (CategoryWithSum sales, _) => sales.sum != 0 ? sales.category.title : "",
-        outsideLabelStyleAccessorFn: (CategoryWithSum sales, _) => TextStyleSpec(color: Color.black, fontSize: 12),
+        domainFn: (CategoryWithSum item, _) => item.category.title,
+        measureFn: (CategoryWithSum item, _) => item.sum,
+        colorFn: (CategoryWithSum item, _) =>
+            Color(a: item.category.color.alpha, r: item.category.color.red, g: item.category.color.green, b: item.category.color.blue),
+        labelAccessorFn: (CategoryWithSum item, _) => item.sum != 0 ? item.category.title : "",
+        outsideLabelStyleAccessorFn: (CategoryWithSum item, _) => TextStyleSpec(color: Color.black, fontSize: 12),
         data: data,
       )
     ];

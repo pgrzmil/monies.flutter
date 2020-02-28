@@ -22,7 +22,7 @@ class IncomesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<IncomesProvider>(
       builder: (context, incomesProvider, child) {
-        final incomes = incomesProvider.getForMonth(selectedDate.month, selectedDate.year);
+        final incomes = incomesProvider.getForMonth(selectedDate.month, selectedDate.year).toList();
         return ItemsList<Income>(
           items: incomes,
           title: "Incomes (${Format.monthAndYear(selectedDate)})",

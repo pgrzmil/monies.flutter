@@ -44,90 +44,91 @@ class Dashboard extends StatelessWidget {
         body: Swipeable(
           onLeftSwipe: dashboardProvider.switchToNextMonth,
           onRightSwipe: dashboardProvider.switchToPreviousMonth,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              //dashboard widget
-              Padding(
-                padding: EdgeInsets.only(top: 5),
-                child: Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Text(Format.money(dashboardProvider.balance), style: TextStyle(fontSize: 36)),
-                          Text("Balance", style: TextStyle(fontSize: 10)),
-                          Text(Format.money(dashboardProvider.expensesSum), style: TextStyle(fontSize: 26)),
-                          Text("Expenses sum", style: TextStyle(fontSize: 10)),
-                          InkWell(
-                            child: Column(
-                              children: [
-                                Text(Format.money(dashboardProvider.incomesSum), style: TextStyle(fontSize: 26)),
-                                Text("Incomes sum", style: TextStyle(fontSize: 10)),
-                              ],
-                            ),
-                            onTap: () =>
-                                Navigator.push(context, MaterialPageRoute(builder: (_) => IncomesList(selectedDate: dashboardProvider.currentDate))),
-                          )
-                        ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                //dashboard widget
+                Padding(
+                  padding: EdgeInsets.only(top: 5),
+                  child: Card(
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Text(Format.money(dashboardProvider.balance), style: TextStyle(fontSize: 36)),
+                            Text("Balance", style: TextStyle(fontSize: 10)),
+                            Text(Format.money(dashboardProvider.expensesSum), style: TextStyle(fontSize: 26)),
+                            Text("Expenses sum", style: TextStyle(fontSize: 10)),
+                            InkWell(
+                              child: Column(
+                                children: [
+                                  Text(Format.money(dashboardProvider.incomesSum), style: TextStyle(fontSize: 26)),
+                                  Text("Incomes sum", style: TextStyle(fontSize: 10)),
+                                ],
+                              ),
+                              onTap: () => Navigator.push(
+                                  context, MaterialPageRoute(builder: (_) => IncomesList(selectedDate: dashboardProvider.currentDate))),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
 
-              //Expenses widget
-              Card(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 10),
+                //Expenses widget
+                Card(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: InkWell(
+                      child: Column(
+                        children: [
+                          Text("Expenses"),
+                          () {
+                            final expenses = dashboardProvider.lastExpenses;
+                            if (expenses.isEmpty) {
+                              return EmptyState(text: "Empty!\nStart adding expenses.");
+                            }
+
+                            return ListView.separated(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: expenses.length,
+                              padding: EdgeInsets.only(bottom: 5),
+                              separatorBuilder: (context, index) => Divider(height: 0),
+                              itemBuilder: (context, index) {
+                                return ExpensesListItem(expense: expenses.elementAt(index));
+                              },
+                            );
+                          }()
+                        ],
+                      ),
+                      onTap: () =>
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ExpensesList(selectedDate: dashboardProvider.currentDate))),
+                    ),
+                  ),
+                ),
+
+                //analytics component
+                Card(
                   child: InkWell(
                     child: Column(
                       children: [
-                        Text("Expenses"),
-                        () {
-                          final expenses = dashboardProvider.lastExpenses;
-                          if (expenses.isEmpty) {
-                            return EmptyState(text: "Empty!\nStart adding expenses.");
-                          }
-
-                          return ListView.separated(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: expenses.length,
-                            padding: EdgeInsets.only(bottom: 5),
-                            separatorBuilder: (context, index) => Divider(height: 0),
-                            itemBuilder: (context, index) {
-                              return ExpensesListItem(expense: expenses.elementAt(index));
-                            },
-                          );
-                        }()
+                        Text("Analytics"),
+                        SizedBox(
+                          height: 300,
+                          width: 400,
+                          child: DonutPieChart(dashboardProvider.categoriesChartDate, animate: dashboardProvider.categoriesChartAnimated),
+                        ),
                       ],
                     ),
-                    onTap: () =>
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ExpensesList(selectedDate: dashboardProvider.currentDate))),
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AnalyticsDashboard())),
                   ),
                 ),
-              ),
-
-              //analytics component
-              Card(
-                child: InkWell(
-                  child: Column(
-                    children: [
-                      Text("Analytics"),
-                      SizedBox(
-                        height: 300,
-                        width: 400,
-                        child: DonutPieChart(dashboardProvider.categoriesChartDate, animate: true),
-                      ),
-                    ],
-                  ),
-                  onTap: () => Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => AnalyticsDashboard())),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );

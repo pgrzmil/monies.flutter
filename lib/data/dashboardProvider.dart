@@ -33,8 +33,12 @@ class DashboardProvider extends ChangeNotifier {
     return incomesSum - expensesSum;
   }
 
-  List<Series> get categoriesChartDate {
+  List<Series<CategoryWithSum, String>> get categoriesChartDate {
     return _analyticsProvider.categoriesChartData;
+  }
+
+  bool get categoriesChartAnimated{
+    return categoriesChartDate.first.id != "EmptyChart";
   }
 
   void switchToNextMonth() {
