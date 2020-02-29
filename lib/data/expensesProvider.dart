@@ -7,10 +7,11 @@ import 'models/expense.dart';
 class ExpensesProvider extends BaseStorageProvider<Expense> {
   RecurringExpensesProvider _recurringExpensesProvider;
   final String _recurringAddedKey = "RecurringAddMap";
+
   ///Collection of values indicating for what month recurring expenses has been already generated
   List<String> _recurringExpensesGeneratingMap;
 
-  ExpensesProvider() : super(storeKey: "Expenses", fromJsonString: Expense.fromJsonString);
+  ExpensesProvider() : super(storeKey: "Expenses", fromJsonString: Expense.fromJsonString, fromJsonMap: Expense.fromJsonMap);
 
   set recurringExpensesProvider(RecurringExpensesProvider recurringExpensesProvider) {
     _recurringExpensesProvider = recurringExpensesProvider;
