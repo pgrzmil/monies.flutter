@@ -34,10 +34,21 @@ jobs:
     - name: Run tests
       run: flutter test
 
-    - name: Deploy to Firebase App Distribution
+    - name: Deploy Android app to Firebase App Distribution
       uses: wzieba/Firebase-Distribution-Github-Action@v1.1.1
       with:
         appId: ${{secrets.FIREBASE_ANDROID_APP_ID}}
         token: ${{secrets.FIREBASE_TOKEN}}
         groups: all
         file: build/app/outputs/apk/release/app-release.apk
+
+    - name: Build iOS app
+      run: flutter build ios
+
+    - name: Deploy iOS app to Firebase App Distribution
+      uses: wzieba/Firebase-Distribution-Github-Action@v1.1.1
+      with:
+        appId: ${{secrets.FIREBASE_IOS_APP_ID}}
+        token: ${{secrets.FIREBASE_TOKEN}}
+        groups: all
+        file: build/ios/iphoneos/Runner.app
