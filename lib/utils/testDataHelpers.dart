@@ -25,7 +25,7 @@ class TestDataHelpers {
     if (fileContents == null) return;
 
     final parsed = json.decode(fileContents).cast<Map<String, dynamic>>();
-    parsed.forEach((json) => expensesProvider.add(Expense.fromJson(json)));
+    parsed.forEach((json) => expensesProvider.add(Expense.fromJsonMap(json)));
   }
 
   static void loadTestExpenses(ExpensesProvider expensesProvider) {

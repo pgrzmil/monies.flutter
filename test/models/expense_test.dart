@@ -7,7 +7,7 @@ void main() {
     test('Expense.toJson returns Map with String key', () {
       final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23), "cat_id", recurringExpenseId: "rec_expense_id");
 
-      final json = expense.toJson();
+      final json = expense.toJsonMap();
 
       expect(json, isNotNull);
       expect(json, isA<Map<String, dynamic>>());
@@ -31,7 +31,7 @@ void main() {
     test('Expense.fromJson returns Expense object', () {
       final json = {"id": "1", "title": "test_title", "location": "test_location", "amount": 123.45, "date": "2020-01-23T00:00:00.000", "categoryId": "cat_id", "recurringExpenseId": "rec_expense_id"};
 
-      final expense = Expense.fromJson(json);
+      final expense = Expense.fromJsonMap(json);
 
       expect(expense, isNotNull);
       expect(expense, isA<Expense>());

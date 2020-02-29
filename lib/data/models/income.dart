@@ -17,6 +17,8 @@ class Income implements BaseModel, WithAmount, WithDate {
   factory Income.empty() => Income.fromValues("", 0, DateTime.now());
 
   //JSON methods
+  static Income fromJsonMap(Map<String, dynamic> json) => _$IncomeFromJson(json);
+  Map<String, dynamic> toJsonMap() => _$IncomeToJson(this);
   static Income fromJsonString(String jsonString) => _$IncomeFromJson(json.decode(jsonString));
   String toJsonString() => json.encode(_$IncomeToJson(this));
 }

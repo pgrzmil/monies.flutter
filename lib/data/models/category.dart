@@ -22,6 +22,8 @@ class ExpenseCategory implements BaseModel {
   factory ExpenseCategory.empty() => ExpenseCategory.fromValues("", 0, null, null);
 
   //JSON methods
+  static ExpenseCategory fromJsonMap(Map<String, dynamic> json) => _$ExpenseCategoryFromJson(json);
+  Map<String, dynamic> toJsonMap() => _$ExpenseCategoryToJson(this);
   static ExpenseCategory fromJsonString(String jsonString) => _$ExpenseCategoryFromJson(json.decode(jsonString));
   String toJsonString() => json.encode(_$ExpenseCategoryToJson(this));
 }

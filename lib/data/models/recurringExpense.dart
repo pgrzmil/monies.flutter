@@ -20,6 +20,8 @@ class RecurringExpense extends Expense {
   factory RecurringExpense.empty() => RecurringExpense.fromValues("", "", 0, null, null, DateTime.now(), Frequency.monthly);
 
   //JSON methods
+  static RecurringExpense fromJsonMap(Map<String, dynamic> json) => _$RecurringExpenseFromJson(json);
+  Map<String, dynamic> toJsonMap() => _$RecurringExpenseToJson(this);
   static RecurringExpense fromJsonString(String jsonString) => _$RecurringExpenseFromJson(json.decode(jsonString));
   String toJsonString() => json.encode(_$RecurringExpenseToJson(this));
 }

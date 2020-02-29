@@ -21,8 +21,8 @@ class Expense implements BaseModel, WithAmount, WithDate {
   factory Expense.empty() => Expense.fromValues("", "", 0, DateTime.now(), null);
 
   //JSON methods
-  factory Expense.fromJson(Map<String, dynamic> json) => _$ExpenseFromJson(json);
-  Map<String, dynamic> toJson() => _$ExpenseToJson(this);
+  static Expense fromJsonMap(Map<String, dynamic> json) => _$ExpenseFromJson(json);
+  Map<String, dynamic> toJsonMap() => _$ExpenseToJson(this);
   static Expense fromJsonString(String jsonString) => _$ExpenseFromJson(json.decode(jsonString));
   String toJsonString() => json.encode(_$ExpenseToJson(this));
 }

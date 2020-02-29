@@ -3,4 +3,5 @@ abstract class BaseModel {
 
   BaseModel(this.id);
   String toJsonString();
+  Map<String, dynamic> toJsonMap();
 }
