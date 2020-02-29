@@ -1,5 +1,6 @@
 # monies
-![CI](https://github.com/pgrzmil/monies.flutter/workflows/CI/badge.svg?branch=master)
+![Build](https://github.com/pgrzmil/monies.flutter/workflows/Build/badge.svg)
+![Deploy](https://github.com/pgrzmil/monies.flutter/workflows/Deploy/badge.svg)
 
 Personal finance management app proudly developed with Flutter. 
 
