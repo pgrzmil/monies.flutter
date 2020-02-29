@@ -5,21 +5,22 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
-
     if: "contains(github.event.head_commit.message, '[deploy beta]')"
+
+    runs-on: ubuntu-latest
     
     steps:
     - name: Checkout
       uses: actions/checkout@v1
+
     - name: Setup Java
       uses: actions/setup-java@v1
       with:
         java-version: '12.x'
+
     - name: Setup Flutter
       uses: subosito/flutter-action@v1
       with:   
-        flutter-version: '1.12.x' 
         channel: 'dev'
 
     - name: Build
@@ -42,13 +43,13 @@ jobs:
         groups: all
         file: build/app/outputs/apk/release/app-release.apk
 
-    - name: Build iOS app
-      run: flutter build ios
+    # - name: Build iOS app
+    #   run: flutter build ios
 
-    - name: Deploy iOS app to Firebase App Distribution
-      uses: wzieba/Firebase-Distribution-Github-Action@v1.1.1
-      with:
-        appId: ${{secrets.FIREBASE_IOS_APP_ID}}
-        token: ${{secrets.FIREBASE_TOKEN}}
-        groups: all
-        file: build/ios/iphoneos/Runner.app
+    # - name: Deploy iOS app to Firebase App Distribution
+    #   uses: wzieba/Firebase-Distribution-Github-Action@v1.1.1
+    #   with:
+    #     appId: ${{secrets.FIREBASE_IOS_APP_ID}}
+    #     token: ${{secrets.FIREBASE_TOKEN}}
+    #     groups: all
+    #     file: build/ios/iphoneos/Runner.app
