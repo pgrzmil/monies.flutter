@@ -25,6 +25,10 @@ jobs:
     - run: flutter analyze
     - run: flutter test
     
+    - name: Deploy to Firebase
+      uses: w9jds/firebase-action@master
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     - uses: maierj/fastlane-action@v1.4.0
       with:
         lane: android_beta_app
