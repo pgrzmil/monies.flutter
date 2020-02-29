@@ -6,7 +6,7 @@ jobs:
   build:
 
     runs-on: macos-latest
-    
+
     if: "contains(github.event.head_commit.message, '[deploy beta]')"
     
     steps:
@@ -24,8 +24,7 @@ jobs:
       
     - run: flutter analyze
     - run: flutter test
-      
-    - run: flutter build apk     
+    
     - uses: maierj/fastlane-action@v1.4.0
       with:
         lane: android_beta_app
