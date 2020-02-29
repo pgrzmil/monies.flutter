@@ -44,6 +44,5 @@ TODO
 
 android/vendor/
 android/fastlane/report.xml
-ios/build/Runner.xcarchive
-report.xml
+ios/fastlane/report.xml
 ios/build
