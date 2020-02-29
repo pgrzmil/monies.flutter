@@ -2,7 +2,13 @@ import 'baseStorageProvider.dart';
 import 'models/category.dart';
 
 class CategoriesProvider extends BaseStorageProvider<ExpenseCategory> {
-  CategoriesProvider() : super(storeKey: "Categories", fromJsonString: ExpenseCategory.fromJsonString, fromJsonMap: ExpenseCategory.fromJsonMap);
+  CategoriesProvider({bool databaseStorageEnabled = true})
+      : super(
+          storeKey: "Categories",
+          fromJsonString: ExpenseCategory.fromJsonString,
+          fromJsonMap: ExpenseCategory.fromJsonMap,
+          databaseStorageEnabled: databaseStorageEnabled,
+        );
 
   @override
   List<ExpenseCategory> getAll() {

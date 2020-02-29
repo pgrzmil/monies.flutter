@@ -3,7 +3,13 @@ import 'extensions/withDate.dart';
 import 'baseStorageProvider.dart';
 
 class IncomesProvider extends BaseStorageProvider<Income> {
-  IncomesProvider() : super(storeKey: "Incomes", fromJsonString: Income.fromJsonString, fromJsonMap: Income.fromJsonMap);
+  IncomesProvider({bool databaseStorageEnabled = true})
+      : super(
+          storeKey: "Incomes",
+          fromJsonString: Income.fromJsonString,
+          fromJsonMap: Income.fromJsonMap,
+          databaseStorageEnabled: databaseStorageEnabled,
+        );
 
   @override
   List<Income> getAll() {

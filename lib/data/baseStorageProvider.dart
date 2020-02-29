@@ -9,7 +9,7 @@ typedef T ItemJsonMapSerializator<T>(Map<String, dynamic> jsonMap);
 abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   final List<T> items = [];
   final String storeKey;
-  bool _storeInDatabase = true;
+  bool _databaseStorageEnabled = true;
 
   ///Item's json deserializing method.
   ///
@@ -18,7 +18,8 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   final ItemJsonSerializator<T> fromJsonString;
   final ItemJsonMapSerializator<T> fromJsonMap;
 
-  BaseStorageProvider({this.fromJsonMap, this.storeKey, this.fromJsonString}) {
+  BaseStorageProvider({this.fromJsonMap, this.storeKey, this.fromJsonString, bool databaseStorageEnabled = true}) {
+    _databaseStorageEnabled = databaseStorageEnabled;
     load();
   }
 
@@ -36,7 +37,7 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   }
 
   void addToDatabase(T item) async {
-    if (_storeInDatabase) {
+    if (_databaseStorageEnabled) {
       await Firestore.instance.collection(storeKey).document(item.id).setData(item.toJsonMap());
     }
   }
@@ -51,7 +52,7 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   }
 
   void addAllToDatabase(Iterable<T> array) async {
-    if (_storeInDatabase) {
+    if (_databaseStorageEnabled) {
       for (var item in array) {
         await addToDatabase(item);
       }
@@ -68,7 +69,7 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   }
 
   void editInDatabase(T item) async {
-    if (_storeInDatabase) {
+    if (_databaseStorageEnabled) {
       await Firestore.instance.collection(storeKey).document(item.id).updateData(item.toJsonMap());
     }
   }
@@ -83,7 +84,7 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   }
 
   void removeFromDatabase(T item) async {
-    if (_storeInDatabase) {
+    if (_databaseStorageEnabled) {
       await Firestore.instance.collection(storeKey).document(item.id).delete();
     }
   }
@@ -96,10 +97,6 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
 
   bool _contains(T item) => items.any((e) => e.id == item.id);
   bool _isNotNull(Object item) => item != null;
-
-  void disableDatabaseStorage() {
-    _storeInDatabase = false;
-  }
 
 // Persistence methods
   load() async {
@@ -121,8 +118,10 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   }
 
   void loadFromDatabase() async {
-    final snapshot = await Firestore.instance.collection(storeKey).getDocuments();
-    items.addAll(snapshot.documents.map((item) => fromJsonMap(item.data)));
+    if (_databaseStorageEnabled) {
+      final snapshot = await Firestore.instance.collection(storeKey).getDocuments();
+      items.addAll(snapshot.documents.map((item) => fromJsonMap(item.data)));
+    }
   }
 
   Future<bool> persist() async {

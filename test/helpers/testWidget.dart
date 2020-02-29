@@ -19,8 +19,8 @@ class _TestWidgetState extends State<TestWidget> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => widget.expensesProvider ?? ExpensesProvider()),
-        ChangeNotifierProvider(create: (context) => widget.categoriesProvider ?? CategoriesProvider()),
+        ChangeNotifierProvider(create: (context) => widget.expensesProvider ?? ExpensesProvider(databaseStorageEnabled: false)),
+        ChangeNotifierProvider(create: (context) => widget.categoriesProvider ?? CategoriesProvider(databaseStorageEnabled: false)),
       ],
       child: MaterialApp(
         home: Scaffold(body: widget.child),

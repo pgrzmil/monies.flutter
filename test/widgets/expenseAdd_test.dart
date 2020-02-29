@@ -13,8 +13,8 @@ void main() {
 
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
-    expensesProvider = ExpensesProvider();
-    categoriesProvider = CategoriesProvider();
+    expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
+    categoriesProvider = CategoriesProvider(databaseStorageEnabled: false);
     TestDataHelpers.loadTestCategories(categoriesProvider);
   });
 

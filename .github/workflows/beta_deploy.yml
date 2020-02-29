@@ -36,6 +36,7 @@ jobs:
       run: flutter test
 
     - name: Deploy Android app to Firebase App Distribution
+      if: success() || failure() 
       uses: wzieba/Firebase-Distribution-Github-Action@v1.1.1
       with:
         appId: ${{secrets.FIREBASE_ANDROID_APP_ID}}

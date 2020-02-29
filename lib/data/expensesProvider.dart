@@ -11,7 +11,13 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
   ///Collection of values indicating for what month recurring expenses has been already generated
   List<String> _recurringExpensesGeneratingMap;
 
-  ExpensesProvider() : super(storeKey: "Expenses", fromJsonString: Expense.fromJsonString, fromJsonMap: Expense.fromJsonMap);
+  ExpensesProvider({bool databaseStorageEnabled = true})
+      : super(
+          storeKey: "Expenses",
+          fromJsonString: Expense.fromJsonString,
+          fromJsonMap: Expense.fromJsonMap,
+          databaseStorageEnabled: databaseStorageEnabled,
+        );
 
   set recurringExpensesProvider(RecurringExpensesProvider recurringExpensesProvider) {
     _recurringExpensesProvider = recurringExpensesProvider;

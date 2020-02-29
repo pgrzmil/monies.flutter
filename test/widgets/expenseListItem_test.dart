@@ -12,7 +12,7 @@ void main() {
 
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
-    categoriesProvider = CategoriesProvider();
+    categoriesProvider = CategoriesProvider(databaseStorageEnabled: false);
     TestDataHelpers.loadTestCategories(categoriesProvider);
   });
 

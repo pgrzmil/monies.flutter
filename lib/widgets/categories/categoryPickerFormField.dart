@@ -35,7 +35,7 @@ class _CategoryPickerFormFieldState extends State<CategoryPickerFormField> {
           setState(() => pickedCategory = newValue);
         },
         items: provider.getAll().map<DropdownMenuItem<ExpenseCategory>>((ExpenseCategory value) {
-          return DropdownMenuItem<ExpenseCategory>(value: value, child: Text(value.title));
+          return DropdownMenuItem<ExpenseCategory>(value: value, child: Text(value.title), key: Key(value.id));
         }).toList(),
         onSaved: (value) {
           if (pickedCategory != null && widget.onCategoryPicked != null) {

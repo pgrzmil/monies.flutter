@@ -19,7 +19,7 @@ void main() {
     test('Adds new expense', () async {
       var callbackFired = false;
       final expense = Expense.fromValues("test title", "test location", 123.45, DateTime(2020, 1, 23), "cat_id");
-      final expensesProvider = ExpensesProvider();
+      final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       expensesProvider.addListener(() => callbackFired = true);
 
       expect((await expensesProvider.getAll()).length, equals(0));
@@ -45,7 +45,7 @@ void main() {
 
     test('Prevents adding existing expense', () async {
       final expense = Expense.fromValues("test title", "test location", 123.45, DateTime(2020, 1, 23), "cat_id");
-      final expensesProvider = ExpensesProvider();
+      final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       await expensesProvider.add(expense);
       expensesProvider.addListener(() => fail("Expense should not be added and change notification should not be called"));
 
@@ -69,7 +69,7 @@ void main() {
     });
 
     test('Prevents adding null', () async {
-      final expensesProvider = ExpensesProvider();
+      final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       expensesProvider.addListener(() => fail("Expense should not be added and change notification should not be called"));
 
       expect((await expensesProvider.getAll()).length, equals(0));
@@ -85,7 +85,7 @@ void main() {
   group('Editing expense', () {
     test('Edits existing expense', () async {
       var callbackFired = false;
-      final expensesProvider = ExpensesProvider();
+      final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       var expense = await TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => callbackFired = true);
 
@@ -117,7 +117,7 @@ void main() {
     });
 
     test('Prevents editing not added expense', () async {
-      final expensesProvider = ExpensesProvider();
+      final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       await TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Expense should not be edited and change notification should not be called"));
 
@@ -149,7 +149,7 @@ void main() {
     });
 
     test('Prevents editing null', () async {
-      final expensesProvider = ExpensesProvider();
+      final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       await TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Expense should not be edited and change notification should not be called"));
 
@@ -166,7 +166,7 @@ void main() {
   group('Removing expense', () {
     test('Removes existing expense', () async {
       var callbackFired = false;
-      final expensesProvider = ExpensesProvider();
+      final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       var expense = await TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => callbackFired = true);
 
@@ -182,7 +182,7 @@ void main() {
     });
 
     test('Prevents removing not added expense', () async {
-      final expensesProvider = ExpensesProvider();
+      final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       await TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Expense should not be removed and change notification should not be called"));
 
@@ -202,7 +202,7 @@ void main() {
     });
 
     test('Prevents removing null', () async {
-      final expensesProvider = ExpensesProvider();
+      final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       await TestDataHelpers.addRandomExpense(expensesProvider);
       expensesProvider.addListener(() => fail("Expense should not be removed and change notification should not be called"));
 
@@ -218,7 +218,7 @@ void main() {
 
   group('Getting expenses', () {
     test('Gets all expenses', () async {
-      final expensesProvider = ExpensesProvider();
+      final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       final expense = Expense.fromValues("test title", "test location", 123.45, DateTime(2020, 1, 23), "cat_id");
       await expensesProvider.add(expense);
       await TestDataHelpers.addRandomExpense(expensesProvider);
@@ -239,7 +239,7 @@ void main() {
     });
 
     test('Gets empty list when there is no expenses added', () {
-      final expensesProvider = ExpensesProvider();
+      final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       expensesProvider.addListener(() => fail("Change notification should not be called on retrieving items"));
 
       final allExpenses = expensesProvider.getAll();
@@ -248,7 +248,7 @@ void main() {
     });
 
     test('Gets expenses by id', () async {
-      final expensesProvider = ExpensesProvider();
+      final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       final expense = Expense("id123", "test title", "test location", 123.45, DateTime(2020, 1, 23), "cat_id");
       await expensesProvider.add(expense);
       await TestDataHelpers.addRandomExpense(expensesProvider);
@@ -267,7 +267,7 @@ void main() {
     });
 
     test('Returns null when there is no expense with passed id', () async {
-      final expensesProvider = ExpensesProvider();
+      final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       final expense = Expense("id123", "test title", "test location", 123.45, DateTime(2020, 1, 23), "cat_id");
       await expensesProvider.add(expense);
       await TestDataHelpers.addRandomExpense(expensesProvider);
@@ -279,7 +279,7 @@ void main() {
     });
 
     test('Returns null when passing null id', () async {
-      final expensesProvider = ExpensesProvider();
+      final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       final expense = Expense("id123", "test title", "test location", 123.45, DateTime(2020, 1, 23), "cat_id");
       await expensesProvider.add(expense);
       await TestDataHelpers.addRandomExpense(expensesProvider);

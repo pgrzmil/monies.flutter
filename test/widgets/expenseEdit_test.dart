@@ -13,8 +13,8 @@ void main() {
 
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
-    expensesProvider = ExpensesProvider();
-    categoriesProvider = CategoriesProvider();
+    expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
+    categoriesProvider = CategoriesProvider(databaseStorageEnabled: false);
     TestDataHelpers.loadTestCategories(categoriesProvider);
     TestDataHelpers.loadTestExpenses(expensesProvider);
   });
@@ -43,7 +43,7 @@ void main() {
 
     final confirmButton = find.byKey(Key("confirm_dialog_button_ok"));
     expect(confirmButton, findsOneWidget);
-    
+
     await tester.tap(confirmButton);
     await tester.pumpAndSettle();
 
@@ -53,7 +53,11 @@ void main() {
   testWidgets('Edits expense', (WidgetTester tester) async {
     final expense = expensesProvider.getAll().first;
 
-    await tester.pumpWidget(TestWidget(child: ExpenseEditView(expense: expense), expensesProvider: expensesProvider));
+    await tester.pumpWidget(TestWidget(
+      child: ExpenseEditView(expense: expense),
+      expensesProvider: expensesProvider,
+      categoriesProvider: categoriesProvider,
+    ));
 
     final titleTextField = find.byWidgetPredicate((widget) => widget is TextFormField && widget.key == Key("titleField"));
     expect(titleTextField, findsOneWidget);

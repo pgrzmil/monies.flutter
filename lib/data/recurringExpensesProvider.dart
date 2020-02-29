@@ -4,8 +4,13 @@ import 'baseStorageProvider.dart';
 import 'models/expense.dart';
 
 class RecurringExpensesProvider extends BaseStorageProvider<RecurringExpense> {
-  RecurringExpensesProvider()
-      : super(storeKey: "RecurringExpenses", fromJsonString: RecurringExpense.fromJsonString, fromJsonMap: RecurringExpense.fromJsonMap);
+  RecurringExpensesProvider({bool databaseStorageEnabled = true})
+      : super(
+          storeKey: "RecurringExpenses",
+          fromJsonString: RecurringExpense.fromJsonString,
+          fromJsonMap: RecurringExpense.fromJsonMap,
+          databaseStorageEnabled: databaseStorageEnabled,
+        );
 
   @override
   List<RecurringExpense> getAll() {
