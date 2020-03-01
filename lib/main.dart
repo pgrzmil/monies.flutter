@@ -3,7 +3,8 @@ import 'package:monies/data/analyticsProvider.dart';
 import 'package:monies/data/dashboardProvider.dart';
 import 'package:monies/data/incomesProvider.dart';
 import 'package:monies/data/recurringExpensesProvider.dart';
-import 'package:monies/widgets/dashboard.dart';
+import 'package:monies/utils/navigation.dart';
+import 'package:monies/widgets/signIn.dart';
 import 'package:provider/provider.dart';
 import 'data/categoriesProvider.dart';
 import 'data/expensesProvider.dart';
@@ -15,6 +16,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider(create: (context) => SignInService()),
         ChangeNotifierProvider(create: (context) => IncomesProvider()),
         ChangeNotifierProvider(create: (context) => CategoriesProvider()),
         ChangeNotifierProvider(create: (context) => RecurringExpensesProvider()),
@@ -47,7 +49,8 @@ class App extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.lime,
         ),
-        home: Dashboard(),
+        routes: Routes.navigationRoutes,
+        initialRoute: Routes.dashboard,
       ),
     );
   }

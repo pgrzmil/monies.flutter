@@ -21,23 +21,20 @@ class DashboardProvider extends ChangeNotifier {
 
   DateTime get currentDate => _currentDate;
 
-  double get expensesSum {
-    return _expensesProvider.getForMonth(_currentDate.month, _currentDate.year).sum();
-  }
+  double get expensesSum => _expensesProvider.getForMonth(_currentDate.month, _currentDate.year).sum();
+  String get expensesSumText => Format.money(expensesSum);
 
-  double get incomesSum {
-    return _incomesProvider.getForMonth(_currentDate.month, _currentDate.year).sum();
-  }
+  double get incomesSum => _incomesProvider.getForMonth(_currentDate.month, _currentDate.year).sum();
+  String get incomesSumText => Format.money(incomesSum);
 
-  double get balance {
-    return incomesSum - expensesSum;
-  }
+  double get balance => incomesSum - expensesSum;
+  String get balanceText => Format.money(balance);
 
   List<Series<CategoryWithSum, String>> get categoriesChartDate {
     return _analyticsProvider.categoriesChartData;
   }
 
-  bool get categoriesChartAnimated{
+  bool get categoriesChartAnimated {
     return categoriesChartDate.first.id != "EmptyChart";
   }
 

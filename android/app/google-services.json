@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "95816973391-lp133862b86c4uqfk7d6hbntmarujmv1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pgrzmil.moniesapp",
+            "certificate_hash": "f7287492751031453be9e21c6f649f507269a60c"
+          }
+        },
+        {
           "client_id": "95816973391-ds57bjj0vnf8f6mvolfpnrd2emfjas5j.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -32,10 +40,10 @@
               "client_type": 3
             },
             {
-              "client_id": "95816973391-qodfq0gjg5ufpp1mjrknusq0e9r2hok8.apps.googleusercontent.com",
+              "client_id": "95816973391-sftdliv5j8eh7tg2t0q0of902vaboif0.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.pgrzmil.moniesapp"
+                "bundle_id": "com.pgrzmil.moniesfl"
               }
             }
           ]
