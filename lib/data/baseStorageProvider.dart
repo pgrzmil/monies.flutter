@@ -113,7 +113,6 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
         items.addAll(deserializedItems.where((item) => !_contains(item)));
         notifyListeners();
       }
-      notifyListeners();
     }
   }
 

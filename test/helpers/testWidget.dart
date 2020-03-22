@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/expensesProvider.dart';
+import 'package:monies/services/signInService.dart';
 import 'package:provider/provider.dart';
 
 class TestWidget extends StatefulWidget {
@@ -19,6 +20,7 @@ class _TestWidgetState extends State<TestWidget> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider(create: (context) => SignInService()),
         ChangeNotifierProvider(create: (context) => widget.expensesProvider ?? ExpensesProvider(databaseStorageEnabled: false)),
         ChangeNotifierProvider(create: (context) => widget.categoriesProvider ?? CategoriesProvider(databaseStorageEnabled: false)),
       ],
