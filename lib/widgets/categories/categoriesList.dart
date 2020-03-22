@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/models/category.dart';
+import 'package:monies/services/signInService.dart';
 import 'package:monies/widgets/categories/categoryForm.dart';
 import 'package:monies/widgets/controls/dialogs.dart';
 import 'package:monies/widgets/controls/formSheetContent.dart';
@@ -13,10 +14,11 @@ class CategoriesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CategoriesProvider>(
       builder: (context, categoriesProvider, child) {
+        final userId = Provider.of<SignInService>(context, listen: false).userId;
         return ItemsList<ExpenseCategory>(
           items: categoriesProvider.getAll(),
           title: "Categories",
-          onAdd: () => _showEditSheet(context, ExpenseCategory.empty(), onSave: (category) => categoriesProvider.add(category)),
+          onAdd: () => _showEditSheet(context, ExpenseCategory.empty(userId), onSave: (category) => categoriesProvider.add(category)),
           onEdit: (category) => _showEditSheet(context, category, onSave: (category) => categoriesProvider.edit(category)),
           onCellTap: (category) => _showEditSheet(context, category, onSave: (category) => categoriesProvider.edit(category)),
           onRemove: (category) async {

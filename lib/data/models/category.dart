@@ -5,6 +5,7 @@ part 'category.g.dart';
 @JsonSerializable()
 class ExpenseCategory implements BaseModel {
   final String id;
+  final String userId;
   String title;
   int order;
   int colorCode;
@@ -16,10 +17,10 @@ class ExpenseCategory implements BaseModel {
   IconData get icon => IconData(iconCode ?? defaultIcon.codePoint, fontFamily: 'MaterialIcons');
   Color get color => Color(colorCode ?? defaultColor.value);
 
-  ExpenseCategory(this.id, this.title, this.order, this.colorCode, this.iconCode);
-  ExpenseCategory.fromValues(this.title, this.order, this.colorCode, this.iconCode) : id = Uuid().v4();
+  ExpenseCategory(this.id, this.title, this.order, this.colorCode, this.iconCode, this.userId);
+  ExpenseCategory.fromValues(this.title, this.order, this.colorCode, this.iconCode, this.userId) : id = Uuid().v4();
 
-  factory ExpenseCategory.empty() => ExpenseCategory.fromValues("", 0, null, null);
+  factory ExpenseCategory.empty(String userId) => ExpenseCategory.fromValues("", 0, null, null, userId);
 
   //JSON methods
   static ExpenseCategory fromJsonMap(Map<String, dynamic> json) => _$ExpenseCategoryFromJson(json);

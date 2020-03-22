@@ -4,6 +4,7 @@ part 'expense.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Expense implements BaseModel, WithAmount, WithDate {
   final String id;
+  final String userId;
   String title;
   String location;
   double amount;
@@ -15,10 +16,10 @@ class Expense implements BaseModel, WithAmount, WithDate {
   String get dateString => Format.date(date);
   String get displayTitle => location.isNotEmpty ? title + " - " + location : title;
 
-  Expense(this.id, this.title, this.location, this.amount, this.date, this.categoryId, {this.recurringExpenseId});
-  Expense.fromValues(this.title, this.location, this.amount, this.date, this.categoryId, {this.recurringExpenseId}) : id = Uuid().v4();
+  Expense(this.id, this.title, this.location, this.amount, this.date, this.categoryId, this.userId, {this.recurringExpenseId});
+  Expense.fromValues(this.title, this.location, this.amount, this.date, this.categoryId, this.userId, {this.recurringExpenseId}) : id = Uuid().v4();
 
-  factory Expense.empty() => Expense.fromValues("", "", 0, DateTime.now(), null);
+  factory Expense.empty(String userId) => Expense.fromValues("", "", 0, DateTime.now(), null, userId);
 
   //JSON methods
   static Expense fromJsonMap(Map<String, dynamic> json) => _$ExpenseFromJson(json);

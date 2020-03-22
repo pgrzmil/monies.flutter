@@ -4,6 +4,7 @@ part 'income.g.dart';
 @JsonSerializable()
 class Income implements BaseModel, WithAmount, WithDate {
   final String id;
+  final String userId;
   String title;
   double amount;
   DateTime date;
@@ -11,10 +12,10 @@ class Income implements BaseModel, WithAmount, WithDate {
   String get amountString => Format.money(amount);
   String get dateString => Format.date(date);
 
-  Income(this.id, this.title, this.amount, this.date);
-  Income.fromValues(this.title, this.amount, this.date) : id = Uuid().v4();
+  Income(this.id, this.title, this.amount, this.date, this.userId);
+  Income.fromValues(this.title, this.amount, this.date, this.userId) : id = Uuid().v4();
 
-  factory Income.empty() => Income.fromValues("", 0, DateTime.now());
+  factory Income.empty(String userId) => Income.fromValues("", 0, DateTime.now(), userId);
 
   //JSON methods
   static Income fromJsonMap(Map<String, dynamic> json) => _$IncomeFromJson(json);

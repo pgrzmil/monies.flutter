@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:monies/data/expensesProvider.dart';
 import 'package:monies/data/models/expense.dart';
+import 'package:monies/services/signInService.dart';
 import 'package:provider/provider.dart';
 import 'expenseForm.dart';
 
@@ -10,14 +11,16 @@ class ExpenseAddView extends StatefulWidget {
 }
 
 class _ExpenseAddViewState extends State<ExpenseAddView> {
-  final Expense expense = Expense.empty();
   final GlobalKey<FormState> formKey;
 
   _ExpenseAddViewState({this.formKey});
 
   @override
   Widget build(BuildContext context) {
+    final userId = Provider.of<SignInService>(context, listen: false).userId;
+    final Expense expense = Expense.empty(userId);
     final expenseForm = ExpenseForm(expense, formKey);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Add expense"),

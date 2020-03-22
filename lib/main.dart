@@ -4,7 +4,7 @@ import 'package:monies/data/dashboardProvider.dart';
 import 'package:monies/data/incomesProvider.dart';
 import 'package:monies/data/recurringExpensesProvider.dart';
 import 'package:monies/utils/navigation.dart';
-import 'package:monies/widgets/signIn.dart';
+import 'package:monies/services/signInService.dart';
 import 'package:provider/provider.dart';
 import 'data/categoriesProvider.dart';
 import 'data/expensesProvider.dart';
@@ -50,7 +50,7 @@ class App extends StatelessWidget {
           primarySwatch: Colors.lime,
         ),
         routes: Routes.navigationRoutes,
-        initialRoute: Routes.dashboard,
+        initialRoute: Routes.dashboardLogin,
       ),
     );
   }

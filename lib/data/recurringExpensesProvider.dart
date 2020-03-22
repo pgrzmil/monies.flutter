@@ -18,7 +18,7 @@ class RecurringExpensesProvider extends BaseStorageProvider<RecurringExpense> {
   }
 
   ///Returns expenses for given `month` and `year` crated from recurring expenses
-  Iterable<Expense> expensesFor(int month, int year) {
+  Iterable<Expense> expensesFor(int month, int year, String userId) {
     final endOfTheMonth = Jiffy(DateTime(year, month)).endOf("M");
 
     return getAll().where((item) => item.startDate.isBefore(endOfTheMonth)).map((item) {
@@ -30,6 +30,7 @@ class RecurringExpensesProvider extends BaseStorageProvider<RecurringExpense> {
         item.amount,
         DateTime(year, month, day),
         item.categoryId,
+        userId,
         recurringExpenseId: item.id,
       );
     });

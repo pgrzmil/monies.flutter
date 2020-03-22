@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:monies/data/categoriesProvider.dart';
 import 'package:monies/data/expensesProvider.dart';
 import 'package:monies/data/models/expense.dart';
+import 'package:monies/services/signInService.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/controls/dialogs.dart';
 import 'package:monies/widgets/controls/emptyState.dart';
@@ -39,8 +40,10 @@ class _ExpensesListState extends State<ExpensesList> {
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback(
-        (_) => Provider.of<ExpensesProvider>(context, listen: false).updateWithRecurring(widget.selectedDate.month, widget.selectedDate.year));
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      final userId = Provider.of<SignInService>(context, listen: false).userId;
+      Provider.of<ExpensesProvider>(context, listen: false).updateWithRecurring(widget.selectedDate.month, widget.selectedDate.year, userId);
+    });
   }
 
   @override
@@ -90,7 +93,8 @@ class _ExpensesListState extends State<ExpensesList> {
         Navigator.push(context, MaterialPageRoute(builder: (context) => RecurringExpensesList()));
         break;
       case _MenuItems.resetRecurring:
-        expensesProvider.refreshRecurring(widget.selectedDate.month, widget.selectedDate.year);
+        final userId = Provider.of<SignInService>(context, listen: false).userId;
+        expensesProvider.refreshRecurring(widget.selectedDate.month, widget.selectedDate.year, userId);
         break;
       default:
     }

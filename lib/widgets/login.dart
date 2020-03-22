@@ -1,8 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:monies/widgets/signIn.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:monies/services/signInService.dart';
+import 'package:monies/utils/navigation.dart';
 import 'package:provider/provider.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      final isLoggedIn = await Provider.of<SignInService>(context, listen: false).isLoggedIn;
+      if (isLoggedIn) {
+        await popLogin(context);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,9 +44,10 @@ class LoginPage extends StatelessWidget {
   Widget _signInButton(BuildContext context) {
     return OutlineButton(
       splashColor: Colors.grey,
-      onPressed: () {
-        final signInService = Provider.of<SignInService>(context, listen: false);
-        signInService.signInWithGoogle().whenComplete(() => Navigator.pop(context));
+      onPressed: () async {
+        await Provider.of<SignInService>(context, listen: false).signIn();
+        // Navigator.pop(context);
+        await popLogin(context);
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,

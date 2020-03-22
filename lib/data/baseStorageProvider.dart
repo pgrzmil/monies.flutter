@@ -119,8 +119,12 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
 
   void loadFromDatabase() async {
     if (_databaseStorageEnabled) {
-      final snapshot = await Firestore.instance.collection(storeKey).getDocuments();
-      items.addAll(snapshot.documents.map((item) => fromJsonMap(item.data)));
+      try {
+        final preferences = await SharedPreferences.getInstance();
+        final userId = preferences.getString("userId");
+        final snapshot = await Firestore.instance.collection(storeKey).where("userId", isEqualTo: userId).getDocuments();
+        items.addAll(snapshot.documents.map((item) => fromJsonMap(item.data)));
+      } catch (e) {}
     }
   }
 

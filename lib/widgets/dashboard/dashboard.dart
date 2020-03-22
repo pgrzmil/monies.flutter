@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:monies/data/dashboardProvider.dart';
 import 'package:monies/widgets/controls/swipeable.dart';
 import 'package:monies/widgets/dashboard/balanceCard.dart';
@@ -8,33 +7,26 @@ import 'package:monies/widgets/dashboard/expensesCard.dart';
 import 'package:monies/widgets/incomes/incomesList.dart';
 import 'package:monies/widgets/settings.dart';
 import 'package:monies/utils/navigation.dart';
-import 'package:monies/widgets/signIn.dart';
+import 'package:monies/services/signInService.dart';
 import 'package:provider/provider.dart';
 
 import '../analytics/analyticsDashboard.dart';
 import '../expenses/expensesList.dart';
 import 'analyticsCard.dart';
 
-class Dashboard extends StatefulWidget {
-  @override
-  _DashboardState createState() => _DashboardState();
-}
+class Dashboard extends StatelessWidget {
 
-class _DashboardState extends State<Dashboard> {
-  @override
-  void initState() {
-    super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
+  Future checkIfLoggedIn(BuildContext context) async {
       final service = Provider.of<SignInService>(context, listen: false);
-      final isLoggedIn = await service.isLoggedIn();
+      final isLoggedIn = await service.isLoggedIn;
       if(!isLoggedIn){
         await Navigator.pushNamed(context, Routes.login);
       }
-    });
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
+    //checkIfLoggedIn(context);
     return Consumer<DashboardProvider>(builder: (context, dashboardProvider, _) {
       return Scaffold(
         appBar: AppBar(

@@ -13,9 +13,9 @@ import 'package:monies/data/models/recurringExpense.dart';
 import 'package:monies/data/recurringExpensesProvider.dart';
 
 class TestDataHelpers {
-  static Future<Expense> addRandomExpense(ExpensesProvider expensesProvider) async {
+  static Future<Expense> addRandomExpense(ExpensesProvider expensesProvider, userId) async {
     final random = Random();
-    final expense = Expense.fromValues("title ${random.nextInt(123)}", "location", random.nextInt(20000) / 100, DateTime.now(), "");
+    final expense = Expense.fromValues("title ${random.nextInt(123)}", "location", random.nextInt(20000) / 100, DateTime.now(), "", userId);
     await expensesProvider.add(expense);
     return expense;
   }
@@ -28,29 +28,31 @@ class TestDataHelpers {
     parsed.forEach((json) => expensesProvider.add(Expense.fromJsonMap(json)));
   }
 
-  static void loadTestExpenses(ExpensesProvider expensesProvider) {
-    expensesProvider.add(Expense("1", "Zakupy tygodniowe", "Lidl", 136.65, DateTime(2019, 12, 19), "cat0"));
-    expensesProvider.add(Expense("2", "Mycie samochodu", "Myjnia felicity", 9.00, DateTime(2019, 12, 9), "cat2"));
-    expensesProvider.add(Expense("3", "Paliwo", "Orlen", 249.78, DateTime(2019, 12, 6), "cat2"));
-    expensesProvider.add(Expense("4", "Spodnie, koszulka", "Medicine", 149.98, DateTime(2019, 12, 15), "cat4"));
-    expensesProvider.add(Expense("5", "Rachunek za prąd", "PGE", 173.42, DateTime(2019, 12, 2), "cat1"));
+  static void loadTestExpenses(ExpensesProvider expensesProvider, String userId) {
+    expensesProvider.add(Expense("1", "Zakupy tygodniowe", "Lidl", 136.65, DateTime(2019, 12, 19), "cat0", userId));
+    expensesProvider.add(Expense("2", "Mycie samochodu", "Myjnia felicity", 9.00, DateTime(2019, 12, 9), "cat2", userId));
+    expensesProvider.add(Expense("3", "Paliwo", "Orlen", 249.78, DateTime(2019, 12, 6), "cat2", userId));
+    expensesProvider.add(Expense("4", "Spodnie, koszulka", "Medicine", 149.98, DateTime(2019, 12, 15), "cat4", userId));
+    expensesProvider.add(Expense("5", "Rachunek za prąd", "PGE", 173.42, DateTime(2019, 12, 2), "cat1", userId));
   }
 
-  static void loadTestCategories(CategoriesProvider categoriesProvider) {
-    categoriesProvider.add(ExpenseCategory("cat1", "Rachunki", 4, Colors.grey[500].value, Icons.event.codePoint));
-    categoriesProvider.add(ExpenseCategory("cat2", "Transport i paliwo", 2, Colors.green[500].value, Icons.train.codePoint));
-    categoriesProvider.add(ExpenseCategory("cat0", "Wydatki codzienne", 0, Colors.red[500].value, Icons.shopping_basket.codePoint));
-    categoriesProvider.add(ExpenseCategory("cat4", "Odziez i dodatki", 3, Colors.blue[500].value, Icons.spa.codePoint));
+  static void loadTestCategories(CategoriesProvider categoriesProvider, String userId) {
+    categoriesProvider.add(ExpenseCategory("cat1", "Rachunki", 4, Colors.grey[500].value, Icons.event.codePoint, userId));
+    categoriesProvider.add(ExpenseCategory("cat2", "Transport i paliwo", 2, Colors.green[500].value, Icons.train.codePoint, userId));
+    categoriesProvider.add(ExpenseCategory("cat0", "Wydatki codzienne", 0, Colors.red[500].value, Icons.shopping_basket.codePoint, userId));
+    categoriesProvider.add(ExpenseCategory("cat4", "Odziez i dodatki", 3, Colors.blue[500].value, Icons.spa.codePoint, userId));
   }
 
-  static void loadIncomes(IncomesProvider incomesProvider, {DateTime forMonth}) {
-    incomesProvider.add(Income("inc1", "Pensja", 4550, forMonth));
-    incomesProvider.add(Income("inc2", "Zwrot wydatków", 380, forMonth));
+  static void loadIncomes(IncomesProvider incomesProvider, String userId, {DateTime forMonth}) {
+    incomesProvider.add(Income("inc1", "Pensja", 4550, forMonth, userId));
+    incomesProvider.add(Income("inc2", "Zwrot wydatków", 380, forMonth, userId));
   }
 
-  static void loadTestRecurringExpenses(RecurringExpensesProvider expensesProvider) {
-    expensesProvider.add(RecurringExpense("rec1", "Rachunek za internet", "UPC", 48.0, null, "cat0", DateTime(2019, 12, 9), Frequency.monthly));
-    expensesProvider.add(RecurringExpense("rec2", "HBO GO", "", 19.99, null, "cat2", DateTime(2019, 12, 18), Frequency.monthly));
-    expensesProvider.add(RecurringExpense("rec3", "Rachunek za telefon", "Orange", 38.0, null, "cat2", DateTime(2019, 12, 7), Frequency.monthly));
+  static void loadTestRecurringExpenses(RecurringExpensesProvider expensesProvider, String userId) {
+    expensesProvider
+        .add(RecurringExpense("rec1", "Rachunek za internet", "UPC", 48.0, null, "cat0", DateTime(2019, 12, 9), Frequency.monthly, userId));
+    expensesProvider.add(RecurringExpense("rec2", "HBO GO", "", 19.99, null, "cat2", DateTime(2019, 12, 18), Frequency.monthly, userId));
+    expensesProvider
+        .add(RecurringExpense("rec3", "Rachunek za telefon", "Orange", 38.0, null, "cat2", DateTime(2019, 12, 7), Frequency.monthly, userId));
   }
 }

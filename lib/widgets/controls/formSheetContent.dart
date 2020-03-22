@@ -11,7 +11,7 @@ class FormSheetContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-        return Padding(
+        return Container(
           padding: EdgeInsets.all(10),
           child: Wrap(
             children: [

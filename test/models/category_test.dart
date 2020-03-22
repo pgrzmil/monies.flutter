@@ -5,7 +5,7 @@ import 'package:monies/data/models/category.dart';
 void main() {
   group('JSON parsing', () {
     test('toJsonString returns valid json string', () {
-      final category = ExpenseCategory("1", "test_title", 3, Colors.black.value, Icons.battery_alert.codePoint);
+      final category = ExpenseCategory("1", "test_title", 3, Colors.black.value, Icons.battery_alert.codePoint, "userId123");
 
       final jsonString = category.toJsonString();
 

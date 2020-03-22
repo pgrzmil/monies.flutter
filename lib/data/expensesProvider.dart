@@ -45,11 +45,11 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
 //------- Recurring expenses handling ----------------
 
   ///Adds to expenses list recurring expenses instances for given `month` and `year`.
-  updateWithRecurring(int month, int year) {
+  updateWithRecurring(int month, int year, String userId) {
     if (_recurringExpensesProvider == null || _recurringExpensesGeneratingMap.contains(_recurringId(month, year))) return;
 
     var expenses = getAll().filterByDate(month, year);
-    var rExpenses = _recurringExpensesProvider.expensesFor(month, year);
+    var rExpenses = _recurringExpensesProvider.expensesFor(month, year, userId);
     addAll(rExpenses.where((ex) => !expenses.any((item) => ex.recurringExpenseId == item.recurringExpenseId)));
     _setRecurringAdded(month, year);
   }
@@ -62,12 +62,12 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
   }
 
   ///Restores all recurring expenses instances for given `month` and `year` in case they were removed.
-  refreshRecurring(int month, int year) {
+  refreshRecurring(int month, int year, String userId) {
     if (_recurringExpensesProvider == null) return;
 
     _recurringExpensesGeneratingMap.remove(_recurringId(month, year));
     items.removeWhere((expense) => expense.date.month == month && expense.date.year == year && expense.recurringExpenseId != null);
-    updateWithRecurring(month, year);
+    updateWithRecurring(month, year, userId);
   }
 
 //------- Persistence ----------------

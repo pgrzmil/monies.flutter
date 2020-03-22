@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:monies/data/incomesProvider.dart';
 import 'package:monies/data/models/income.dart';
+import 'package:monies/services/signInService.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/controls/dialogs.dart';
 import 'package:monies/widgets/controls/emptyState.dart';
@@ -22,13 +23,14 @@ class IncomesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<IncomesProvider>(
       builder: (context, incomesProvider, child) {
+        final userId = Provider.of<SignInService>(context, listen: false).userId;
         final incomes = incomesProvider.getForMonth(selectedDate.month, selectedDate.year).toList();
         return ItemsList<Income>(
           items: incomes,
           title: "Incomes (${Format.monthAndYear(selectedDate)})",
           header: SumHeader(sumText: incomes.sumText()),
           emptyState: EmptyState(text: "Empty!\nStart adding incomes.", key: Key("incomesList_empty_state")),
-          onAdd: () => _showEditSheet(context, Income.empty(), onSave: (income) => incomesProvider.add(income)),
+          onAdd: () => _showEditSheet(context, Income.empty(userId), onSave: (income) => incomesProvider.add(income)),
           onEdit: (income) => _showEditSheet(context, income, onSave: (income) => incomesProvider.edit(income)),
           onCellTap: (income) => _showEditSheet(context, income, onSave: (income) => incomesProvider.edit(income)),
           onRemove: (income) async {
