@@ -18,7 +18,7 @@ void main() {
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
-    TestDataHelpers.loadTestExpenses(expensesProvider);
+    TestDataHelpers.loadTestExpenses(expensesProvider, "user123");
   });
 
   tearDown(() async {

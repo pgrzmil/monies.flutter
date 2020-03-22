@@ -5,13 +5,13 @@ import 'package:monies/utils/formatters.dart';
 void main() {
   group('JSON parsing', () {
     test('toJsonString returns valid json string', () {
-      final income = Income("1", "test_title", 123.45, DateTime(2020, 1, 23));
+      final income = Income("1", "test_title", 123.45, DateTime(2020, 1, 23), "user123");
 
       final jsonString = income.toJsonString();
 
       expect(jsonString, isNotNull);
       expect(jsonString, isA<String>());
-      expect(jsonString, equals(r'{"id":"1","title":"test_title","amount":123.45,"date":"2020-01-23T00:00:00.000"}'));
+      expect(jsonString, equals(r'{"id":"1","userId":"user123","title":"test_title","amount":123.45,"date":"2020-01-23T00:00:00.000"}'));
     });
 
     test('fromJsonString returns valid object', () {
@@ -42,25 +42,26 @@ void main() {
   });
 
   test('.empty() returns correctly initialized object', () {
-    final income = Income.empty();
+    final income = Income.empty("user123");
 
     expect(income, isNotNull);
     expect(income.id, isNot(equals("")));
     expect(income.title, equals(""));
     expect(income.amount, equals(0));
+    expect(income.userId, equals("user123"));
     expect(income.date, isNotNull);
     expect(income.dateString, equals(Format.date(DateTime.now())));
   });
 
   test('Returns amount string', () {
-    final income = Income("1", "test_title", 123.45, DateTime(2020, 1, 23));
+    final income = Income("1", "test_title", 123.45, DateTime(2020, 1, 23), "user123");
 
     expect(income, isNotNull);
     expect(income.amountString, equals("123,45 zł"));
   });
 
    test('Returns date string', () {
-    final income = Income("1", "test_title", 123.45, DateTime(2020, 1, 23));
+    final income = Income("1", "test_title", 123.45, DateTime(2020, 1, 23), "user123");
 
     expect(income, isNotNull);
     expect(income.dateString, equals("23/01/2020"));

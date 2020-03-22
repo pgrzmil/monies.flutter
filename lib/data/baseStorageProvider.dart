@@ -124,7 +124,9 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
         final userId = preferences.getString("userId");
         final snapshot = await Firestore.instance.collection(storeKey).where("userId", isEqualTo: userId).getDocuments();
         items.addAll(snapshot.documents.map((item) => fromJsonMap(item.data)));
-      } catch (e) {}
+      } catch (e) {
+        print("Insufficient permissions on load");
+      }
     }
   }
 

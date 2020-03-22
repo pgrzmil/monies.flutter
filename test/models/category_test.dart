@@ -11,11 +11,11 @@ void main() {
 
       expect(jsonString, isNotNull);
       expect(jsonString, isA<String>());
-      expect(jsonString, equals(r'{"id":"1","title":"test_title","order":3,"colorCode":4278190080,"iconCode":57756}'));
+      expect(jsonString, equals(r'{"id":"1","userId":"userId123","title":"test_title","order":3,"colorCode":4278190080,"iconCode":57756}'));
     });
 
     test('fromJsonString returns valid object', () {
-      final jsonString = r'{"id":"1","title":"test_title","order":3,"colorCode":4278190080,"iconCode":57756}';
+      final jsonString = r'{"id":"1","title":"test_title","order":3,"colorCode":4278190080,"iconCode":57756,"userId":"user123"}';
 
       final category = ExpenseCategory.fromJsonString(jsonString);
 
@@ -25,6 +25,7 @@ void main() {
       expect(category.title, equals("test_title"));
       expect(category.colorCode, equals(Colors.black.value));
       expect(category.iconCode, equals(57756));
+      expect(category.userId, equals("user123"));
     });
 
     test('fromJsonString throws FormatException when called with malformed string', () {
@@ -42,7 +43,7 @@ void main() {
   });
 
   test('.empty() returns correctly initialized object', () {
-    final category = ExpenseCategory.empty();
+    final category = ExpenseCategory.empty("user123");
 
     expect(category, isNotNull);
     expect(category.id, isNot(equals("")));
@@ -53,14 +54,14 @@ void main() {
   });
 
   test('Returns correct color', () {
-    final category = ExpenseCategory("1", "test_title", 3, Colors.yellow.shade700.value, Icons.battery_alert.codePoint);
+    final category = ExpenseCategory("1", "test_title", 3, Colors.yellow.shade700.value, Icons.battery_alert.codePoint, "user123");
 
     expect(category, isNotNull);
     expect(category.color, equals(Colors.yellow.shade700));
   });
 
   test('Returns default color when colorCode is not set', () {
-    final category = ExpenseCategory("1", "test_title", 3, null, Icons.battery_alert.codePoint);
+    final category = ExpenseCategory("1", "test_title", 3, null, Icons.battery_alert.codePoint, "user123");
 
     expect(category, isNotNull);
     expect(category.colorCode, isNull);
@@ -68,7 +69,7 @@ void main() {
   });
 
    test('Returns default icon when iconCode is not set', () {
-    final category = ExpenseCategory("1", "test_title", 3, Colors.black.value, null);
+    final category = ExpenseCategory("1", "test_title", 3, Colors.black.value, null, "user123");
 
     expect(category, isNotNull);
     expect(category.iconCode, isNull);

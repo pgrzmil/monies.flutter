@@ -15,8 +15,8 @@ void main() {
     SharedPreferences.setMockInitialValues({});
     expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
     categoriesProvider = CategoriesProvider(databaseStorageEnabled: false);
-    TestDataHelpers.loadTestCategories(categoriesProvider);
-    TestDataHelpers.loadTestExpenses(expensesProvider);
+    TestDataHelpers.loadTestCategories(categoriesProvider, "user123");
+    TestDataHelpers.loadTestExpenses(expensesProvider, "user123");
   });
 
   tearDown(() async {
