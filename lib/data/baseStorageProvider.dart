@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:monies/services/signInService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'models/baseModel.dart';
 
@@ -7,9 +8,12 @@ typedef T ItemJsonSerializator<T>(String jsonString);
 typedef T ItemJsonMapSerializator<T>(Map<String, dynamic> jsonMap);
 
 abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
-  final List<T> items = [];
+  List<T> items = [];
   final String storeKey;
   bool _databaseStorageEnabled = true;
+  bool isLoading = false;
+  bool _shouldLoad = true; //determines if items should be loaded. It allows to load items after login
+  SignInService _authService;
 
   ///Item's json deserializing method.
   ///
@@ -18,12 +22,17 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   final ItemJsonSerializator<T> fromJsonString;
   final ItemJsonMapSerializator<T> fromJsonMap;
 
-  BaseStorageProvider({this.fromJsonMap, this.storeKey, this.fromJsonString, bool databaseStorageEnabled = true}) {
+  BaseStorageProvider({this.fromJsonMap, this.storeKey, this.fromJsonString, SignInService authService, bool databaseStorageEnabled = true}) {
     _databaseStorageEnabled = databaseStorageEnabled;
-    load();
+    _authService = authService;
   }
 
-  List<T> getAll() => items;
+  List<T> getAll() {
+    if (_shouldLoad) {
+      load();
+    }
+    return items;
+  }
 
   T getBy({String id}) => items.firstWhere((x) => x.id == id, orElse: () => null);
 
@@ -38,7 +47,11 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
 
   void addToDatabase(T item) async {
     if (_databaseStorageEnabled) {
-      await Firestore.instance.collection(storeKey).document(item.id).setData(item.toJsonMap());
+      try {
+        await Firestore.instance.collection(storeKey).document(item.id).setData(item.toJsonMap());
+      } catch (e) {
+        print("Adding $storeKey from database error $e ");
+      }
     }
   }
 
@@ -70,14 +83,20 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
 
   void editInDatabase(T item) async {
     if (_databaseStorageEnabled) {
-      await Firestore.instance.collection(storeKey).document(item.id).updateData(item.toJsonMap());
+      try {
+        await Firestore.instance.collection(storeKey).document(item.id).updateData(item.toJsonMap());
+      } catch (e) {
+        print("Editing $storeKey from database error $e ");
+      }
     }
   }
 
-  Future remove(T item) async {
+  Future remove(T item, {bool silent = false}) async {
     if (_isNotNull(item) && _contains(item)) {
       items.remove(item);
-      notifyListeners();
+      if (!silent) {
+        notifyListeners();
+      }
       await removeFromDatabase(item);
       await persist();
     }
@@ -85,7 +104,11 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
 
   void removeFromDatabase(T item) async {
     if (_databaseStorageEnabled) {
-      await Firestore.instance.collection(storeKey).document(item.id).delete();
+      try {
+        await Firestore.instance.collection(storeKey).document(item.id).delete();
+      } catch (e) {
+        print("Removing $storeKey from database error $e ");
+      }
     }
   }
 
@@ -98,13 +121,19 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   bool _contains(T item) => items.any((e) => e.id == item.id);
   bool _isNotNull(Object item) => item != null;
 
-// Persistence methods
+  reload() async {
+    _shouldLoad = true;
+    load();
+  }
+
   load() async {
-    if (items.isNotEmpty) return;
+    if (isLoading) return;
 
-    await loadFromDatabase();
+    isLoading = true;
 
-    if (items.isEmpty) {
+    if (_databaseStorageEnabled) {
+      await _loadFromDatabase();
+    } else {
       final preferences = await SharedPreferences.getInstance();
       final serializedList = preferences.getStringList(storeKey);
 
@@ -113,20 +142,26 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
         items.addAll(deserializedItems.where((item) => !_contains(item)));
         notifyListeners();
       }
+      _shouldLoad = false;
     }
+
+    isLoading = false;
   }
 
-  void loadFromDatabase() async {
-    if (_databaseStorageEnabled) {
-      try {
-        final preferences = await SharedPreferences.getInstance();
-        final userId = preferences.getString("userId");
-        final snapshot = await Firestore.instance.collection(storeKey).where("userId", isEqualTo: userId).getDocuments();
-        items.addAll(snapshot.documents.map((item) => fromJsonMap(item.data)));
-      } catch (e) {
-        print("Insufficient permissions on load");
-      }
+  void _loadFromDatabase() async {
+    if (!(await _authService.isLoggedIn)) return;
+
+    try {
+      print("load web $storeKey");
+      final snapshot = await Firestore.instance.collection(storeKey).where("userId", isEqualTo: _authService.userId).getDocuments();
+      items = (snapshot.documents.map((item) => fromJsonMap(item.data))).toList();
+
+      notifyListeners();
+      await persist();
+    } catch (e) {
+      print("Loading $storeKey from database error $e ");
     }
+    _shouldLoad = false;
   }
 
   Future<bool> persist() async {

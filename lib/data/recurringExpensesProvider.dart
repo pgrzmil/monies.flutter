@@ -1,15 +1,16 @@
 import 'package:jiffy/jiffy.dart';
 import 'package:monies/data/models/recurringExpense.dart';
+import 'package:monies/services/signInService.dart';
 import 'baseStorageProvider.dart';
 import 'models/expense.dart';
 
 class RecurringExpensesProvider extends BaseStorageProvider<RecurringExpense> {
-  RecurringExpensesProvider({bool databaseStorageEnabled = true})
+  RecurringExpensesProvider({SignInService authService, bool databaseStorageEnabled = true})
       : super(
           storeKey: "RecurringExpenses",
           fromJsonString: RecurringExpense.fromJsonString,
           fromJsonMap: RecurringExpense.fromJsonMap,
-          databaseStorageEnabled: databaseStorageEnabled,
+          authService: authService,databaseStorageEnabled: databaseStorageEnabled,
         );
 
   @override

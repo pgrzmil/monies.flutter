@@ -1,12 +1,15 @@
+import 'package:monies/services/signInService.dart';
+
 import 'baseStorageProvider.dart';
 import 'models/category.dart';
 
 class CategoriesProvider extends BaseStorageProvider<ExpenseCategory> {
-  CategoriesProvider({bool databaseStorageEnabled = true})
+  CategoriesProvider({SignInService authService, bool databaseStorageEnabled = true})
       : super(
           storeKey: "Categories",
           fromJsonString: ExpenseCategory.fromJsonString,
           fromJsonMap: ExpenseCategory.fromJsonMap,
+          authService: authService,
           databaseStorageEnabled: databaseStorageEnabled,
         );
 

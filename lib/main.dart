@@ -8,22 +8,26 @@ import 'package:monies/services/signInService.dart';
 import 'package:provider/provider.dart';
 import 'data/categoriesProvider.dart';
 import 'data/expensesProvider.dart';
+import 'data/recurringExpensesMapProvider.dart';
 
 void main() => runApp(App());
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final authService = SignInService();
     return MultiProvider(
       providers: [
-        Provider(create: (context) => SignInService()),
-        ChangeNotifierProvider(create: (context) => IncomesProvider()),
-        ChangeNotifierProvider(create: (context) => CategoriesProvider()),
-        ChangeNotifierProvider(create: (context) => RecurringExpensesProvider()),
-        ChangeNotifierProxyProvider<RecurringExpensesProvider, ExpensesProvider>(
-          create: (context) => ExpensesProvider(),
-          update: (context, recurringExpensesProvider, expensesProvider) {
+        Provider(create: (context) => authService),
+        ChangeNotifierProvider(create: (context) => IncomesProvider(authService: authService)),
+        ChangeNotifierProvider(create: (context) => CategoriesProvider(authService: authService)),
+        ChangeNotifierProvider(create: (context) => RecurringExpensesMapProvider(authService: authService)),
+        ChangeNotifierProvider(create: (context) => RecurringExpensesProvider(authService: authService)),
+        ChangeNotifierProxyProvider2<RecurringExpensesProvider, RecurringExpensesMapProvider, ExpensesProvider>(
+          create: (context) => ExpensesProvider(authService: authService),
+          update: (context, recurringExpensesProvider, recurringExpensesMapProvider, expensesProvider) {
             expensesProvider.recurringExpensesProvider = recurringExpensesProvider;
+            expensesProvider.recurringExpensesMapProvider = recurringExpensesMapProvider;
             return expensesProvider;
           },
         ),

@@ -1,13 +1,16 @@
+import 'package:monies/services/signInService.dart';
+
 import 'models/income.dart';
 import 'extensions/withDate.dart';
 import 'baseStorageProvider.dart';
 
 class IncomesProvider extends BaseStorageProvider<Income> {
-  IncomesProvider({bool databaseStorageEnabled = true})
+  IncomesProvider({SignInService authService, bool databaseStorageEnabled = true})
       : super(
           storeKey: "Incomes",
           fromJsonString: Income.fromJsonString,
           fromJsonMap: Income.fromJsonMap,
+          authService: authService,
           databaseStorageEnabled: databaseStorageEnabled,
         );
 

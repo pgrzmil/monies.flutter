@@ -51,6 +51,7 @@ class SignInService {
   Future<void> signOut() async {
     final preferences = await SharedPreferences.getInstance();
     await preferences.remove(_userIdKey);
+    await preferences.clear();
     _userId = null;
     await FirebaseAuth.instance.signOut();
     await _googleSignIn.signOut();
