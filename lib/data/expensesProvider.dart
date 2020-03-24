@@ -85,8 +85,8 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
   @override
   load() {
     super.load();
-    _recurringExpensesProvider.load();
-    _recurringExpensesMapProvider.load();
+    _recurringExpensesProvider?.load();
+    _recurringExpensesMapProvider?.load();
   }
 }
 
