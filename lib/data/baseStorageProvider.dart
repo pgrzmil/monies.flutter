@@ -12,7 +12,7 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   final String storeKey;
   bool _databaseStorageEnabled = true;
   bool isLoading = false;
-  bool _shouldLoad = true; //determines if items should be loaded. It allows to load items after login
+  bool _shouldReload = true; //determines if items should be loaded. It allows to load items after login
   SignInService _authService;
 
   ///Item's json deserializing method.
@@ -28,7 +28,7 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   }
 
   List<T> getAll() {
-    if (_shouldLoad) {
+    if (_shouldReload) {
       load();
     }
     return items;
@@ -122,7 +122,7 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   bool _isNotNull(Object item) => item != null;
 
   reload() async {
-    _shouldLoad = true;
+    _shouldReload = true;
     load();
   }
 
@@ -142,7 +142,7 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
         items.addAll(deserializedItems.where((item) => !_contains(item)));
         notifyListeners();
       }
-      _shouldLoad = false;
+      _shouldReload = false;
     }
 
     isLoading = false;
@@ -161,7 +161,7 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
     } catch (e) {
       print("Loading $storeKey from database error $e ");
     }
-    _shouldLoad = false;
+    _shouldReload = false;
   }
 
   Future<bool> persist() async {

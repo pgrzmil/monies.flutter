@@ -49,13 +49,17 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
 
   ///Adds to expenses list recurring expenses instances for given `month` and `year`.
   updateWithRecurring(int month, int year, String userId) async {
-    if (_recurringExpensesProvider == null || _recurringExpensesMapProvider.getAll().any((x) => x.title == _recurringId(month, year))) return;
+    final mapItemTitle = _recurringId(month, year);
+    if (_recurringExpensesProvider == null || _recurringExpensesMapProvider.getAll().any((x) => x.title == mapItemTitle)) return;
 
-    var expenses = getAll().filterByDate(month, year);
-    var rExpenses = _recurringExpensesProvider.expensesFor(month, year, userId);
-    await addAll(rExpenses.where((ex) => !expenses.any((item) => ex.recurringExpenseId == item.recurringExpenseId)));
-    _setRecurringAdded(month, year, userId);
-    notifyListeners();
+    final currentExpenses = getAll().filterByDate(month, year);
+    final generatedRecurringExpenses = _recurringExpensesProvider.expensesFor(month, year, userId);
+    final expensesToAdd = generatedRecurringExpenses.where((ex) => !currentExpenses.any((item) => ex.recurringExpenseId == item.recurringExpenseId));
+    if (expensesToAdd.isNotEmpty) {
+      await addAll(expensesToAdd);
+      _setRecurringAdded(month, year, userId);
+      notifyListeners();
+    }
   }
 
   String _recurringId(int month, int year) => "$month/$year";
