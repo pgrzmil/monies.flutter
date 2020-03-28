@@ -24,10 +24,15 @@ jobs:
         channel: 'dev'
 
     - name: Build
+      env:
+        KEY_JKS: ${{ secrets.KEY_JKS }}
+        KEY_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
+        ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
       run: |
+            echo $KEY_JKS > key.jks
             flutter pub get
             flutter packages pub run build_runner build --delete-conflicting-outputs
-            flutter build apk
+            flutter build apk --release
       
     - name: Static analysis
       run: flutter analyze

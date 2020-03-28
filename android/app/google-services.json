@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "95816973391-ohenvul2ihtsgh7lvd9la3tg3d1i8k5p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pgrzmil.moniesapp",
+            "certificate_hash": "b706eb9f7bcb91c371d1dc606e1a886579927237"
+          }
+        },
+        {
           "client_id": "95816973391-lp133862b86c4uqfk7d6hbntmarujmv1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

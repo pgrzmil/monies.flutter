@@ -46,3 +46,4 @@ android/vendor/
 android/fastlane/report.xml
 ios/fastlane/report.xml
 ios/build
+*.jks
