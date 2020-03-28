@@ -50,7 +50,7 @@ android {
 
     signingConfigs {
     release {
-        storeFile file("../key.jks")
+        storeFile file("monies/android/key.jks")
         storePassword = "$System.env.KEY_PASSWORD"
         keyAlias = "key"
         keyPassword = "$System.env.ALIAS_PASSWORD"
