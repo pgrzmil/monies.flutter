@@ -15,6 +15,7 @@ class ItemsList<T> extends StatelessWidget {
   final ListItemCallback<T> onRemove;
   final ListItemCallback<T> onCellTap;
   final ListCellCreateCallback<T> onCellCreate;
+  final RefreshCallback onRefresh;
 
   const ItemsList({
     Key key,
@@ -28,6 +29,7 @@ class ItemsList<T> extends StatelessWidget {
     this.emptyState,
     this.header,
     this.appBar,
+    this.onRefresh,
   })  : assert(onCellCreate != null),
         assert(items != null),
         super(key: key);
@@ -41,44 +43,49 @@ class ItemsList<T> extends StatelessWidget {
         children: [
           if (header != null) header,
           if (emptyState != null && items.isEmpty) emptyState,
-          ListView.separated(
-            shrinkWrap: true,
-            itemCount: items.length,
-            separatorBuilder: (context, index) => Divider(height: 0),
-            itemBuilder: (context, index) {
-              final item = items.elementAt(index);
-              return Slidable(
-                actionPane: SlidableBehindActionPane(),
-                actionExtentRatio: 0.25,
-                controller: slidableController,
-                child: InkWell(
-                  child: onCellCreate(item),
-                  onTap: () {
-                    if (onCellTap != null) onCellTap(item);
-                  },
-                ),
-                secondaryActions: <Widget>[
-                  if (onRemove != null)
-                    IconSlideAction(
-                      caption: 'Remove',
-                      color: Colors.redAccent,
-                      icon: Icons.delete,
+          Expanded(
+            child: RefreshIndicator(
+              key: GlobalKey<RefreshIndicatorState>(),
+              onRefresh: onRefresh,
+              child: ListView.separated(
+                itemCount: items.length,
+                separatorBuilder: (context, index) => Divider(height: 0),
+                itemBuilder: (context, index) {
+                  final item = items.elementAt(index);
+                  return Slidable(
+                    actionPane: SlidableBehindActionPane(),
+                    actionExtentRatio: 0.25,
+                    controller: slidableController,
+                    child: InkWell(
+                      child: onCellCreate(item),
                       onTap: () {
-                        if (onCellTap != null) onRemove(item);
+                        if (onCellTap != null) onCellTap(item);
                       },
                     ),
-                  if (onEdit != null)
-                    IconSlideAction(
-                      caption: 'Edit',
-                      color: Colors.greenAccent,
-                      icon: Icons.edit,
-                      onTap: () {
-                        if (onCellTap != null) onEdit(item);
-                      },
-                    ),
-                ],
-              );
-            },
+                    secondaryActions: <Widget>[
+                      if (onRemove != null)
+                        IconSlideAction(
+                          caption: 'Remove',
+                          color: Colors.redAccent,
+                          icon: Icons.delete,
+                          onTap: () {
+                            if (onCellTap != null) onRemove(item);
+                          },
+                        ),
+                      if (onEdit != null)
+                        IconSlideAction(
+                          caption: 'Edit',
+                          color: Colors.greenAccent,
+                          icon: Icons.edit,
+                          onTap: () {
+                            if (onCellTap != null) onEdit(item);
+                          },
+                        ),
+                    ],
+                  );
+                },
+              ),
+            ),
           ),
         ],
       ),

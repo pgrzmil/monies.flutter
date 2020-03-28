@@ -60,6 +60,7 @@ class _ExpensesListState extends State<ExpensesList> {
           onAdd: navigateToAdd,
           onEdit: (expense) => navigateToEdit(expense),
           onCellTap: (expense) => navigateToEdit(expense),
+          onRefresh: expensesProvider.refresh,
           onRemove: (expense) async {
             if (await Dialogs.confirmation(context, text: "Do you want to remove expense?")) {
               await expensesProvider.remove(expense);

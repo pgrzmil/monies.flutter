@@ -57,4 +57,10 @@ class DashboardProvider extends ChangeNotifier {
     notifyListeners();
     return this;
   }
+
+  Future refresh() async {
+    await _incomesProvider.refresh();
+    await _expensesProvider.refresh();
+    // _analyticsProvider.refresh();
+  }
 }

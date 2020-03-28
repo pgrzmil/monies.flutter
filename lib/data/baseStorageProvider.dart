@@ -10,9 +10,13 @@ typedef T ItemJsonMapSerializator<T>(Map<String, dynamic> jsonMap);
 abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   List<T> items = [];
   final String storeKey;
-  bool _databaseStorageEnabled = true;
   bool isLoading = false;
-  bool _shouldReload = true; //determines if items should be loaded. It allows to load items after login
+
+  //Determines if web storage should be used
+  bool _databaseStorageEnabled = true;
+  //Used to ensure items are loaded only once after launch. Prevents infinite loop when list is empty
+  bool _shouldReload = true; 
+  
   SignInService _authService;
 
   ///Item's json deserializing method.
@@ -29,6 +33,7 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
 
   List<T> getAll() {
     if (_shouldReload) {
+      _shouldReload = false;
       load();
     }
     return items;
@@ -121,12 +126,11 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
   bool _contains(T item) => items.any((e) => e.id == item.id);
   bool _isNotNull(Object item) => item != null;
 
-  reload() async {
-    _shouldReload = true;
-    load();
+  Future refresh() async {
+    await load();
   }
 
-  load() async {
+  Future load() async {
     if (isLoading) return;
 
     isLoading = true;
@@ -140,12 +144,11 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
       if (serializedList != null) {
         final deserializedItems = serializedList.map((jsonString) => fromJsonString(jsonString));
         items.addAll(deserializedItems.where((item) => !_contains(item)));
-        notifyListeners();
       }
-      _shouldReload = false;
     }
 
     isLoading = false;
+    notifyListeners();
   }
 
   void _loadFromDatabase() async {
@@ -153,15 +156,12 @@ abstract class BaseStorageProvider<T extends BaseModel> extends ChangeNotifier {
 
     try {
       print("load web $storeKey");
-      final snapshot = await Firestore.instance.collection(storeKey).where("userId", isEqualTo: _authService.userId).getDocuments();
-      items = (snapshot.documents.map((item) => fromJsonMap(item.data))).toList();
 
-      notifyListeners();
-      await persist();
+      final snapshot = await Firestore.instance.collection(storeKey).where("userId", isEqualTo: _authService.userId).getDocuments();
+      items = (snapshot.documents.map((item) => fromJsonMap(item.data))).toList();      
     } catch (e) {
       print("Loading $storeKey from database error $e ");
     }
-    _shouldReload = false;
   }
 
   Future<bool> persist() async {

@@ -21,6 +21,7 @@ class CategoriesList extends StatelessWidget {
           onAdd: () => _showEditSheet(context, ExpenseCategory.empty(userId), onSave: (category) => categoriesProvider.add(category)),
           onEdit: (category) => _showEditSheet(context, category, onSave: (category) => categoriesProvider.edit(category)),
           onCellTap: (category) => _showEditSheet(context, category, onSave: (category) => categoriesProvider.edit(category)),
+          onRefresh: categoriesProvider.refresh,
           onRemove: (category) async {
             if (await Dialogs.confirmation(context, text: "Do you want to remove category?")) {
               await categoriesProvider.remove(category);

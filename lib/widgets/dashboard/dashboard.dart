@@ -15,17 +15,16 @@ import '../expenses/expensesList.dart';
 import 'analyticsCard.dart';
 
 class Dashboard extends StatelessWidget {
-
   Future checkIfLoggedIn(BuildContext context) async {
-      final service = Provider.of<SignInService>(context, listen: false);
-      final isLoggedIn = await service.isLoggedIn;
-      if(!isLoggedIn){
-        await Navigator.pushNamed(context, Routes.login);
-      }
+    final service = Provider.of<SignInService>(context, listen: false);
+    final isLoggedIn = await service.isLoggedIn;
+    if (!isLoggedIn) {
+      await Navigator.pushNamed(context, Routes.login);
+    }
   }
 
   @override
-  Widget build(BuildContext context)  {
+  Widget build(BuildContext context) {
     //checkIfLoggedIn(context);
     return Consumer<DashboardProvider>(builder: (context, dashboardProvider, _) {
       return Scaffold(
@@ -55,24 +54,27 @@ class Dashboard extends StatelessWidget {
         body: Swipeable(
           onLeftSwipe: dashboardProvider.switchToNextMonth,
           onRightSwipe: dashboardProvider.switchToPreviousMonth,
-          child: ListView(
-            children: <Widget>[
-              BalanceCard(
-                balance: dashboardProvider.balanceText,
-                expenses: dashboardProvider.expensesSumText,
-                incomes: dashboardProvider.incomesSumText,
-                onIncomesTap: () => pushTo(context, IncomesList(selectedDate: dashboardProvider.currentDate)),
-              ),
-              ExpensesCard(
-                expenses: dashboardProvider.lastExpenses,
-                onTap: () => pushTo(context, ExpensesList(selectedDate: dashboardProvider.currentDate)),
-              ),
-              AnalyticsCard(
-                chartData: dashboardProvider.categoriesChartDate,
-                chartAnimated: dashboardProvider.categoriesChartAnimated,
-                onTap: () => pushTo(context, AnalyticsDashboard()),
-              ),
-            ],
+          child: RefreshIndicator(
+            onRefresh: dashboardProvider.refresh,
+            child: ListView(
+              children: <Widget>[
+                BalanceCard(
+                  balance: dashboardProvider.balanceText,
+                  expenses: dashboardProvider.expensesSumText,
+                  incomes: dashboardProvider.incomesSumText,
+                  onIncomesTap: () => pushTo(context, IncomesList(selectedDate: dashboardProvider.currentDate)),
+                ),
+                ExpensesCard(
+                  expenses: dashboardProvider.lastExpenses,
+                  onTap: () => pushTo(context, ExpensesList(selectedDate: dashboardProvider.currentDate)),
+                ),
+                AnalyticsCard(
+                  chartData: dashboardProvider.categoriesChartDate,
+                  chartAnimated: dashboardProvider.categoriesChartAnimated,
+                  onTap: () => pushTo(context, AnalyticsDashboard()),
+                ),
+              ],
+            ),
           ),
         ),
       );

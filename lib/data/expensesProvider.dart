@@ -87,10 +87,10 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
   }
 
   @override
-  load() {
-    super.load();
-    _recurringExpensesProvider?.load();
-    _recurringExpensesMapProvider?.load();
+  Future load() async {
+    await super.load();
+    await _recurringExpensesProvider?.load();
+    await _recurringExpensesMapProvider?.load();
   }
 }
 

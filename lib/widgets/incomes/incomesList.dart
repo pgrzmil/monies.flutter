@@ -33,6 +33,7 @@ class IncomesList extends StatelessWidget {
           onAdd: () => _showEditSheet(context, Income.empty(userId), onSave: (income) => incomesProvider.add(income)),
           onEdit: (income) => _showEditSheet(context, income, onSave: (income) => incomesProvider.edit(income)),
           onCellTap: (income) => _showEditSheet(context, income, onSave: (income) => incomesProvider.edit(income)),
+          onRefresh: incomesProvider.refresh,
           onRemove: (income) async {
             if (await Dialogs.confirmation(context, text: "Do you want to remove income?")) {
               await incomesProvider.remove(income);

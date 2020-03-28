@@ -27,6 +27,7 @@ class RecurringExpensesList extends StatelessWidget {
           onAdd: () => _showEditSheet(context, RecurringExpense.empty(userId), onSave: (recurringExpense) => recurringExpensesProvider.add(recurringExpense)),
           onEdit: (recurringExpense) => _showEditSheet(context, recurringExpense, onSave: (recurringExpense) => recurringExpensesProvider.edit(recurringExpense)),
           onCellTap: (recurringExpense) => _showEditSheet(context, recurringExpense, onSave: (recurringExpense) => recurringExpensesProvider.edit(recurringExpense)),
+          onRefresh: recurringExpensesProvider.refresh,
           onRemove: (recurringExpense) async {
             if (await Dialogs.confirmation(context, text: "Do you want to remove recurring expense?")) {
               await recurringExpensesProvider.remove(recurringExpense);
