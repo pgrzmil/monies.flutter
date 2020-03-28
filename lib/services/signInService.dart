@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+typedef ErrorCallback = void Function(Error error);
+
 class SignInService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final _userIdKey = "userId";
@@ -24,28 +26,33 @@ class SignInService {
     return _userId;
   }
 
-  Future<FirebaseUser> signIn() async {
-    final GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+  Future<FirebaseUser> signIn(ErrorCallback onError) async {
+    try {
+      final GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
 
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleSignInAuthentication.accessToken,
-      idToken: googleSignInAuthentication.idToken,
-    );
+      final AuthCredential credential = GoogleAuthProvider.getCredential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
 
-    final AuthResult authResult = await FirebaseAuth.instance.signInWithCredential(credential);
-    final FirebaseUser user = authResult.user;
+      final AuthResult authResult = await FirebaseAuth.instance.signInWithCredential(credential);
+      final FirebaseUser user = authResult.user;
 
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
+      assert(!user.isAnonymous);
+      assert(await user.getIdToken() != null);
 
-    final FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-    assert(user.uid == currentUser.uid);
+      final FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+      assert(user.uid == currentUser.uid);
 
-    final preferences = await SharedPreferences.getInstance();
-    await preferences.setString(_userIdKey, currentUser.uid);
+      final preferences = await SharedPreferences.getInstance();
+      await preferences.setString(_userIdKey, currentUser.uid);
 
-    return currentUser;
+      return currentUser;
+    } catch (error) {
+      onError(error);
+      return null;
+    }
   }
 
   Future<void> signOut() async {

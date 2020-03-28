@@ -30,7 +30,8 @@ dependencies:
   cloud_firestore: ^0.13.4
   firebase_auth: ^0.15.5+3
   google_sign_in: ^4.1.4
-
+  fluttertoast: ^4.0.1
+  
   flutter:
     sdk: flutter
 

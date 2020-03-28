@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:monies/services/signInService.dart';
 import 'package:monies/utils/navigation.dart';
 import 'package:provider/provider.dart';
@@ -45,8 +46,17 @@ class _LoginPageState extends State<LoginPage> {
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () async {
-        await Provider.of<SignInService>(context, listen: false).signIn();
-        // Navigator.pop(context);
+        await Provider.of<SignInService>(context, listen: false).signIn((e) {
+          Fluttertoast.showToast(
+            msg: "${e}",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 8,
+            //backgroundColor: Colors.red,
+            //textColor: Colors.white,
+            // fontSize: 16.0
+          );
+        });
         await popLogin(context);
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
