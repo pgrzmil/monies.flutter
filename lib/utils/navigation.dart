@@ -8,12 +8,11 @@ import 'package:provider/provider.dart';
 class Routes {
   static final dashboard = "/dashboard";
   static final login = "/login";
-  static final dashboardLogin = "/dashboard/login";
+  static final splash = "/splash";
 
   static Map<String, WidgetBuilder> get navigationRoutes => {
         dashboard: (BuildContext context) => Dashboard(),
         login: (BuildContext context) => LoginPage(),
-        dashboardLogin: (BuildContext context) => LoginPage(),
       };
 }
 
@@ -25,15 +24,6 @@ Future popLogin<T extends Object>(BuildContext context) async {
   final service = Provider.of<SignInService>(context, listen: false);
   final isLoggedIn = await service.isLoggedIn;
   await Navigator.of(context).pop();
-  if (!isLoggedIn) {
-    await Navigator.pushNamed(context, Routes.login);
-  }
-}
-
-Future pushNamedLogin<T extends Object>(BuildContext context, String routeName) async {
-  final service = Provider.of<SignInService>(context, listen: false);
-  final isLoggedIn = await service.isLoggedIn;
-  await Navigator.pushNamed(context, routeName);
   if (!isLoggedIn) {
     await Navigator.pushNamed(context, Routes.login);
   }

@@ -51,10 +51,11 @@ class App extends StatelessWidget {
       child: MaterialApp(
         title: 'monies',
         theme: ThemeData(
-          primarySwatch: Colors.lime,
+          primarySwatch: Colors.indigo,
+          primaryColor: Colors.indigo[900],
         ),
         routes: Routes.navigationRoutes,
-        initialRoute: Routes.dashboardLogin,
+        initialRoute: Routes.login,
       ),
     );
   }

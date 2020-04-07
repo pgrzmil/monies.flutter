@@ -31,6 +31,7 @@ dependencies:
   firebase_auth: ^0.15.5+3
   google_sign_in: ^4.1.4
   fluttertoast: ^4.0.1
+  flutter_svg: ^0.17.4
   
   flutter:
     sdk: flutter
@@ -61,6 +62,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/icon.svg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

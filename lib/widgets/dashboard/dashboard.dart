@@ -7,7 +7,6 @@ import 'package:monies/widgets/dashboard/expensesCard.dart';
 import 'package:monies/widgets/incomes/incomesList.dart';
 import 'package:monies/widgets/settings.dart';
 import 'package:monies/utils/navigation.dart';
-import 'package:monies/services/signInService.dart';
 import 'package:provider/provider.dart';
 
 import '../analytics/analyticsDashboard.dart';
@@ -15,17 +14,8 @@ import '../expenses/expensesList.dart';
 import 'analyticsCard.dart';
 
 class Dashboard extends StatelessWidget {
-  Future checkIfLoggedIn(BuildContext context) async {
-    final service = Provider.of<SignInService>(context, listen: false);
-    final isLoggedIn = await service.isLoggedIn;
-    if (!isLoggedIn) {
-      await Navigator.pushNamed(context, Routes.login);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    //checkIfLoggedIn(context);
     return Consumer<DashboardProvider>(builder: (context, dashboardProvider, _) {
       return Scaffold(
         appBar: AppBar(
