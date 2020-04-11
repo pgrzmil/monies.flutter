@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:monies/data/incomesProvider.dart';
 import 'package:monies/data/models/income.dart';
-import 'package:monies/services/signInService.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/controls/dialogs.dart';
 import 'package:monies/widgets/controls/emptyState.dart';
-import 'package:monies/widgets/controls/formSheetContent.dart';
 import 'package:monies/widgets/controls/itemsList.dart';
 import 'package:monies/widgets/controls/sumHeader.dart';
 import 'package:provider/provider.dart';
 import '../../data/extensions/withAmount.dart';
-
-import 'incomesForm.dart';
+import 'incomeAdd.dart';
+import 'incomeEdit.dart';
 import 'incomesListItem.dart';
 
 class IncomesList extends StatelessWidget {
@@ -23,16 +21,15 @@ class IncomesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<IncomesProvider>(
       builder: (context, incomesProvider, child) {
-        final userId = Provider.of<SignInService>(context, listen: false).userId;
         final incomes = incomesProvider.getForMonth(selectedDate.month, selectedDate.year).toList();
         return ItemsList<Income>(
           items: incomes,
           title: "Incomes (${Format.monthAndYear(selectedDate)})",
           header: SumHeader(sumText: incomes.sumText()),
           emptyState: EmptyState(text: "Empty!\nStart adding incomes.", key: Key("incomesList_empty_state")),
-          onAdd: () => _showEditSheet(context, Income.empty(userId), onSave: (income) => incomesProvider.add(income)),
-          onEdit: (income) => _showEditSheet(context, income, onSave: (income) => incomesProvider.edit(income)),
-          onCellTap: (income) => _showEditSheet(context, income, onSave: (income) => incomesProvider.edit(income)),
+          onAdd: () => navigateToAdd(context),
+          onEdit: (income) => navigateToEdit(context, income),
+          onCellTap: (income) => navigateToEdit(context, income),
           onRefresh: incomesProvider.refresh,
           onRemove: (income) async {
             if (await Dialogs.confirmation(context, text: "Do you want to remove income?")) {
@@ -45,15 +42,12 @@ class IncomesList extends StatelessWidget {
     );
   }
 
-  void _showEditSheet(BuildContext context, Income income, {Function(Income income) onSave}) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return FormSheetContent(
-          formBuilder: (formKey) => IncomesForm(formKey: formKey, income: income),
-          onSave: () => onSave(income),
-        );
-      },
-    );
+
+  navigateToEdit(BuildContext context, Income income) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => IncomeEditView(income: income)));
+  }
+
+  navigateToAdd(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => IncomeAddView()));
   }
 }

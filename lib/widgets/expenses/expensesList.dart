@@ -8,7 +8,7 @@ import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/controls/dialogs.dart';
 import 'package:monies/widgets/controls/emptyState.dart';
 import 'package:monies/widgets/controls/itemsList.dart';
-import 'package:monies/widgets/recurringExpenses/recurringExpenses.dart';
+import 'package:monies/widgets/recurringExpenses/recurringExpensesList.dart';
 import 'package:provider/provider.dart';
 import 'expenseAdd.dart';
 import 'expenseEdit.dart';

@@ -1,41 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:monies/data/expensesProvider.dart';
-import 'package:monies/data/models/expense.dart';
+import 'package:monies/data/incomesProvider.dart';
+import 'package:monies/data/models/income.dart';
 import 'package:monies/services/signInService.dart';
 import 'package:provider/provider.dart';
-import 'expenseForm.dart';
+import 'incomeForm.dart';
 
-class ExpenseAddView extends StatefulWidget {
+class IncomeAddView extends StatefulWidget {
   @override
-  _ExpenseAddViewState createState() => _ExpenseAddViewState(formKey: GlobalKey<FormState>());
+  _IncomeAddViewState createState() => _IncomeAddViewState(formKey: GlobalKey<FormState>());
 }
 
-class _ExpenseAddViewState extends State<ExpenseAddView> {
+class _IncomeAddViewState extends State<IncomeAddView> {
   final GlobalKey<FormState> formKey;
 
-  _ExpenseAddViewState({this.formKey});
+  _IncomeAddViewState({this.formKey});
 
   @override
   Widget build(BuildContext context) {
     final userId = Provider.of<SignInService>(context, listen: false).userId;
-    final Expense expense = Expense.empty(userId);
-    final expenseForm = ExpenseForm(expense, formKey);
+    final Income income = Income.empty(userId);
+    final incomeForm = IncomeForm(income: income, formKey: formKey);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add expense"),
+        title: Text("Add income"),
       ),
       body: Container(
         padding: EdgeInsets.all(10),
-        child:expenseForm,
+        child:incomeForm,
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.save),
         onPressed: () {
-          final form = expenseForm.formKey.currentState;
+          final form = incomeForm.formKey.currentState;
           if (form.validate()) {
             form.save();
-            Provider.of<ExpensesProvider>(context, listen: false).add(expense);
+            Provider.of<IncomesProvider>(context, listen: false).add(income);
             Navigator.pop(context);
           }
         },

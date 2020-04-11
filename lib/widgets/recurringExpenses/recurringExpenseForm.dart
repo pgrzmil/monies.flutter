@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:monies/data/models/expense.dart';
+import 'package:monies/data/models/recurringExpense.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/categories/categoryPickerFormField.dart';
 import 'package:monies/widgets/controls/datePickerTextFormField.dart';
 
-class ExpenseForm extends StatelessWidget {
-  final Expense expense;
+class RecurringExpenseForm extends StatelessWidget {
+  final RecurringExpense recurringExpense;
   final GlobalKey<FormState> formKey;
 
-  ExpenseForm(this.expense, this.formKey);
+  const RecurringExpenseForm({Key key, this.formKey, this.recurringExpense}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     //MoneyMaskedTextController could be working better. In case of too much free time can be fixed this in the future.
     final moneyFormatController =
-        MoneyMaskedTextController(initialValue: expense.amount, rightSymbol: " zł", decimalSeparator: ",", thousandSeparator: " ");
+        MoneyMaskedTextController(initialValue: recurringExpense.amount, rightSymbol: " zł", decimalSeparator: ",", thousandSeparator: " ");
 
     return Form(
       key: formKey,
@@ -24,38 +23,38 @@ class ExpenseForm extends StatelessWidget {
         children: [
           TextFormField(
             key: Key("titleField"),
-            initialValue: expense.title,
+            initialValue: recurringExpense.title,
             validator: Validator.notEmpty(),
             decoration: InputDecoration(labelText: "Expense title"),
-            onSaved: (value) => expense.title = value,
+            onSaved: (value) => recurringExpense.title = value,
           ),
           TextFormField(
             key: Key("locationField"),
-            initialValue: expense.location,
+            initialValue: recurringExpense.location,
             decoration: InputDecoration(labelText: "Location"),
-            onSaved: (value) => expense.location = value,
+            onSaved: (value) => recurringExpense.location = value,
           ),
           TextFormField(
             key: Key("amountField"),
             decoration: InputDecoration(labelText: "Amount"),
             keyboardType: TextInputType.number,
             controller: moneyFormatController,
-            onSaved: (value) => expense.amount = moneyFormatController.numberValue ?? 0,
+            onSaved: (value) => recurringExpense.amount = moneyFormatController.numberValue ?? 0,
           ),
           DatePickerTextFormField(
             key: Key("dateField"),
-            initialDate: expense.date,
+            initialDate: recurringExpense.startDate,
             dateFormatter: Format.date,
             validator: Validator.notEmpty(),
-            decoration: InputDecoration(labelText: "Date"),
-            onDatePicked: (date) => expense.date = date,
+            decoration: InputDecoration(labelText: "Start date"),
+            onDatePicked: (date) => recurringExpense.startDate = date,
           ),
           CategoryPickerFormField(
             key: Key("categoryDropDown"),
-            initialCategoryId: expense.categoryId,
+            initialCategoryId: recurringExpense.categoryId,
             decoration: InputDecoration(labelText: "Category"),
             validator: Validator.notNull("Pick category"),
-            onCategoryPicked: (category) => expense.categoryId = category.id,
+            onCategoryPicked: (category) => recurringExpense.categoryId = category.id,
           ),
         ],
       ),

@@ -4,11 +4,11 @@ import 'package:monies/data/models/income.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/controls/datePickerTextFormField.dart';
 
-class IncomesForm extends StatelessWidget {
+class IncomeForm extends StatelessWidget {
   final Income income;
   final GlobalKey<FormState> formKey;
 
-  const IncomesForm({Key key, this.formKey, this.income}) : super(key: key);
+  const IncomeForm({Key key, this.formKey, this.income}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

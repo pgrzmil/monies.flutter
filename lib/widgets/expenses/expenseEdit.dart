@@ -37,7 +37,10 @@ class _ExpenseEditViewState extends State<ExpenseEditView> {
           ),
         ],
       ),
-      body: expenseForm,
+      body: Container(
+        padding: EdgeInsets.all(10),
+        child:expenseForm,
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.save),
         onPressed: () {
