@@ -4,47 +4,66 @@ import 'package:monies/data/models/recurringExpense.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/categories/categoryPickerFormField.dart';
 import 'package:monies/widgets/controls/datePickerTextFormField.dart';
+import 'package:monies/widgets/controls/moniesTextFormField.dart';
 
 class RecurringExpenseForm extends StatelessWidget {
   final RecurringExpense recurringExpense;
   final GlobalKey<FormState> formKey;
 
-  const RecurringExpenseForm({Key key, this.formKey, this.recurringExpense}) : super(key: key);
+  RecurringExpenseForm({Key key, this.formKey, this.recurringExpense}) : super(key: key);
+
+  final FocusNode _titleFocus = FocusNode();
+  final FocusNode _locationFocus = FocusNode();
+  final FocusNode _amountFocus = FocusNode();
+  final FocusNode _dateFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     //MoneyMaskedTextController could be working better. In case of too much free time can be fixed this in the future.
     final moneyFormatController =
         MoneyMaskedTextController(initialValue: recurringExpense.amount, rightSymbol: " zł", decimalSeparator: ",", thousandSeparator: " ");
-
     return Form(
       key: formKey,
       child: Column(
         children: [
-          TextFormField(
+          MoniesTextFormField(
+            context,
             key: Key("titleField"),
+            autofocus: true,
+            textInputAction: TextInputAction.next,
+            focusNode: _titleFocus,
+            nextFocusNode: _locationFocus,
             initialValue: recurringExpense.title,
             validator: Validator.notEmpty(),
             decoration: InputDecoration(labelText: "Expense title", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
             onSaved: (value) => recurringExpense.title = value,
           ),
-          TextFormField(
+          MoniesTextFormField(
+            context,
             key: Key("locationField"),
+            textInputAction: TextInputAction.next,
+            focusNode: _locationFocus,
+            nextFocusNode: _amountFocus,
             initialValue: recurringExpense.location,
             decoration: InputDecoration(labelText: "Location", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
             onSaved: (value) => recurringExpense.location = value,
           ),
-          TextFormField(
+          MoniesTextFormField(
+            context,
             key: Key("amountField"),
-            decoration: InputDecoration(labelText: "Amount", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
             keyboardType: TextInputType.number,
+            textInputAction: TextInputAction.next,
+            focusNode: _amountFocus,
+            nextFocusNode: _dateFocus,
             controller: moneyFormatController,
+            decoration: InputDecoration(labelText: "Amount", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
             onSaved: (value) => recurringExpense.amount = moneyFormatController.numberValue ?? 0,
           ),
           DatePickerTextFormField(
             key: Key("dateField"),
             initialDate: recurringExpense.startDate,
             dateFormatter: Format.date,
+            focusNode: _dateFocus,
             validator: Validator.notEmpty(),
             decoration: InputDecoration(labelText: "Start date", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
             onDatePicked: (date) => recurringExpense.startDate = date,

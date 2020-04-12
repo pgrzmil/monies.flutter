@@ -10,9 +10,17 @@ class DatePickerTextFormField extends StatefulWidget {
   final InputDecoration decoration;
   final FormFieldValidator<String> validator;
   final DateFormatter dateFormatter;
+  final FocusNode focusNode;
 
-  const DatePickerTextFormField({Key key, this.initialDate, this.onDatePicked, this.decoration, this.validator, this.dateFormatter})
-      : super(key: key);
+  const DatePickerTextFormField({
+    Key key,
+    this.initialDate,
+    this.onDatePicked,
+    this.decoration,
+    this.validator,
+    this.dateFormatter,
+    this.focusNode,
+  }) : super(key: key);
 
   @override
   _DatePickerTextFormFieldState createState() => _DatePickerTextFormFieldState();
@@ -35,6 +43,7 @@ class _DatePickerTextFormFieldState extends State<DatePickerTextFormField> {
       validator: widget.validator,
       readOnly: true,
       decoration: widget.decoration,
+      focusNode: widget.focusNode,
       onTap: () => _selectDate(context),
       onSaved: (value) {
         if (pickedDate != null && widget.onDatePicked != null) {
