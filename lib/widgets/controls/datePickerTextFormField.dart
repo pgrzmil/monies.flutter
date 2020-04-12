@@ -45,7 +45,7 @@ class _DatePickerTextFormFieldState extends State<DatePickerTextFormField> {
   }
 
   _selectDate(BuildContext context) async {
-    final date = await showDatePicker(context: context, initialDate: widget.initialDate, firstDate: DateTime(1901), lastDate: DateTime(2101));
+    final date = await showDatePicker(context: context, initialDate: widget.initialDate, firstDate: DateTime(2001), lastDate: DateTime(2101));
     if (date != null) {
       setState(() {
         pickedDate = date;

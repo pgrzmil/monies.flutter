@@ -16,21 +16,21 @@ class _ColorPickerDialogState extends State<ColorPickerDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text("Pick a color"),
-          content: MaterialColorPicker(
-            shrinkWrap: true,
-            selectedColor: widget.initialColor,
-             onColorChange: (color) => selectedColor = color,
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("CANCEL", style: TextStyle(color: Colors.black, fontSize: 15)),
-              onPressed: () => Navigator.pop(context),
-            ),
-            FlatButton(
-              child: Text("SELECT", style: TextStyle(color: Colors.black, fontSize: 15)),
-               onPressed: () => Navigator.pop(context, selectedColor),
-            ),
-          ],
+      content: MaterialColorPicker(
+        shrinkWrap: true,
+        selectedColor: widget.initialColor,
+        onColorChange: (color) => selectedColor = color,
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: Text("CANCEL", style: TextStyle(fontSize: 15)),
+          onPressed: () => Navigator.pop(context),
+        ),
+        FlatButton(
+          child: Text("SELECT", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 15)),
+          onPressed: () => Navigator.pop(context, selectedColor),
+        ),
+      ],
     );
   }
 }

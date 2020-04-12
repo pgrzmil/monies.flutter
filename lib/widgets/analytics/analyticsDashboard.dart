@@ -22,7 +22,7 @@ class AnalyticsDashboard extends StatelessWidget {
               children: [
                 SizedBox(
                   child: FlatButton(
-                    child: Icon(Icons.arrow_left, color: Theme.of(context).textTheme.title.color),
+                    child: Icon(Icons.arrow_left, color: AppBarTheme.of(context).iconTheme.color),
                     onPressed: analyticsProvider.switchToPreviousMonth,
                   ),
                   width: 40,
@@ -30,7 +30,7 @@ class AnalyticsDashboard extends StatelessWidget {
                 Text(analyticsProvider.title.toUpperCase()),
                 SizedBox(
                   child: FlatButton(
-                    child: Icon(Icons.arrow_right, color: Theme.of(context).textTheme.title.color),
+                    child: Icon(Icons.arrow_right, color: AppBarTheme.of(context).iconTheme.color),
                     onPressed: analyticsProvider.switchToNextMonth,
                   ),
                   width: 40,

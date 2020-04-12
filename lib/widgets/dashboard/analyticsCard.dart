@@ -16,7 +16,10 @@ class AnalyticsCard extends StatelessWidget {
       child: InkWell(
           child: Column(
             children: [
-              Text("Analytics"),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                child: Text("Analytics".toUpperCase(), style: TextStyle(fontWeight: FontWeight.w900)),
+              ),
               SizedBox(
                 height: 300,
                 width: 400,

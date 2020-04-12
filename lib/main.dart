@@ -54,21 +54,34 @@ class App extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'monies',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          colorScheme: ColorScheme.dark().copyWith(
+            primary: Consts.accentColor,
+            secondary: Consts.backgroundColor,
+          ),
+          primaryColor: Consts.accentColor,
           accentColor: Consts.accentColor,
           backgroundColor: Consts.backgroundColor,
+          canvasColor: Consts.backgroundColor,
+          dialogBackgroundColor: Consts.backgroundColor,
           textTheme: defaultTextTheme,
+          iconTheme: IconThemeData().copyWith(color: Consts.appBarColor),
+          floatingActionButtonTheme: FloatingActionButtonThemeData().copyWith(backgroundColor: Consts.accentColor),
+          buttonTheme: ButtonThemeData().copyWith(textTheme: ButtonTextTheme.accent),
           appBarTheme: AppBarTheme(
-            elevation: 0,
-            color: Consts.backgroundColor,
-            textTheme: defaultTextTheme.copyWith(
-              title: GoogleFonts.nunito(
-                textStyle: defaultTextTheme.title,
-                fontSize: 18,
-                fontWeight: FontWeight.w800,
+              elevation: 0,
+              color: Consts.backgroundColor,
+              brightness: Brightness.dark,
+              textTheme: defaultTextTheme.copyWith(
+                title: GoogleFonts.nunito(
+                  textStyle: defaultTextTheme.title,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: Consts.appBarColor,
+                ),
               ),
-            ),
-          ),
+              iconTheme: IconThemeData().copyWith(color: Consts.appBarColor)),
         ),
         routes: Routes.navigationRoutes,
         initialRoute: Routes.login,

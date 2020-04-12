@@ -55,7 +55,6 @@ class AnalyticsProvider extends ChangeNotifier {
         colorFn: (CategoryWithSum item, _) =>
             Color(a: item.category.color.alpha, r: item.category.color.red, g: item.category.color.green, b: item.category.color.blue),
         labelAccessorFn: (CategoryWithSum item, _) => item.sum != 0 ? item.category.title : "",
-        outsideLabelStyleAccessorFn: (CategoryWithSum item, _) => TextStyleSpec(color: Color.black, fontSize: 12),
         data: data,
       )
     ];

@@ -1,5 +1,6 @@
 import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:monies/consts.dart';
 
 class DonutPieChart extends StatelessWidget {
   final List<Series> seriesList;
@@ -9,6 +10,8 @@ class DonutPieChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textColor = Consts.textColor;
+    final labelColor = Color(a: textColor.alpha, r: textColor.red, g: textColor.green, b: textColor.blue);
     return PieChart(
       seriesList,
       defaultInteractions: false,
@@ -16,7 +19,10 @@ class DonutPieChart extends StatelessWidget {
       defaultRenderer: ArcRendererConfig(
         arcWidth: 65,
         arcRendererDecorators: [
-          ArcLabelDecorator(labelPosition: ArcLabelPosition.outside, insideLabelStyleSpec: TextStyleSpec(fontSize: 12, color: Color.white), outsideLabelStyleSpec: TextStyleSpec(fontSize: 12, color: Color.white)),
+          ArcLabelDecorator(
+            labelPosition: ArcLabelPosition.outside,
+            outsideLabelStyleSpec: TextStyleSpec(fontSize: 12, color: labelColor),
+          ),
         ],
       ),
     );

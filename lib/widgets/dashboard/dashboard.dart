@@ -25,12 +25,12 @@ class Dashboard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               FlatButton(
-                child: Icon(Icons.arrow_left, color: Theme.of(context).textTheme.title.color),
+                child: Icon(Icons.arrow_left, color: AppBarTheme.of(context).iconTheme.color),
                 onPressed: dashboardProvider.switchToPreviousMonth,
               ),
               Text(dashboardProvider.title),
               FlatButton(
-                child: Icon(Icons.arrow_right, color: Theme.of(context).textTheme.title.color),
+                child: Icon(Icons.arrow_right, color: AppBarTheme.of(context).iconTheme.color),
                 onPressed: dashboardProvider.switchToNextMonth,
               ),
             ],

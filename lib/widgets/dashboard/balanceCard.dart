@@ -10,6 +10,7 @@ class BalanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final subtitleStyle = TextStyle(fontSize: 10, fontWeight: FontWeight.w700);
     return Card(
       color: Theme.of(context).backgroundColor,
       child: Container(
@@ -17,14 +18,14 @@ class BalanceCard extends StatelessWidget {
         child: Column(
           children: [
             Text(balance, style: TextStyle(fontSize: 36)),
-            Text("Balance", style: TextStyle(fontSize: 10)),
+            Text("Balance".toUpperCase(), style: subtitleStyle),
             Text(expenses, style: TextStyle(fontSize: 26)),
-            Text("Expenses sum", style: TextStyle(fontSize: 10)),
+            Text("Expenses sum".toUpperCase(), style: subtitleStyle),
             InkWell(
               child: Column(
                 children: [
                   Text(incomes, style: TextStyle(fontSize: 26)),
-                  Text("Incomes sum", style: TextStyle(fontSize: 10)),
+                  Text("Incomes sum".toUpperCase(), style: subtitleStyle),
                 ],
               ),
               onTap: onIncomesTap,

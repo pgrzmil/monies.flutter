@@ -12,7 +12,7 @@ class ConfirmationDialog extends AlertDialog {
           title: Text(text),
           actions: [
             FlatButton(
-              child: Text("CANCEL", style: TextStyle(color: Colors.black, fontSize: 15)),
+              child: Text("CANCEL", style: TextStyle(fontSize: 15)),
               onPressed: () => Navigator.pop(context, false),
             ),
             FlatButton(

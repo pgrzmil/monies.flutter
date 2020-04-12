@@ -40,10 +40,10 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SvgPicture.asset("assets/icon.svg", height: 150, width: 150, color: Theme.of(context).primaryColor),
+            SvgPicture.asset("assets/icon.svg", height: 150, width: 150, color: Theme.of(context).accentColor),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 25, horizontal: 0),
-              child: Text("monies", style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 30)),
+              child: Text("monies", style: TextStyle(color: Theme.of(context).accentColor, fontSize: 30)),
             ),
             _signInButton(context),
             AnimatedOpacity(

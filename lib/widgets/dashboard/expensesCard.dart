@@ -13,12 +13,12 @@ class ExpensesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Theme.of(context).backgroundColor,
-      child: Padding(
+      child: Container(
         padding: EdgeInsets.only(top: 10),
         child: InkWell(
           child: Column(
             children: [
-              Text("Expenses"),
+              Text("Expenses".toUpperCase(), style: TextStyle(fontWeight: FontWeight.w900)),
               () {
                 if (expenses.isEmpty) {
                   return EmptyState(text: "Empty!\nStart adding expenses.");
