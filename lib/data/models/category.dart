@@ -1,3 +1,5 @@
+import 'package:monies/utils/icons.dart';
+
 import 'modules.dart';
 import 'package:flutter/material.dart';
 part 'category.g.dart';
@@ -14,7 +16,9 @@ class ExpenseCategory implements BaseModel {
   static get defaultIcon => Icons.attach_money;
   static get defaultColor => Colors.green[400];
 
-  IconData get icon => IconData(iconCode ?? defaultIcon.codePoint, fontFamily: 'MaterialIcons');
+  String get iconString => IconsHelper.iconNameFromCode(iconCode);
+
+  IconData get icon => IconsHelper.iconFromCode(iconCode, defaultIcon);
   Color get color => Color(colorCode ?? defaultColor.value);
 
   ExpenseCategory(this.id, this.title, this.order, this.colorCode, this.iconCode, this.userId);

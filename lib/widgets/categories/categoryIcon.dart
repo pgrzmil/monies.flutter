@@ -4,10 +4,11 @@ import 'package:monies/data/models/category.dart';
 class CategoryIcon extends StatelessWidget {
   final ExpenseCategory category;
   final double radius;
+  final double iconSize;
   final Color color;
   final IconData icon;
   
-  const CategoryIcon({Key key, this.category, this.radius, this.color, this.icon}) : super(key: key);
+  const CategoryIcon({Key key, this.category, this.radius = 20, this.iconSize, this.color, this.icon}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,8 @@ class CategoryIcon extends StatelessWidget {
       backgroundColor: color ?? category?.color ?? ExpenseCategory.defaultColor,
       child: Icon(
         icon ?? category?.icon ?? ExpenseCategory.defaultIcon,
-        color: Colors.white,
+        color: Theme.of(context).iconTheme.color,
+        size: iconSize ?? Theme.of(context).iconTheme.size,
       ),
     );
   }

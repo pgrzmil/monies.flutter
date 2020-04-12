@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:monies/data/models/category.dart';
 import 'package:monies/utils/formatters.dart';
+import 'package:monies/utils/icons.dart';
 import 'package:monies/widgets/categories/categoryIcon.dart';
 import 'package:monies/widgets/controls/colorTextFormField.dart';
 
@@ -31,7 +32,7 @@ class _CategoryFormState extends State<CategoryForm> {
       key: widget.formKey,
       child: Column(children: [
         Row(children: [
-          CategoryIcon(icon: icon, color: color, radius: 50),
+          CategoryIcon(icon: icon, color: color, radius: 50, iconSize: 60),
           Expanded(
             child: Container(
               padding: EdgeInsets.only(left: 15),
@@ -47,23 +48,19 @@ class _CategoryFormState extends State<CategoryForm> {
                   ),
                   TextFormField(
                     key: Key("iconField"),
-                    initialValue: widget.category.iconCode?.toString(),
+                    initialValue: widget.category.iconString,
                     validator: Validator.notEmpty(),
-                    keyboardType: TextInputType.number,
+                    autocorrect: false,
                     decoration: InputDecoration(labelText: "Icon code", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
-                    maxLength: 6,
                     onChanged: (value) {
-                      final code = int.tryParse(value);
-                      if (code != null) {
-                        final iconData = IconData(code, fontFamily: "MaterialIcons");
-                        if (iconData != null) {
-                          setState(() {
-                            icon = iconData;
-                          });
-                        }
+                      IconData iconData = IconsHelper.tryParse(value);
+                      if (iconData != null) {
+                        setState(() {
+                          icon = iconData;
+                        });
                       }
                     },
-                    onSaved: (value) => widget.category.iconCode = int.tryParse(value),
+                    onSaved: (value) => widget.category.iconCode = IconsHelper.iconCodeFromName(value),
                   ),
                 ],
               ),
