@@ -7,6 +7,7 @@ import 'package:monies/data/incomesProvider.dart';
 import 'package:monies/data/recurringExpensesProvider.dart';
 import 'package:monies/utils/navigation.dart';
 import 'package:monies/services/signInService.dart';
+import 'package:monies/widgets/controls/dismissKeyboard.dart';
 import 'package:provider/provider.dart';
 import 'data/categoriesProvider.dart';
 import 'data/expensesProvider.dart';
@@ -52,39 +53,42 @@ class App extends StatelessWidget {
           },
         )
       ],
-      child: MaterialApp(
-        title: 'monies',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.dark().copyWith(
-            primary: Consts.accentColor,
-            secondary: Consts.backgroundColor,
-          ),
-          primaryColor: Consts.accentColor,
-          accentColor: Consts.accentColor,
-          backgroundColor: Consts.backgroundColor,
-          canvasColor: Consts.backgroundColor,
-          dialogBackgroundColor: Consts.backgroundColor,
-          textTheme: defaultTextTheme,
-          iconTheme: IconThemeData().copyWith(color: Consts.appBarColor),
-          floatingActionButtonTheme: FloatingActionButtonThemeData().copyWith(backgroundColor: Consts.accentColor),
-          buttonTheme: ButtonThemeData().copyWith(textTheme: ButtonTextTheme.accent),
-          appBarTheme: AppBarTheme(
-              elevation: 0,
-              color: Consts.backgroundColor,
-              brightness: Brightness.dark,
-              textTheme: defaultTextTheme.copyWith(
-                title: GoogleFonts.nunito(
-                  textStyle: defaultTextTheme.title,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                  color: Consts.appBarColor,
+      child: DismissKeyboard(
+        context,
+        child: MaterialApp(
+          title: 'monies',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            colorScheme: ColorScheme.dark().copyWith(
+              primary: Consts.accentColor,
+              secondary: Consts.backgroundColor,
+            ),
+            primaryColor: Consts.accentColor,
+            accentColor: Consts.accentColor,
+            backgroundColor: Consts.backgroundColor,
+            canvasColor: Consts.backgroundColor,
+            dialogBackgroundColor: Consts.backgroundColor,
+            textTheme: defaultTextTheme,
+            iconTheme: IconThemeData().copyWith(color: Consts.appBarColor),
+            floatingActionButtonTheme: FloatingActionButtonThemeData().copyWith(backgroundColor: Consts.accentColor),
+            buttonTheme: ButtonThemeData().copyWith(textTheme: ButtonTextTheme.accent),
+            appBarTheme: AppBarTheme(
+                elevation: 0,
+                color: Consts.backgroundColor,
+                brightness: Brightness.dark,
+                textTheme: defaultTextTheme.copyWith(
+                  title: GoogleFonts.nunito(
+                    textStyle: defaultTextTheme.title,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    color: Consts.appBarColor,
+                  ),
                 ),
-              ),
-              iconTheme: IconThemeData().copyWith(color: Consts.appBarColor)),
+                iconTheme: IconThemeData().copyWith(color: Consts.appBarColor)),
+          ),
+          routes: Routes.navigationRoutes,
+          initialRoute: Routes.login,
         ),
-        routes: Routes.navigationRoutes,
-        initialRoute: Routes.login,
       ),
     );
   }
