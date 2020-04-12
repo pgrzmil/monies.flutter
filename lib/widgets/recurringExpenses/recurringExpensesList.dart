@@ -19,7 +19,7 @@ class RecurringExpensesList extends StatelessWidget {
         final incomes = recurringExpensesProvider.getAll();
         return ItemsList<RecurringExpense>(
           items: incomes,
-          title: "Recurring expenses",
+          title: "Recurring expenses".toUpperCase(),
           header: SumHeader(sumText: incomes.sumText()),
           emptyState: EmptyState(text: "Empty!\nStart adding recurring expenses.", key: Key("recurringExpensesList_empty_state")),
           onAdd: () => navigateToAdd(context),

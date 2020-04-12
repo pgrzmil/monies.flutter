@@ -23,8 +23,9 @@ class _RecurringExpenseEditViewState extends State<RecurringExpenseEditView> {
   Widget build(BuildContext context) {
     final recurringExpenseForm = RecurringExpenseForm(recurringExpense: widget.recurringExpense, formKey: formKey);
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text(widget.recurringExpense.title),
+        title: Text(widget.recurringExpense.title.toUpperCase()),
         actions: [
           IconButton(
             icon: Icon(Icons.delete),

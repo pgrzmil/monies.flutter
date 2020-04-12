@@ -12,9 +12,10 @@ import 'package:provider/provider.dart';
 class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(        
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text("Settings"),
+        title: Text("Settings".toUpperCase()),
       ),
       body: Consumer<SignInService>(builder: (context, signInService, _) {
         final userId = signInService.userId;

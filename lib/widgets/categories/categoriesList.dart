@@ -16,7 +16,7 @@ class CategoriesList extends StatelessWidget {
       builder: (context, categoriesProvider, child) {
         return ItemsList<ExpenseCategory>(
           items: categoriesProvider.getAll(),
-          title: "Categories",
+          title: "Categories".toUpperCase(),
           onAdd: () => navigateToAdd(context),
           onEdit: (category) => navigateToEdit(context, category),
           onCellTap: (category) => navigateToEdit(context, category),

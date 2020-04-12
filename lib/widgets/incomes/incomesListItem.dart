@@ -9,7 +9,6 @@ class IncomesListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
       child: ListTile(
         title: Text(income.title, style: TextStyle(fontSize: 16)),
         subtitle: Text(income.dateString),

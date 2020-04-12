@@ -23,8 +23,9 @@ class _ExpenseEditViewState extends State<ExpenseEditView> {
   Widget build(BuildContext context) {
     final expenseForm = ExpenseForm(widget.expense, formKey);
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text(widget.expense.title),
+        title: Text(widget.expense.title.toUpperCase()),
         actions: [
           IconButton(
             icon: Icon(Icons.delete),
@@ -39,7 +40,7 @@ class _ExpenseEditViewState extends State<ExpenseEditView> {
       ),
       body: Container(
         padding: EdgeInsets.all(10),
-        child:expenseForm,
+        child: expenseForm,
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.save),

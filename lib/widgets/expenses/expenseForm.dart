@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -26,18 +28,18 @@ class ExpenseForm extends StatelessWidget {
             key: Key("titleField"),
             initialValue: expense.title,
             validator: Validator.notEmpty(),
-            decoration: InputDecoration(labelText: "Expense title"),
+            decoration: InputDecoration(labelText: "Expense title", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
             onSaved: (value) => expense.title = value,
           ),
           TextFormField(
             key: Key("locationField"),
             initialValue: expense.location,
-            decoration: InputDecoration(labelText: "Location"),
+            decoration: InputDecoration(labelText: "Location", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
             onSaved: (value) => expense.location = value,
           ),
           TextFormField(
             key: Key("amountField"),
-            decoration: InputDecoration(labelText: "Amount"),
+            decoration: InputDecoration(labelText: "Amount", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
             keyboardType: TextInputType.number,
             controller: moneyFormatController,
             onSaved: (value) => expense.amount = moneyFormatController.numberValue ?? 0,
@@ -47,13 +49,13 @@ class ExpenseForm extends StatelessWidget {
             initialDate: expense.date,
             dateFormatter: Format.date,
             validator: Validator.notEmpty(),
-            decoration: InputDecoration(labelText: "Date"),
+            decoration: InputDecoration(labelText: "Date", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
             onDatePicked: (date) => expense.date = date,
           ),
           CategoryPickerFormField(
             key: Key("categoryDropDown"),
             initialCategoryId: expense.categoryId,
-            decoration: InputDecoration(labelText: "Category"),
+            decoration: InputDecoration(labelText: "Category", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
             validator: Validator.notNull("Pick category"),
             onCategoryPicked: (category) => expense.categoryId = category.id,
           ),

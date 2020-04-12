@@ -41,7 +41,7 @@ class _CategoryFormState extends State<CategoryForm> {
                     key: Key("colorField"),
                     initialColor: widget.category.color,
                     validator: Validator.notEmpty(),
-                    decoration: InputDecoration(labelText: "Color code"),
+                    decoration: InputDecoration(labelText: "Color code", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
                     onColorPicked: (selectedColor) => setState(() => color = selectedColor),
                     onSaved: (color) => widget.category.colorCode = color.value,
                   ),
@@ -50,7 +50,7 @@ class _CategoryFormState extends State<CategoryForm> {
                     initialValue: widget.category.iconCode?.toString(),
                     validator: Validator.notEmpty(),
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(labelText: "Icon code"),
+                    decoration: InputDecoration(labelText: "Icon code", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
                     maxLength: 6,
                     onChanged: (value) {
                       final code = int.tryParse(value);
@@ -74,7 +74,7 @@ class _CategoryFormState extends State<CategoryForm> {
           key: Key("titleField"),
           initialValue: widget.category.title,
           validator: Validator.notEmpty(),
-          decoration: InputDecoration(labelText: "Title"),
+          decoration: InputDecoration(labelText: "Title", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
           onSaved: (value) => widget.category.title = value,
         ),
         TextFormField(
@@ -82,7 +82,7 @@ class _CategoryFormState extends State<CategoryForm> {
           initialValue: widget.category.order.toString(),
           keyboardType: TextInputType.number,
           validator: Validator.notEmpty(),
-          decoration: InputDecoration(labelText: "Order"),
+          decoration: InputDecoration(labelText: "Order", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
           onSaved: (value) => widget.category.order = int.tryParse(value),
         ),
       ]),

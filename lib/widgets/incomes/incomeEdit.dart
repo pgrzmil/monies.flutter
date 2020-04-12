@@ -23,8 +23,9 @@ class _IncomeEditViewState extends State<IncomeEditView> {
   Widget build(BuildContext context) {
     final incomeForm = IncomeForm(income: widget.income, formKey: formKey);
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text(widget.income.title),
+        title: Text(widget.income.title.toUpperCase()),
         actions: [
           IconButton(
             icon: Icon(Icons.delete),

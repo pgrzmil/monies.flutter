@@ -23,8 +23,9 @@ class _CategoryEditViewState extends State<CategoryEditView> {
   Widget build(BuildContext context) {
     final categoryForm = CategoryForm(category: widget.category, formKey: formKey);
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text(widget.category.title),
+        title: Text(widget.category.title.toUpperCase()),
         actions: [
           IconButton(
             icon: Icon(Icons.delete),

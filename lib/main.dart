@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:monies/consts.dart';
 import 'package:monies/data/analyticsProvider.dart';
 import 'package:monies/data/dashboardProvider.dart';
 import 'package:monies/data/incomesProvider.dart';
@@ -15,6 +17,8 @@ void main() => runApp(App());
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final defaultTextTheme = GoogleFonts.nunitoTextTheme(Theme.of(context).textTheme)
+        .apply(bodyColor: Consts.textColor, decorationColor: Consts.textColor, displayColor: Consts.accentColor);
     final authService = SignInService();
     return MultiProvider(
       providers: [
@@ -51,8 +55,20 @@ class App extends StatelessWidget {
       child: MaterialApp(
         title: 'monies',
         theme: ThemeData(
-          primarySwatch: Colors.indigo,
-          primaryColor: Colors.indigo[900],
+          accentColor: Consts.accentColor,
+          backgroundColor: Consts.backgroundColor,
+          textTheme: defaultTextTheme,
+          appBarTheme: AppBarTheme(
+            elevation: 0,
+            color: Consts.backgroundColor,
+            textTheme: defaultTextTheme.copyWith(
+              title: GoogleFonts.nunito(
+                textStyle: defaultTextTheme.title,
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
         ),
         routes: Routes.navigationRoutes,
         initialRoute: Routes.login,

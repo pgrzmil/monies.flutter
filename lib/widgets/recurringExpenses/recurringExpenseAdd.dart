@@ -22,8 +22,9 @@ class _RecurringExpenseAddViewState extends State<RecurringExpenseAddView> {
     final recurringExpenseForm = RecurringExpenseForm(recurringExpense: recurringExpense, formKey: formKey);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text("Add recurring expense"),
+        title: Text("Add recurring expense".toUpperCase()),
       ),
       body: Container(
         padding: EdgeInsets.all(10),

@@ -24,7 +24,7 @@ class IncomesList extends StatelessWidget {
         final incomes = incomesProvider.getForMonth(selectedDate.month, selectedDate.year).toList();
         return ItemsList<Income>(
           items: incomes,
-          title: "Incomes (${Format.monthAndYear(selectedDate)})",
+          title: "Incomes (${Format.monthAndYear(selectedDate)})".toUpperCase(),
           header: SumHeader(sumText: incomes.sumText()),
           emptyState: EmptyState(text: "Empty!\nStart adding incomes.", key: Key("incomesList_empty_state")),
           onAdd: () => navigateToAdd(context),

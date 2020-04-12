@@ -51,7 +51,6 @@ class _ExpensesListState extends State<ExpensesList> {
     return Consumer<ExpensesProvider>(
       builder: (context, expensesProvider, child) {
         var expenses = expensesProvider.getForMonth(widget.selectedDate.month, widget.selectedDate.year).filterByCategory(categoryFilter).toList();
-
         return ItemsList<Expense>(
           items: expenses,
           appBar: _appBar(expensesProvider),
@@ -103,9 +102,10 @@ class _ExpensesListState extends State<ExpensesList> {
 
   AppBar _appBar(ExpensesProvider expensesProvider) {
     return AppBar(
-      title: Text("Expenses (${Format.monthAndYear(widget.selectedDate)})"),
+      title: Text("Expenses (${Format.monthAndYear(widget.selectedDate)})".toUpperCase()),
       actions: <Widget>[
         PopupMenuButton(
+          color: Theme.of(context).backgroundColor,
           onSelected: (item) => menuItemSelected(item, expensesProvider),
           itemBuilder: (BuildContext context) {
             return [
@@ -127,7 +127,6 @@ class _ExpensesListState extends State<ExpensesList> {
   Container _header(String sumText) {
     return Container(
       alignment: Alignment(0, 0),
-      color: Colors.white,
       height: 50,
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: Row(
@@ -135,7 +134,7 @@ class _ExpensesListState extends State<ExpensesList> {
         children: [
           Spacer(),
           DropdownButton(
-            hint: Text("Filter by category"),
+            hint: Text("Filter by category", style: TextStyle(fontSize: 16, color: Theme.of(context).textTheme.title.color)),
             value: categoryFilter,
             onChanged: ((category) {
               setState(() {

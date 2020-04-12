@@ -22,8 +22,9 @@ class _ExpenseAddViewState extends State<ExpenseAddView> {
     final expenseForm = ExpenseForm(expense, formKey);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text("Add expense"),
+        title: Text("Add expense".toUpperCase()),
       ),
       body: Container(
         padding: EdgeInsets.all(10),

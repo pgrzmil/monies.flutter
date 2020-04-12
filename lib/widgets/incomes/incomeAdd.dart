@@ -22,8 +22,9 @@ class _IncomeAddViewState extends State<IncomeAddView> {
     final incomeForm = IncomeForm(income: income, formKey: formKey);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text("Add income"),
+        title: Text("Add income".toUpperCase()),
       ),
       body: Container(
         padding: EdgeInsets.all(10),

@@ -15,7 +15,7 @@ class DashboardProvider extends ChangeNotifier {
 
   DateTime _currentDate = DateTime.now();
 
-  String get title => Format.monthAndYear(_currentDate);
+  String get title => Format.monthAndYear(_currentDate).toUpperCase();
 
   Iterable<Expense> get lastExpenses => _expensesProvider.getLatest(3, _currentDate.month, _currentDate.year);
 

@@ -22,8 +22,9 @@ class _CategoryAddViewState extends State<CategoryAddView> {
     final categoryForm = CategoryForm(category: category, formKey: formKey);
 
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text("Add category"),
+        title: Text("Add category".toUpperCase()),
       ),
       body: Container(
         padding: EdgeInsets.all(10),

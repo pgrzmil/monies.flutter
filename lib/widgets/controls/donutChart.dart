@@ -16,7 +16,7 @@ class DonutPieChart extends StatelessWidget {
       defaultRenderer: ArcRendererConfig(
         arcWidth: 65,
         arcRendererDecorators: [
-          ArcLabelDecorator(labelPosition: ArcLabelPosition.outside),
+          ArcLabelDecorator(labelPosition: ArcLabelPosition.outside, insideLabelStyleSpec: TextStyleSpec(fontSize: 12, color: Color.white), outsideLabelStyleSpec: TextStyleSpec(fontSize: 12, color: Color.white)),
         ],
       ),
     );

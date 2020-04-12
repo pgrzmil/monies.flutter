@@ -15,21 +15,22 @@ class AnalyticsDashboard extends StatelessWidget {
       builder: (context, analyticsProvider, _) {
         final sumByCategories = analyticsProvider.sumByCategory;
         return Scaffold(
+          backgroundColor: Theme.of(context).backgroundColor,
           appBar: AppBar(
             title: Row(
               //Month selector widget
               children: [
                 SizedBox(
                   child: FlatButton(
-                    child: Icon(Icons.arrow_left),
+                    child: Icon(Icons.arrow_left, color: Theme.of(context).textTheme.title.color),
                     onPressed: analyticsProvider.switchToPreviousMonth,
                   ),
                   width: 40,
                 ),
-                Text(analyticsProvider.title),
+                Text(analyticsProvider.title.toUpperCase()),
                 SizedBox(
                   child: FlatButton(
-                    child: Icon(Icons.arrow_right),
+                    child: Icon(Icons.arrow_right, color: Theme.of(context).textTheme.title.color),
                     onPressed: analyticsProvider.switchToNextMonth,
                   ),
                   width: 40,
@@ -58,8 +59,10 @@ class AnalyticsDashboard extends StatelessWidget {
                         category: item.category,
                         trailing: Text(Format.money(item.sum)),
                       ),
-                      onTap: () => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => ExpensesList(selectedDate: analyticsProvider.currentDate, categoryFilter: item.category.id))),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ExpensesList(selectedDate: analyticsProvider.currentDate, categoryFilter: item.category.id))),
                     );
                   },
                 ),

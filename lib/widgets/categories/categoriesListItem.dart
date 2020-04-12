@@ -11,7 +11,6 @@ class CategoriesListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
       child: ListTile(
         leading: CategoryIcon(category: category),
         title: Text(category.title),

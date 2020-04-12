@@ -12,7 +12,7 @@ class ExpensesListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: Theme.of(context).backgroundColor,
       padding: EdgeInsets.all(10),
       child: Row(
         children: [
@@ -27,11 +27,16 @@ class ExpensesListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(children: [
-                Padding(
+                Container(
                   padding: EdgeInsets.only(right: 6),
-                  child: Text(expense.displayTitle, style: TextStyle(fontSize: 16)),
+                  child: Text(
+                    expense.displayTitle,
+                    style: TextStyle(fontSize: 16),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-                if (expense.recurringExpenseId != null && expense.recurringExpenseId.isNotEmpty) Icon(Icons.refresh, size: 17),
+                if (expense.recurringExpenseId != null && expense.recurringExpenseId.isNotEmpty)
+                  Icon(Icons.refresh, size: 17, color: Theme.of(context).textTheme.title.color),
               ]),
               Text(expense.dateString),
             ],

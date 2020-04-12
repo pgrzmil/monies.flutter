@@ -12,6 +12,7 @@ class ExpensesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Theme.of(context).backgroundColor,
       child: Padding(
         padding: EdgeInsets.only(top: 10),
         child: InkWell(

@@ -39,6 +39,7 @@ class ItemsList<T> extends StatelessWidget {
     final slidableController = SlidableController();
     return Scaffold(
       appBar: appBar ?? AppBar(title: Text(title)),
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Column(
         children: [
           if (header != null) header,

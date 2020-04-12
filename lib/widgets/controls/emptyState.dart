@@ -8,9 +8,9 @@ class EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Theme.of(context).backgroundColor,
       padding: EdgeInsets.only(top: 40, bottom: 40),
       alignment: Alignment(0, 0),
-      color: Colors.white,
       child: Text(
         text,
         style: TextStyle(fontSize: 20, color: Colors.grey),
