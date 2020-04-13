@@ -11,6 +11,7 @@ class DatePickerTextFormField extends StatefulWidget {
   final FormFieldValidator<String> validator;
   final DateFormatter dateFormatter;
   final FocusNode focusNode;
+  final FocusNode nextFocusNode;
   final TextEditingController dateTextController = TextEditingController();
 
   DatePickerTextFormField({
@@ -21,6 +22,7 @@ class DatePickerTextFormField extends StatefulWidget {
     this.validator,
     this.dateFormatter,
     this.focusNode,
+    this.nextFocusNode,
   }) : super(key: key) {
     this.dateTextController.text = dateFormatter(initialDate);
   }
@@ -31,6 +33,15 @@ class DatePickerTextFormField extends StatefulWidget {
 
 class _DatePickerTextFormFieldState extends State<DatePickerTextFormField> {
   DateTime pickedDate;
+  bool isOpen = false;
+  VoidCallback onFocused;
+
+  @override
+  void initState() {
+    super.initState();
+    onFocused = () => _selectDate(context);
+    widget.focusNode?.addListener(onFocused);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +61,22 @@ class _DatePickerTextFormFieldState extends State<DatePickerTextFormField> {
   }
 
   _selectDate(BuildContext context) async {
+    //prevents from opening picker when focus is changing on navigation change`
+    if (isOpen) return;
+
+    widget.focusNode?.removeListener(onFocused);
+    isOpen = true;
     final date = await showDatePicker(context: context, initialDate: widget.initialDate, firstDate: DateTime(2001), lastDate: DateTime(2101));
+    isOpen = false;
+
     if (date != null) {
       setState(() {
         pickedDate = date;
         widget.dateTextController.text = widget.dateFormatter(date);
       });
+
+      widget.focusNode.unfocus();
+      FocusScope.of(context).requestFocus(widget.nextFocusNode);
     }
   }
 }

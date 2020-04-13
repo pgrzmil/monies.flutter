@@ -26,17 +26,20 @@ class ColorPickerTextFormField extends StatefulWidget {
 
   @override
   _ColorPickerTextFormFieldState createState() => _ColorPickerTextFormFieldState();
+  
 }
 
 class _ColorPickerTextFormFieldState extends State<ColorPickerTextFormField> {
   final colorTextController = TextEditingController();
   Color color;
+  bool isOpen = false;
 
   @override
   void initState() {
     super.initState();
     color = widget.initialColor;
     colorTextController.text = color.value?.toRadixString(16) ?? "";
+    widget.focusNode?.addListener(() => _openPicker(context));
   }
 
   @override
@@ -51,18 +54,19 @@ class _ColorPickerTextFormFieldState extends State<ColorPickerTextFormField> {
       textInputAction: TextInputAction.next,
       focusNode: widget.focusNode,
       nextFocusNode: widget.nextFocusNode,
-      onFieldSubmitted: (term) {
-        openPicker(context);
-      },
       onSaved: (value) => widget.onSaved(color),
-      onTap: () {
-        openPicker(context);
-      },
+      onTap: () => _openPicker(context),
     );
   }
 
-  Future openPicker(BuildContext context) async {
+  Future _openPicker(BuildContext context) async {
+    //prevents from opening picker when focus is changing on navigation change`
+    if (isOpen || !widget.focusNode.hasFocus) return;
+
+    isOpen = true;
     final selectedColor = await Dialogs.colorPicker(context, initialColor: color);
+    isOpen = false;
+
     colorTextController.text = selectedColor.value.toRadixString(16);
     setState(() => color = selectedColor);
 

@@ -10,7 +10,7 @@ class CategoryPickerFormField extends StatefulWidget {
   final CategoryPickingCallback onCategoryPicked;
   final InputDecoration decoration;
   final FormFieldValidator<ExpenseCategory> validator;
-
+  
   const CategoryPickerFormField({
     Key key,
     this.onCategoryPicked,
@@ -25,7 +25,8 @@ class CategoryPickerFormField extends StatefulWidget {
 
 class _CategoryPickerFormFieldState extends State<CategoryPickerFormField> {
   ExpenseCategory pickedCategory;
-  
+    bool isOpen = false;
+
   /// Stores initial category set to widget. 
   /// When initial category changes in parent widget (e.g when recurring expense is reset) it will be different 
   /// from [widget.initialCategoryId] and  because of that [pickedCategory] field will be updated  in [build] method. 
