@@ -42,29 +42,31 @@ class AnalyticsDashboard extends StatelessWidget {
             onLeftSwipe: analyticsProvider.switchToNextMonth,
             onRightSwipe: analyticsProvider.switchToPreviousMonth,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 SizedBox(
                   height: 300,
                   width: 400,
                   child: DonutPieChart(analyticsProvider.categoriesChartData, animate: true),
                 ),
-                ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: sumByCategories.length,
-                  separatorBuilder: (context, index) => Divider(height: 0),
-                  itemBuilder: (context, index) {
-                    final item = sumByCategories.elementAt(index);
-                    return InkWell(
-                      child: CategoriesListItem(
-                        category: item.category,
-                        trailing: Text(Format.money(item.sum)),
-                      ),
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ExpensesList(selectedDate: analyticsProvider.currentDate, categoryFilter: item.category.id))),
-                    );
-                  },
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: sumByCategories.length,
+                    separatorBuilder: (context, index) => Divider(height: 0),
+                    itemBuilder: (context, index) {
+                      final item = sumByCategories.elementAt(index);
+                      return InkWell(
+                        child: CategoriesListItem(
+                          category: item.category,
+                          trailing: Text(Format.money(item.sum)),
+                        ),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ExpensesList(selectedDate: analyticsProvider.currentDate, categoryFilter: item.category.id))),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

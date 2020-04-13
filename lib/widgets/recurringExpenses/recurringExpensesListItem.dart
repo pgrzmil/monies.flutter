@@ -26,11 +26,16 @@ class RecurringExpensesListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(children: [
-                Padding(
+                Container(
+                  constraints: BoxConstraints(maxWidth: 250),
                   padding: EdgeInsets.only(right: 6),
-                  child: Text(recurringExpense.displayTitle, style: TextStyle(fontSize: 16)),
+                  child: Text(
+                    recurringExpense.displayTitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 16),
+                  ),
                 ),
-                if (recurringExpense.recurringExpenseId != null && recurringExpense.recurringExpenseId.isNotEmpty) Icon(Icons.refresh, size: 17),
               ]),
               Text(recurringExpense.startDateString),
             ],

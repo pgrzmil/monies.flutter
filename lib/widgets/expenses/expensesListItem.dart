@@ -26,18 +26,22 @@ class ExpensesListItem extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(children: [
-                Container(
-                  padding: EdgeInsets.only(right: 6),
-                  child: Text(
-                    expense.displayTitle,
-                    style: TextStyle(fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    constraints: BoxConstraints(maxWidth: 235),
+                    padding: EdgeInsets.only(right: 6),
+                    child: Text(
+                      expense.displayTitle,
+                      style: TextStyle(fontSize: 16),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-                if (expense.recurringExpenseId != null && expense.recurringExpenseId.isNotEmpty)
-                  Icon(Icons.refresh, size: 17, color: Theme.of(context).textTheme.title.color),
-              ]),
+                  if (expense.recurringExpenseId != null && expense.recurringExpenseId.isNotEmpty)
+                    Icon(Icons.refresh, size: 17, color: Theme.of(context).textTheme.title.color),
+                ],
+              ),
               Text(expense.dateString),
             ],
           ),

@@ -21,7 +21,7 @@ class MoniesTextFormField extends TextFormField {
     bool enableSuggestions = true,
     bool autovalidate = false,
     int maxLength,
-    TextCapitalization textCapitalization,
+    TextCapitalization textCapitalization = TextCapitalization.none,
     ValueChanged<String> onChanged,
     GestureTapCallback onTap,
     FormFieldSetter<String> onSaved,
