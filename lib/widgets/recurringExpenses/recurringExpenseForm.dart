@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:monies/data/models/recurringExpense.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/categories/categoryPickerFormField.dart';
@@ -19,9 +18,6 @@ class RecurringExpenseForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //MoneyMaskedTextController could be working better. In case of too much free time can be fixed this in the future.
-    final moneyFormatController =
-        MoneyMaskedTextController(initialValue: recurringExpense.amount, rightSymbol: " zł", decimalSeparator: ",", thousandSeparator: " ");
     return Form(
       key: formKey,
       child: Column(
@@ -31,6 +27,7 @@ class RecurringExpenseForm extends StatelessWidget {
             key: Key("titleField"),
             autofocus: true,
             textInputAction: TextInputAction.next,
+            textCapitalization: TextCapitalization.sentences,
             focusNode: _titleFocus,
             nextFocusNode: _locationFocus,
             initialValue: recurringExpense.title,
@@ -42,6 +39,7 @@ class RecurringExpenseForm extends StatelessWidget {
             context,
             key: Key("locationField"),
             textInputAction: TextInputAction.next,
+            textCapitalization: TextCapitalization.sentences,
             focusNode: _locationFocus,
             nextFocusNode: _amountFocus,
             initialValue: recurringExpense.location,
@@ -55,9 +53,9 @@ class RecurringExpenseForm extends StatelessWidget {
             textInputAction: TextInputAction.next,
             focusNode: _amountFocus,
             nextFocusNode: _dateFocus,
-            controller: moneyFormatController,
+            initialValue: recurringExpense.amount != 0 ? recurringExpense.amount.toString() : "",
             decoration: InputDecoration(labelText: "Amount"),
-            onSaved: (value) => recurringExpense.amount = moneyFormatController.numberValue ?? 0,
+            onSaved: (value) => recurringExpense.amount = double.tryParse(value.replaceAll(RegExp(r','), ".")) ?? 0,
           ),
           DatePickerTextFormField(
             key: Key("dateField"),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:monies/data/models/income.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/controls/datePickerTextFormField.dart';
@@ -17,10 +16,6 @@ class IncomeForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //MoneyMaskedTextController could be working better. In case of too much free time can be fixed this in the future.
-    final moneyFormatController =
-        MoneyMaskedTextController(initialValue: income.amount, rightSymbol: " zł", decimalSeparator: ",", thousandSeparator: " ");
-
     return Form(
       key: formKey,
       child: Column(children: [
@@ -29,6 +24,7 @@ class IncomeForm extends StatelessWidget {
           key: Key("titleField"),
           autofocus: true,
           textInputAction: TextInputAction.next,
+          textCapitalization: TextCapitalization.sentences,
           focusNode: _titleFocus,
           nextFocusNode: _amountFocus,
           initialValue: income.title,
@@ -43,9 +39,9 @@ class IncomeForm extends StatelessWidget {
           textInputAction: TextInputAction.next,
           focusNode: _amountFocus,
           nextFocusNode: _dateFocus,
-          controller: moneyFormatController,
+          initialValue: income.amount != 0 ? income.amount.toString() : "",
           decoration: InputDecoration(labelText: "Amount"),
-          onSaved: (value) => income.amount = moneyFormatController.numberValue ?? 0,
+          onSaved: (value) => income.amount = double.tryParse(value.replaceAll(RegExp(r','), ".")),
         ),
         DatePickerTextFormField(
           key: Key("dateField"),

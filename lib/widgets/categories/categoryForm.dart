@@ -52,6 +52,7 @@ class _CategoryFormState extends State<CategoryForm> {
                     autocorrect: false,
                     autofocus: true,
                     textInputAction: TextInputAction.next,
+                    textCapitalization: TextCapitalization.sentences,
                     focusNode: _iconFocus,
                     nextFocusNode: _colorFocus,
                     decoration: InputDecoration(labelText: "Icon code"),

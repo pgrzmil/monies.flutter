@@ -21,6 +21,7 @@ class MoniesTextFormField extends TextFormField {
     bool enableSuggestions = true,
     bool autovalidate = false,
     int maxLength,
+    TextCapitalization textCapitalization,
     ValueChanged<String> onChanged,
     GestureTapCallback onTap,
     FormFieldSetter<String> onSaved,
@@ -42,11 +43,13 @@ class MoniesTextFormField extends TextFormField {
           enableSuggestions: enableSuggestions,
           autovalidate: autovalidate,
           maxLength: maxLength,
+          textCapitalization: textCapitalization,
           onChanged: onChanged,
           onTap: onTap,
           onSaved: onSaved,
           validator: validator,
           inputFormatters: inputFormatters,
+          
           onFieldSubmitted: onFieldSubmitted ?? (term) => _fieldFocusChange(context, focusNode, nextFocusNode),
         );
 

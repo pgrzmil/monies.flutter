@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:monies/data/models/expense.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/categories/categoryPickerFormField.dart';
@@ -11,22 +10,23 @@ class ExpenseForm extends StatelessWidget {
   final Expense expense;
   final GlobalKey<FormState> formKey;
 
-  ExpenseForm(this.expense, this.formKey);
+  ExpenseForm(this.expense, this.formKey) {
+    titleController.text = expense.title;
+    locationController.text = expense.location;
+    amountController.text = expense.amount != 0 ? expense.amount.toString() : "";
+  }
 
   final FocusNode _titleFocus = FocusNode();
   final FocusNode _locationFocus = FocusNode();
   final FocusNode _amountFocus = FocusNode();
   final FocusNode _dateFocus = FocusNode();
 
+  final titleController = TextEditingController();
+  final locationController = TextEditingController();
+  final amountController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    //MoneyMaskedTextController could be working better. In case of too much free time can be fixed in the future.
-    final moneyFormatController =
-        MoneyMaskedTextController(initialValue: expense.amount, rightSymbol: " zł", decimalSeparator: ",", thousandSeparator: " ");
-
-    final titleController = TextEditingController(text: expense.title);
-    final locationController = TextEditingController(text: expense.location);
-
     return Form(
       key: formKey,
       child: Column(
@@ -35,7 +35,9 @@ class ExpenseForm extends StatelessWidget {
             context,
             key: Key("titleField"),
             autofocus: true,
+            keyboardType: TextInputType.text,
             textInputAction: TextInputAction.next,
+            textCapitalization: TextCapitalization.sentences,
             focusNode: _titleFocus,
             nextFocusNode: _locationFocus,
             controller: titleController,
@@ -46,7 +48,9 @@ class ExpenseForm extends StatelessWidget {
           MoniesTextFormField(
             context,
             key: Key("locationField"),
+            keyboardType: TextInputType.text,
             textInputAction: TextInputAction.next,
+            textCapitalization: TextCapitalization.sentences,
             focusNode: _locationFocus,
             nextFocusNode: _amountFocus,
             controller: locationController,
@@ -61,8 +65,8 @@ class ExpenseForm extends StatelessWidget {
             focusNode: _amountFocus,
             nextFocusNode: _dateFocus,
             decoration: InputDecoration(labelText: "Amount"),
-            controller: moneyFormatController,
-            onSaved: (value) => expense.amount = moneyFormatController.numberValue ?? 0,
+            controller: amountController,
+            onSaved: (value) => expense.amount = double.tryParse(value.replaceAll(RegExp(r','), ".")) ?? 0,
           ),
           DatePickerTextFormField(
             key: Key("dateField"),
