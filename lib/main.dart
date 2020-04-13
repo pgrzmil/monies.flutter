@@ -18,8 +18,12 @@ void main() => runApp(App());
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final defaultTextTheme = GoogleFonts.nunitoTextTheme(Theme.of(context).textTheme)
-        .apply(bodyColor: Consts.textColor, decorationColor: Consts.textColor, displayColor: Consts.accentColor);
+    final defaultTextTheme = GoogleFonts.nunitoTextTheme(Theme.of(context).textTheme).apply(
+      bodyColor: Consts.textColor,
+      decorationColor: Consts.textColor,
+      displayColor: Consts.accentColor,
+      
+    );
     final authService = SignInService();
     return MultiProvider(
       providers: [
@@ -63,15 +67,17 @@ class App extends StatelessWidget {
               primary: Consts.accentColor,
               secondary: Consts.backgroundColor,
             ),
+            brightness: Brightness.dark,
+            primaryColorBrightness: Brightness.dark,
             primaryColor: Consts.accentColor,
             accentColor: Consts.accentColor,
+            cursorColor: Consts.accentColor,
             backgroundColor: Consts.backgroundColor,
             canvasColor: Consts.backgroundColor,
             dialogBackgroundColor: Consts.backgroundColor,
             textTheme: defaultTextTheme,
             iconTheme: IconThemeData().copyWith(color: Consts.appBarColor),
             floatingActionButtonTheme: FloatingActionButtonThemeData().copyWith(backgroundColor: Consts.accentColor),
-            buttonTheme: ButtonThemeData().copyWith(textTheme: ButtonTextTheme.accent),
             appBarTheme: AppBarTheme(
                 elevation: 0,
                 color: Consts.backgroundColor,

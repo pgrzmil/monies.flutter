@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -19,12 +17,15 @@ class ExpenseForm extends StatelessWidget {
   final FocusNode _locationFocus = FocusNode();
   final FocusNode _amountFocus = FocusNode();
   final FocusNode _dateFocus = FocusNode();
-  
+
   @override
   Widget build(BuildContext context) {
     //MoneyMaskedTextController could be working better. In case of too much free time can be fixed in the future.
     final moneyFormatController =
         MoneyMaskedTextController(initialValue: expense.amount, rightSymbol: " zł", decimalSeparator: ",", thousandSeparator: " ");
+
+    final titleController = TextEditingController(text: expense.title);
+    final locationController = TextEditingController(text: expense.location);
 
     return Form(
       key: formKey,
@@ -37,9 +38,9 @@ class ExpenseForm extends StatelessWidget {
             textInputAction: TextInputAction.next,
             focusNode: _titleFocus,
             nextFocusNode: _locationFocus,
-            initialValue: expense.title,
+            controller: titleController,
             validator: Validator.notEmpty(),
-            decoration: InputDecoration(labelText: "Expense title", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
+            decoration: InputDecoration(labelText: "Title"),
             onSaved: (value) => expense.title = value,
           ),
           MoniesTextFormField(
@@ -48,8 +49,8 @@ class ExpenseForm extends StatelessWidget {
             textInputAction: TextInputAction.next,
             focusNode: _locationFocus,
             nextFocusNode: _amountFocus,
-            initialValue: expense.location,
-            decoration: InputDecoration(labelText: "Location", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
+            controller: locationController,
+            decoration: InputDecoration(labelText: "Location"),
             onSaved: (value) => expense.location = value,
           ),
           MoniesTextFormField(
@@ -59,7 +60,7 @@ class ExpenseForm extends StatelessWidget {
             textInputAction: TextInputAction.next,
             focusNode: _amountFocus,
             nextFocusNode: _dateFocus,
-            decoration: InputDecoration(labelText: "Amount", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
+            decoration: InputDecoration(labelText: "Amount"),
             controller: moneyFormatController,
             onSaved: (value) => expense.amount = moneyFormatController.numberValue ?? 0,
           ),
@@ -69,13 +70,13 @@ class ExpenseForm extends StatelessWidget {
             dateFormatter: Format.date,
             focusNode: _dateFocus,
             validator: Validator.notEmpty(),
-            decoration: InputDecoration(labelText: "Date", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
+            decoration: InputDecoration(labelText: "Date"),
             onDatePicked: (date) => expense.date = date,
           ),
           CategoryPickerFormField(
             key: Key("categoryDropDown"),
             initialCategoryId: expense.categoryId,
-            decoration: InputDecoration(labelText: "Category", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
+            decoration: InputDecoration(labelText: "Category"),
             validator: Validator.notNull("Pick category"),
             onCategoryPicked: (category) => expense.categoryId = category.id,
           ),

@@ -29,15 +29,15 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
 
   @override
   List<Expense> getAll() {
-    return super.getAll().sortByDate();
+    return super.getAll().sortByDateAsc();
   }
 
   ///Retrieves `count` of the latest expenses for given `month` and `year`
   List<Expense> getLatest(int count, int month, int year) {
-    final monthsExpenses = getForMonth(month, year);
+    final monthsExpenses = getForMonth(month, year).where((e) => e.date.compareTo(DateTime.now()) <= 0);
     var skipCount = monthsExpenses.length > count ? monthsExpenses.length - count : 0;
 
-    return monthsExpenses.skip(skipCount).toList();
+    return monthsExpenses.skip(skipCount).sortByDateDesc().toList();
   }
 
   ///Retrieves expenses for given `month` and `year`
@@ -71,7 +71,7 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
   }
 
   ///Restores all recurring expenses instances for given `month` and `year` in case they were removed.
-  refreshRecurring(int month, int year, String userId) {
+  resetAllRecurring(int month, int year, String userId) {
     if (_recurringExpensesProvider == null) return;
 
     final mapItemToRemove = _recurringExpensesMapProvider.getAll().firstWhere((x) => x.title == _recurringId(month, year));
@@ -84,6 +84,25 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
     }
 
     updateWithRecurring(month, year, userId);
+  }
+
+  Expense resetOneRecurring(Expense expense, {bool persist = false}) {
+    if (_recurringExpensesProvider == null || expense.recurringExpenseId == null) return expense;
+
+    final recurringExpense = _recurringExpensesProvider.getBy(id: expense.recurringExpenseId);
+    expense.title = recurringExpense.title;
+    expense.location = recurringExpense.location;
+    expense.amount = recurringExpense.amount;
+    expense.categoryId = recurringExpense.categoryId;
+    expense.date = DateTime(expense.date.year, expense.date.month, recurringExpense.startDate.day);
+
+    // if (persist) {
+    //   this.edit(expense);
+    // } else {
+    //   notifyListeners();
+    // }
+    
+    return expense;
   }
 
   @override

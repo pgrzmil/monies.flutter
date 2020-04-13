@@ -11,8 +11,9 @@ class DatePickerTextFormField extends StatefulWidget {
   final FormFieldValidator<String> validator;
   final DateFormatter dateFormatter;
   final FocusNode focusNode;
+  final TextEditingController dateTextController = TextEditingController();
 
-  const DatePickerTextFormField({
+  DatePickerTextFormField({
     Key key,
     this.initialDate,
     this.onDatePicked,
@@ -20,26 +21,21 @@ class DatePickerTextFormField extends StatefulWidget {
     this.validator,
     this.dateFormatter,
     this.focusNode,
-  }) : super(key: key);
+  }) : super(key: key) {
+    this.dateTextController.text = dateFormatter(initialDate);
+  }
 
   @override
   _DatePickerTextFormFieldState createState() => _DatePickerTextFormFieldState();
 }
 
 class _DatePickerTextFormFieldState extends State<DatePickerTextFormField> {
-  final dateTextController = TextEditingController();
   DateTime pickedDate;
-
-  @override
-  void initState() {
-    dateTextController.text = widget.dateFormatter(widget.initialDate);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: dateTextController,
+      controller: widget.dateTextController,
       validator: widget.validator,
       readOnly: true,
       decoration: widget.decoration,
@@ -58,7 +54,7 @@ class _DatePickerTextFormFieldState extends State<DatePickerTextFormField> {
     if (date != null) {
       setState(() {
         pickedDate = date;
-        dateTextController.text = widget.dateFormatter(date);
+        widget.dateTextController.text = widget.dateFormatter(date);
       });
     }
   }

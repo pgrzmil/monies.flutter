@@ -94,7 +94,7 @@ class _ExpensesListState extends State<ExpensesList> {
         break;
       case _MenuItems.resetRecurring:
         final userId = Provider.of<SignInService>(context, listen: false).userId;
-        expensesProvider.refreshRecurring(widget.selectedDate.month, widget.selectedDate.year, userId);
+        expensesProvider.resetAllRecurring(widget.selectedDate.month, widget.selectedDate.year, userId);
         break;
       default:
     }

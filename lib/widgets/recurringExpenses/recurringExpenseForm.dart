@@ -35,7 +35,7 @@ class RecurringExpenseForm extends StatelessWidget {
             nextFocusNode: _locationFocus,
             initialValue: recurringExpense.title,
             validator: Validator.notEmpty(),
-            decoration: InputDecoration(labelText: "Expense title", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
+            decoration: InputDecoration(labelText: "Title"),
             onSaved: (value) => recurringExpense.title = value,
           ),
           MoniesTextFormField(
@@ -45,7 +45,7 @@ class RecurringExpenseForm extends StatelessWidget {
             focusNode: _locationFocus,
             nextFocusNode: _amountFocus,
             initialValue: recurringExpense.location,
-            decoration: InputDecoration(labelText: "Location", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
+            decoration: InputDecoration(labelText: "Location"),
             onSaved: (value) => recurringExpense.location = value,
           ),
           MoniesTextFormField(
@@ -56,7 +56,7 @@ class RecurringExpenseForm extends StatelessWidget {
             focusNode: _amountFocus,
             nextFocusNode: _dateFocus,
             controller: moneyFormatController,
-            decoration: InputDecoration(labelText: "Amount", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
+            decoration: InputDecoration(labelText: "Amount"),
             onSaved: (value) => recurringExpense.amount = moneyFormatController.numberValue ?? 0,
           ),
           DatePickerTextFormField(
@@ -65,13 +65,13 @@ class RecurringExpenseForm extends StatelessWidget {
             dateFormatter: Format.date,
             focusNode: _dateFocus,
             validator: Validator.notEmpty(),
-            decoration: InputDecoration(labelText: "Start date", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
+            decoration: InputDecoration(labelText: "Start date"),
             onDatePicked: (date) => recurringExpense.startDate = date,
           ),
           CategoryPickerFormField(
             key: Key("categoryDropDown"),
             initialCategoryId: recurringExpense.categoryId,
-            decoration: InputDecoration(labelText: "Category", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
+            decoration: InputDecoration(labelText: "Category"),
             validator: Validator.notNull("Pick category"),
             onCategoryPicked: (category) => recurringExpense.categoryId = category.id,
           ),

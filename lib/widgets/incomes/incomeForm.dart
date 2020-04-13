@@ -33,7 +33,7 @@ class IncomeForm extends StatelessWidget {
           nextFocusNode: _amountFocus,
           initialValue: income.title,
           validator: Validator.notEmpty(),
-          decoration: InputDecoration(labelText: "Title", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
+          decoration: InputDecoration(labelText: "Title"),
           onSaved: (value) => income.title = value,
         ),
         MoniesTextFormField(
@@ -44,7 +44,7 @@ class IncomeForm extends StatelessWidget {
           focusNode: _amountFocus,
           nextFocusNode: _dateFocus,
           controller: moneyFormatController,
-          decoration: InputDecoration(labelText: "Amount", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
+          decoration: InputDecoration(labelText: "Amount"),
           onSaved: (value) => income.amount = moneyFormatController.numberValue ?? 0,
         ),
         DatePickerTextFormField(
@@ -53,7 +53,7 @@ class IncomeForm extends StatelessWidget {
           dateFormatter: Format.date,
           focusNode: _dateFocus,
           validator: Validator.notEmpty(),
-          decoration: InputDecoration(labelText: "Date", labelStyle: TextStyle(color: Theme.of(context).textTheme.caption.color)),
+          decoration: InputDecoration(labelText: "Date"),
           onDatePicked: (date) => income.date = date,
         ),
       ]),

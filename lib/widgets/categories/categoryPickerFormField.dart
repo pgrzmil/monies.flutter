@@ -11,20 +11,37 @@ class CategoryPickerFormField extends StatefulWidget {
   final InputDecoration decoration;
   final FormFieldValidator<ExpenseCategory> validator;
 
-  const CategoryPickerFormField({Key key, this.onCategoryPicked, this.decoration, this.validator, this.initialCategoryId}) : super(key: key);
+  const CategoryPickerFormField({
+    Key key,
+    this.onCategoryPicked,
+    this.decoration,
+    this.validator,
+    this.initialCategoryId,
+  }) : super(key: key);
 
   @override
-  _CategoryPickerFormFieldState createState() => _CategoryPickerFormFieldState();
+  _CategoryPickerFormFieldState createState() => _CategoryPickerFormFieldState(initialCategoryId);
 }
 
 class _CategoryPickerFormFieldState extends State<CategoryPickerFormField> {
   ExpenseCategory pickedCategory;
+  
+  /// Stores initial category set to widget. 
+  /// When initial category changes in parent widget (e.g when recurring expense is reset) it will be different 
+  /// from [widget.initialCategoryId] and  because of that [pickedCategory] field will be updated  in [build] method. 
+  /// It's a hack and potentially should be fixed in the future.
+  String initialCategoryId; 
+
+  _CategoryPickerFormFieldState(String initialCategoryId) {
+    this.initialCategoryId = initialCategoryId;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<CategoriesProvider>(builder: (context, provider, child) {
-      if (pickedCategory == null) {
+      if (pickedCategory == null || initialCategoryId != widget.initialCategoryId) {
         pickedCategory = provider.getBy(id: widget.initialCategoryId);
+        initialCategoryId = widget.initialCategoryId;
       }
 
       return DropdownButtonFormField<ExpenseCategory>(

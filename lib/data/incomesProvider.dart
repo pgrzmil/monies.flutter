@@ -16,7 +16,7 @@ class IncomesProvider extends BaseStorageProvider<Income> {
 
   @override
   List<Income> getAll() {
-    return super.getAll().sortByDate();
+    return super.getAll().sortByDateAsc();
   }
 
   ///Retrieves incomes for given `month` and `year`

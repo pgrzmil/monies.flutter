@@ -11,28 +11,40 @@ class ExpenseEditView extends StatefulWidget {
   ExpenseEditView({this.expense});
 
   @override
-  _ExpenseEditViewState createState() => _ExpenseEditViewState(formKey: GlobalKey<FormState>());
+  _ExpenseEditViewState createState() => _ExpenseEditViewState(formKey: GlobalKey<FormState>(), expense: expense);
 }
 
 class _ExpenseEditViewState extends State<ExpenseEditView> {
   final GlobalKey<FormState> formKey;
+  Expense expense;
 
-  _ExpenseEditViewState({this.formKey});
+  _ExpenseEditViewState({this.formKey, this.expense});
 
   @override
   Widget build(BuildContext context) {
-    final expenseForm = ExpenseForm(widget.expense, formKey);
+    final expenseForm = ExpenseForm(expense, formKey);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: Text(widget.expense.title.toUpperCase()),
+        title: Text(expense.title.toUpperCase()),
         actions: [
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () async {
               if (await Dialogs.confirmation(context, text: "Do you want to remove expense?")) {
-                await Provider.of<ExpensesProvider>(context, listen: false).remove(widget.expense);
+                await Provider.of<ExpensesProvider>(context, listen: false).remove(expense);
                 Navigator.pop(context);
+              }
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () async {
+              if (await Dialogs.confirmation(context, text: "Do you want to reset this recurring expense?", confirmButtonText: "RESET")) {
+                final updatedExpense = Provider.of<ExpensesProvider>(context, listen: false).resetOneRecurring(expense);
+                setState(() {
+                  expense = updatedExpense;
+                });
               }
             },
           ),
@@ -48,7 +60,7 @@ class _ExpenseEditViewState extends State<ExpenseEditView> {
           final form = expenseForm.formKey.currentState;
           if (form.validate()) {
             form.save();
-            Provider.of<ExpensesProvider>(context, listen: false).edit(widget.expense);
+            Provider.of<ExpensesProvider>(context, listen: false).edit(expense);
             Navigator.pop(context);
           }
         },
