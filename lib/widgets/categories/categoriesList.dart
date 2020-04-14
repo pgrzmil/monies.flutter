@@ -15,8 +15,10 @@ class CategoriesList extends StatelessWidget {
     return Consumer<CategoriesProvider>(
       builder: (context, categoriesProvider, child) {
         return ItemsList<ExpenseCategory>(
+          key: PageStorageKey("CategoriesKey"),
           items: categoriesProvider.getAll(),
           title: "Categories".toUpperCase(),
+          footer: SizedBox(height: 50),
           onAdd: () => navigateToAdd(context),
           onEdit: (category) => navigateToEdit(context, category),
           onCellTap: (category) => navigateToEdit(context, category),

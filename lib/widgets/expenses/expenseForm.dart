@@ -9,8 +9,13 @@ import 'package:monies/widgets/controls/moniesTextFormField.dart';
 class ExpenseForm extends StatelessWidget {
   final Expense expense;
   final GlobalKey<FormState> formKey;
+  final DateTime currentDate;
 
-  ExpenseForm(this.expense, this.formKey) {
+  ExpenseForm({
+    this.expense,
+    this.formKey,
+    this.currentDate,
+  }) {
     titleController.text = expense.title;
     locationController.text = expense.location;
     amountController.text = expense.amount != 0 ? expense.amount.toString() : "";
@@ -70,7 +75,7 @@ class ExpenseForm extends StatelessWidget {
           ),
           DatePickerTextFormField(
             key: Key("dateField"),
-            initialDate: expense.date,
+            initialDate: currentDate ?? expense.date,
             dateFormatter: Format.date,
             focusNode: _dateFocus,
             validator: Validator.notEmpty(),

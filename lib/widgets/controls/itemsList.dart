@@ -16,6 +16,7 @@ class ItemsList<T> extends StatelessWidget {
   final ListItemCallback<T> onCellTap;
   final ListCellCreateCallback<T> onCellCreate;
   final RefreshCallback onRefresh;
+  final Widget footer;
 
   const ItemsList({
     Key key,
@@ -30,6 +31,7 @@ class ItemsList<T> extends StatelessWidget {
     this.header,
     this.appBar,
     this.onRefresh,
+    this.footer,
   })  : assert(onCellCreate != null),
         assert(items != null),
         super(key: key);
@@ -53,7 +55,7 @@ class ItemsList<T> extends StatelessWidget {
                 separatorBuilder: (context, index) => Divider(height: 0),
                 itemBuilder: (context, index) {
                   final item = items.elementAt(index);
-                  return Slidable(
+                  final content = Slidable(
                     actionPane: SlidableBehindActionPane(),
                     actionExtentRatio: 0.25,
                     controller: slidableController,
@@ -84,6 +86,12 @@ class ItemsList<T> extends StatelessWidget {
                         ),
                     ],
                   );
+
+                  if (footer != null && index == items.length - 1) {
+                    return Column(children: <Widget>[content, footer]);
+                  } else {
+                    return content;
+                  }
                 },
               ),
             ),

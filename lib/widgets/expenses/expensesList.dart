@@ -24,7 +24,11 @@ class ExpensesList extends StatefulWidget {
   final DateTime selectedDate;
   final String categoryFilter;
 
-  const ExpensesList({Key key, this.selectedDate, this.categoryFilter}) : super(key: key);
+  const ExpensesList({
+    Key key,
+    this.selectedDate,
+    this.categoryFilter,
+  }) : super(key: key);
 
   @override
   _ExpensesListState createState() => _ExpensesListState(categoryFilter);
@@ -52,10 +56,12 @@ class _ExpensesListState extends State<ExpensesList> {
       builder: (context, expensesProvider, child) {
         var expenses = expensesProvider.getForMonth(widget.selectedDate.month, widget.selectedDate.year).filterByCategory(categoryFilter).toList();
         return ItemsList<Expense>(
+          key: PageStorageKey("ExpensesListKey"),
           items: expenses,
           appBar: _appBar(expensesProvider),
           header: _header(expenses.sumText()),
           emptyState: EmptyState(text: "Empty!\nStart adding expenses.", key: Key("expensesList_empty_state")),
+          footer: SizedBox(height: 50),
           onAdd: navigateToAdd,
           onEdit: (expense) => navigateToEdit(expense),
           onCellTap: (expense) => navigateToEdit(expense),
@@ -76,7 +82,7 @@ class _ExpensesListState extends State<ExpensesList> {
   }
 
   navigateToAdd() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseAddView()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ExpenseAddView(currentDate: widget.selectedDate)));
   }
 
   List<DropdownMenuItem> get dropdownItems {

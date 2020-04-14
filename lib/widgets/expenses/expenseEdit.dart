@@ -22,7 +22,6 @@ class _ExpenseEditViewState extends State<ExpenseEditView> {
 
   @override
   Widget build(BuildContext context) {
-    final expenseForm = ExpenseForm(expense, formKey);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -52,12 +51,12 @@ class _ExpenseEditViewState extends State<ExpenseEditView> {
       ),
       body: Container(
         padding: EdgeInsets.all(10),
-        child: expenseForm,
+        child: ExpenseForm(expense: expense, formKey: formKey),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.save),
         onPressed: () {
-          final form = expenseForm.formKey.currentState;
+          final form = formKey.currentState;
           if (form.validate()) {
             form.save();
             Provider.of<ExpensesProvider>(context, listen: false).edit(expense);

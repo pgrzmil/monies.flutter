@@ -18,10 +18,12 @@ class RecurringExpensesList extends StatelessWidget {
       builder: (context, recurringExpensesProvider, child) {
         final incomes = recurringExpensesProvider.getAll();
         return ItemsList<RecurringExpense>(
+          key: PageStorageKey("RecurringExpensesListKey"),
           items: incomes,
           title: "Recurring expenses".toUpperCase(),
           header: SumHeader(sumText: incomes.sumText()),
           emptyState: EmptyState(text: "Empty!\nStart adding recurring expenses.", key: Key("recurringExpensesList_empty_state")),
+          footer: SizedBox(height: 50),
           onAdd: () => navigateToAdd(context),
           onEdit: (recurringExpense) => navigateToEdit(context, recurringExpense),
           onCellTap: (recurringExpense) => navigateToEdit(context, recurringExpense),
