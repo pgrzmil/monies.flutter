@@ -36,17 +36,20 @@ class _ExpenseEditViewState extends State<ExpenseEditView> {
               }
             },
           ),
-          IconButton(
-            icon: Icon(Icons.refresh),
-            onPressed: () async {
-              if (await Dialogs.confirmation(context, text: "Do you want to reset this recurring expense?", confirmButtonText: "RESET")) {
-                final updatedExpense = Provider.of<ExpensesProvider>(context, listen: false).resetOneRecurring(expense);
-                setState(() {
-                  expense = updatedExpense;
-                });
-              }
-            },
-          ),
+          if (expense.recurringExpenseId != null)
+            () {
+              return IconButton(
+                icon: Icon(Icons.refresh),
+                onPressed: () async {
+                  if (await Dialogs.confirmation(context, text: "Do you want to reset this recurring expense?", confirmButtonText: "RESET")) {
+                    final updatedExpense = Provider.of<ExpensesProvider>(context, listen: false).resetOneRecurring(expense);
+                    setState(() {
+                      expense = updatedExpense;
+                    });
+                  }
+                },
+              );
+            }()
         ],
       ),
       body: Container(

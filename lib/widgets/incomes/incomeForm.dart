@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:monies/data/models/income.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/controls/datePickerTextFormField.dart';
+import 'package:monies/widgets/controls/moniesForm.dart';
 import 'package:monies/widgets/controls/moniesTextFormField.dart';
 
 class IncomeForm extends StatelessWidget {
@@ -16,7 +17,7 @@ class IncomeForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return MoniesForm(
       key: formKey,
       child: Column(children: [
         MoniesTextFormField(

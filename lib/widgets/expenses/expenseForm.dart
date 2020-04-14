@@ -4,6 +4,7 @@ import 'package:monies/data/models/expense.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/categories/categoryPickerFormField.dart';
 import 'package:monies/widgets/controls/datePickerTextFormField.dart';
+import 'package:monies/widgets/controls/moniesForm.dart';
 import 'package:monies/widgets/controls/moniesTextFormField.dart';
 
 class ExpenseForm extends StatelessWidget {
@@ -32,7 +33,7 @@ class ExpenseForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return MoniesForm(
       key: formKey,
       child: Column(
         children: [

@@ -4,6 +4,7 @@ import 'package:monies/utils/formatters.dart';
 import 'package:monies/utils/icons.dart';
 import 'package:monies/widgets/categories/categoryIcon.dart';
 import 'package:monies/widgets/controls/colorTextFormField.dart';
+import 'package:monies/widgets/controls/moniesForm.dart';
 import 'package:monies/widgets/controls/moniesTextFormField.dart';
 
 class CategoryForm extends StatefulWidget {
@@ -34,7 +35,7 @@ class _CategoryFormState extends State<CategoryForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return MoniesForm(
       key: widget.formKey,
       child: Column(children: [
         Row(children: [
