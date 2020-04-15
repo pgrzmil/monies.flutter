@@ -16,14 +16,13 @@ class RecurringExpensesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<RecurringExpensesProvider>(
       builder: (context, recurringExpensesProvider, child) {
-        final incomes = recurringExpensesProvider.getAll();
+        final recurringExpenses = recurringExpensesProvider.getAll();
         return ItemsList<RecurringExpense>(
           key: PageStorageKey("RecurringExpensesListKey"),
-          items: incomes,
+          items: recurringExpenses,
           title: "Recurring expenses".toUpperCase(),
-          header: SumHeader(sumText: incomes.sumText()),
+          header: SumHeader(sumText: recurringExpenses.sumText()),
           emptyState: EmptyState(text: "Empty!\nStart adding recurring expenses.", key: Key("recurringExpensesList_empty_state")),
-          footer: SizedBox(height: 50),
           onAdd: () => navigateToAdd(context),
           onEdit: (recurringExpense) => navigateToEdit(context, recurringExpense),
           onCellTap: (recurringExpense) => navigateToEdit(context, recurringExpense),
@@ -33,12 +32,17 @@ class RecurringExpensesList extends StatelessWidget {
               await recurringExpensesProvider.remove(recurringExpense);
             }
           },
-          onCellCreate: (recurringExpense) => RecurringExpensesListItem(recurringExpense: recurringExpense),
+          onCellCreate: (recurringExpense, index) => RecurringExpensesListItem(recurringExpense: recurringExpense),
+          onCellFooterCreate: (_, index) {
+            if (index == recurringExpenses.length - 1) {
+              return SizedBox(height: 50);
+            }
+            return null;
+          },
         );
       },
     );
   }
-
 
   navigateToEdit(BuildContext context, RecurringExpense recurringExpense) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => RecurringExpenseEditView(recurringExpense: recurringExpense)));

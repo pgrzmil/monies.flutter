@@ -28,7 +28,6 @@ class IncomesList extends StatelessWidget {
           title: "Incomes (${Format.monthAndYear(selectedDate)})".toUpperCase(),
           header: SumHeader(sumText: incomes.sumText()),
           emptyState: EmptyState(text: "Empty!\nStart adding incomes.", key: Key("incomesList_empty_state")),
-          footer: SizedBox(height: 50),
           onAdd: () => navigateToAdd(context),
           onEdit: (income) => navigateToEdit(context, income),
           onCellTap: (income) => navigateToEdit(context, income),
@@ -38,12 +37,17 @@ class IncomesList extends StatelessWidget {
               await incomesProvider.remove(income);
             }
           },
-          onCellCreate: (income) => IncomesListItem(income: income),
+          onCellCreate: (income, index) => IncomesListItem(income: income),
+          onCellFooterCreate: (_, index) {
+            if (index == incomes.length - 1) {
+              return SizedBox(height: 50);
+            }
+            return null;
+          },
         );
       },
     );
   }
-
 
   navigateToEdit(BuildContext context, Income income) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => IncomeEditView(income: income)));

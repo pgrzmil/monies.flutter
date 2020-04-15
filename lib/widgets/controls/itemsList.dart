@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 typedef ListItemCallback<T> = void Function(T item);
-typedef ListCellCreateCallback<T> = Widget Function(T item);
+typedef ListItemFooterCallback<T> = Widget Function(T item, int index);
+typedef ListCellCreateCallback<T> = Widget Function(T item, int index);
 
 class ItemsList<T> extends StatelessWidget {
   final String title;
@@ -15,8 +16,8 @@ class ItemsList<T> extends StatelessWidget {
   final ListItemCallback<T> onRemove;
   final ListItemCallback<T> onCellTap;
   final ListCellCreateCallback<T> onCellCreate;
+  final ListItemFooterCallback<T> onCellFooterCreate;
   final RefreshCallback onRefresh;
-  final Widget footer;
 
   const ItemsList({
     Key key,
@@ -31,7 +32,7 @@ class ItemsList<T> extends StatelessWidget {
     this.header,
     this.appBar,
     this.onRefresh,
-    this.footer,
+    this.onCellFooterCreate,
   })  : assert(onCellCreate != null),
         assert(items != null),
         super(key: key);
@@ -60,7 +61,7 @@ class ItemsList<T> extends StatelessWidget {
                     actionExtentRatio: 0.25,
                     controller: slidableController,
                     child: InkWell(
-                      child: onCellCreate(item),
+                      child: onCellCreate(item, index),
                       onTap: () {
                         if (onCellTap != null) onCellTap(item);
                       },
@@ -87,7 +88,8 @@ class ItemsList<T> extends StatelessWidget {
                     ],
                   );
 
-                  if (footer != null && index == items.length - 1) {
+                  final footer = onCellFooterCreate(item, index);
+                  if (footer != null) {
                     return Column(children: <Widget>[content, footer]);
                   } else {
                     return content;

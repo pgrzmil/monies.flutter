@@ -14,11 +14,11 @@ class CategoriesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<CategoriesProvider>(
       builder: (context, categoriesProvider, child) {
+        final categories = categoriesProvider.getAll();
         return ItemsList<ExpenseCategory>(
           key: PageStorageKey("CategoriesKey"),
-          items: categoriesProvider.getAll(),
+          items: categories,
           title: "Categories".toUpperCase(),
-          footer: SizedBox(height: 50),
           onAdd: () => navigateToAdd(context),
           onEdit: (category) => navigateToEdit(context, category),
           onCellTap: (category) => navigateToEdit(context, category),
@@ -28,13 +28,19 @@ class CategoriesList extends StatelessWidget {
               await categoriesProvider.remove(category);
             }
           },
-          onCellCreate: (category) => CategoriesListItem(category: category),
+          onCellCreate: (category, index) => CategoriesListItem(category: category),
+          onCellFooterCreate: (_, index) {
+            if (index == categories.length - 1) {
+              return SizedBox(height: 50);
+            }
+            return null;
+          },
         );
       },
     );
   }
 
-   navigateToEdit(BuildContext context, ExpenseCategory category) {
+  navigateToEdit(BuildContext context, ExpenseCategory category) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryEditView(category: category)));
   }
 

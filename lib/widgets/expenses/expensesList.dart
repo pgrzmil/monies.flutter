@@ -55,13 +55,16 @@ class _ExpensesListState extends State<ExpensesList> {
     return Consumer<ExpensesProvider>(
       builder: (context, expensesProvider, child) {
         var expenses = expensesProvider.getForMonth(widget.selectedDate.month, widget.selectedDate.year).filterByCategory(categoryFilter).toList();
+        //index of the item to which should be added footer with "planned expense" message. 
+        //-1 because expression will return first in the future and message needs to be attached to the one before
+        final firstFutureExpenseIndex = expenses.indexWhere((expense) => expense.date.compareTo(DateTime.now()) > 0) - 1;
+
         return ItemsList<Expense>(
           key: PageStorageKey("ExpensesListKey"),
           items: expenses,
           appBar: _appBar(expensesProvider),
           header: _header(expenses.sumText()),
           emptyState: EmptyState(text: "Empty!\nStart adding expenses.", key: Key("expensesList_empty_state")),
-          footer: SizedBox(height: 50),
           onAdd: navigateToAdd,
           onEdit: (expense) => navigateToEdit(expense),
           onCellTap: (expense) => navigateToEdit(expense),
@@ -71,7 +74,15 @@ class _ExpensesListState extends State<ExpensesList> {
               await expensesProvider.remove(expense);
             }
           },
-          onCellCreate: (expense) => ExpensesListItem(expense: expense),
+          onCellCreate: (expense, index) => ExpensesListItem(expense: expense),
+          onCellFooterCreate: (_, index) {
+            if (index == expenses.length - 1) {
+              return SizedBox(height: 50);
+            } else if (index == firstFutureExpenseIndex) {
+              return Text("Planned expenses".toUpperCase());
+            }
+            return null;
+          },
         );
       },
     );
