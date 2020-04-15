@@ -20,7 +20,7 @@ class RecurringExpenseForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MoniesForm(
-      key: formKey,
+      formKey: formKey,
       child: Column(
         children: [
           MoniesTextFormField(

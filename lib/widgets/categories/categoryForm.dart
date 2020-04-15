@@ -36,7 +36,7 @@ class _CategoryFormState extends State<CategoryForm> {
   @override
   Widget build(BuildContext context) {
     return MoniesForm(
-      key: widget.formKey,
+      formKey: widget.formKey,
       child: Column(children: [
         Row(children: [
           CategoryIcon(icon: icon, color: color, radius: 50, iconSize: 60),
