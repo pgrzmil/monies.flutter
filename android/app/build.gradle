@@ -49,12 +49,14 @@ android {
     }
 
     signingConfigs {
-    release {
-        storeFile file("monies/android/key.jks")
-        storePassword = "$System.env.KEY_PASSWORD"
-        keyAlias = "key"
-        keyPassword = "$System.env.ALIAS_PASSWORD"
-    }
+        release {
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            storeFile file(properties.getProperty('RELEASE_STORE_FILE'))
+            storePassword properties.getProperty('RELEASE_STORE_PASSWORD')
+            keyAlias properties.getProperty('RELEASE_KEY_ALIAS')
+            keyPassword properties.getProperty('RELEASE_KEY_PASSWORD')
+        }
     }
 
     buildTypes {
