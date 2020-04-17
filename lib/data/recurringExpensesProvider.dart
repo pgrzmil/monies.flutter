@@ -27,7 +27,7 @@ class RecurringExpensesProvider extends BaseStorageProvider<RecurringExpense> {
       return Expense.fromValues(
         item.title,
         item.location,
-        item.amount,
+        item.amountExpression,
         DateTime(year, month, day),
         item.categoryId,
         userId,

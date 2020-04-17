@@ -3,112 +3,116 @@ import 'package:monies/utils/mathParser.dart';
 
 main() {
   test('incorrect format test', () {
-    final MathExpressionParser parser = MathExpressionParser();
-
     String operationString = "2+2";
-    expect(() => parser.parse(operationString).perform(), throwsA(isInstanceOf<FormatException>()));
+    expect(() => MathExpressionParser.parseOperation(operationString), throwsA(isInstanceOf<FormatException>()));
 
     operationString = "=2 #not closed comment +2";
-    expect(() => parser.parse(operationString).perform(), throwsA(isInstanceOf<FormatException>()));
+    expect(() => MathExpressionParser.parseValue(operationString), throwsA(isInstanceOf<FormatException>()));
 
     operationString = "=2sometrashinput&^% +2";
-    expect(parser.parse(operationString).perform(), equals(4));
+    expect(MathExpressionParser.parseValue(operationString), equals(4));
 
     operationString = "=2*2/+";
-    expect(() => parser.parse(operationString).perform(), throwsA(isInstanceOf<FormatException>()));
+    expect(() => MathExpressionParser.parseValue(operationString), throwsA(isInstanceOf<FormatException>()));
+
+    operationString = "11 14";
+    expect(MathExpressionParser.parseValue(operationString), equals(1114));
+
+    operationString = "";
+    expect(MathExpressionParser.parseValue(operationString), isNull);
+
+    operationString = null;
+    expect(MathExpressionParser.parseValue(operationString), isNull);
   });
 
   test('addition test', () {
-    final MathExpressionParser parser = MathExpressionParser();
-
     String operationString = "=2+2";
-    expect(parser.parse(operationString).perform(), equals(4));
+    expect(MathExpressionParser.parseValue(operationString), equals(4));
 
     operationString = "=2+2+5";
-    expect(parser.parse(operationString).perform(), equals(9));
+    expect(MathExpressionParser.parseValue(operationString), equals(9));
 
     operationString = "=  2.6 +  2.4+5.1   ";
-    expect(parser.parse(operationString).perform(), equals(10.1));
+    expect(MathExpressionParser.parseValue(operationString), equals(10.1));
 
     operationString = "=-2.5+2.5+5.2";
-    expect(parser.parse(operationString).perform(), equals(5.2));
+    expect(MathExpressionParser.parseValue(operationString), equals(5.2));
   });
 
   test('subtraction test', () {
-    final MathExpressionParser parser = MathExpressionParser();
-
     String operationString = "=2-2";
-    expect(parser.parse(operationString).perform(), equals(0));
+    expect(MathExpressionParser.parseValue(operationString), equals(0));
 
     operationString = "=-2-2.3";
-    expect(parser.parse(operationString).perform(), equals(-4.3));
+    expect(MathExpressionParser.parseValue(operationString), equals(-4.3));
 
     operationString = "=-2+7-2.3";
-    expect(parser.parse(operationString).perform(), equals(2.7));
+    expect(MathExpressionParser.parseValue(operationString), equals(2.7));
 
     operationString = "=-2+7-2.3+5+15-5";
-    expect(parser.parse(operationString).perform(), equals(17.7));
+    expect(MathExpressionParser.parseValue(operationString), equals(17.7));
 
     operationString = "=-2+7- -2.3";
-    expect(parser.parse(operationString).perform(), moreOrLessEquals(7.3, epsilon: 0.0000001));
+    expect(MathExpressionParser.parseValue(operationString), moreOrLessEquals(7.3, epsilon: 0.0000001));
   });
 
   test('multiplication test', () {
-    final MathExpressionParser parser = MathExpressionParser();
-
     String operationString = "=2*4";
-    expect(parser.parse(operationString).perform(), equals(8));
+    expect(MathExpressionParser.parseValue(operationString), equals(8));
 
     operationString = "=2+2*2";
-    expect(parser.parse(operationString).perform(), equals(6));
+    expect(MathExpressionParser.parseValue(operationString), equals(6));
 
     operationString = "=2*2+2";
-    expect(parser.parse(operationString).perform(), equals(6));
+    expect(MathExpressionParser.parseValue(operationString), equals(6));
 
     operationString = "=2-4*2+7";
-    expect(parser.parse(operationString).perform(), equals(1));
+    expect(MathExpressionParser.parseValue(operationString), equals(1));
   });
 
   test('division by zero test', () {
-    final MathExpressionParser parser = MathExpressionParser();
-
     String operationString = "=2/0";
-    expect(() => parser.parse(operationString).perform(), throwsA(isInstanceOf<IntegerDivisionByZeroException>()));
+    expect(() => MathExpressionParser.parseValue(operationString), throwsA(isInstanceOf<IntegerDivisionByZeroException>()));
   });
 
   test('division test', () {
-    final MathExpressionParser parser = MathExpressionParser();
-
     String operationString = "=2/4";
-    expect(parser.parse(operationString).perform(), equals(0.5));
+    expect(MathExpressionParser.parseValue(operationString), equals(0.5));
 
     operationString = "=7+5/1*2";
-    expect(parser.parse(operationString).perform(), equals(17));
+    expect(MathExpressionParser.parseValue(operationString), equals(17));
   });
 
   test('parenthesis test', () {
-    final MathExpressionParser parser = MathExpressionParser();
-
     String operationString = "=(2+2)*2";
-    expect(parser.parse(operationString).perform(), equals(8));
+    expect(MathExpressionParser.parseValue(operationString), equals(8));
 
     operationString = "=(7+5)/(1*2)";
-    expect(parser.parse(operationString).perform(), equals(6));
+    expect(MathExpressionParser.parseValue(operationString), equals(6));
 
     operationString = "=2 *((7+0.5)/3)-1";
-    expect(parser.parse(operationString).perform(), equals(4));
+    expect(MathExpressionParser.parseValue(operationString), equals(4));
 
     operationString = "=(2+2*2";
-    expect(() => parser.parse(operationString).perform(), throwsA(isInstanceOf<FormatException>()));
+    expect(() => MathExpressionParser.parseValue(operationString), throwsA(isInstanceOf<FormatException>()));
   });
 
   test('comments test', () {
-    final MathExpressionParser parser = MathExpressionParser();
-
     String operationString = "=(2+2)#comment#*2";
-    expect(parser.parse(operationString).perform(), equals(8));
+    expect(MathExpressionParser.parseValue(operationString), equals(8));
 
     operationString = "=(7+5)#value 1#/(1*2)#comment 2#";
-    expect(parser.parse(operationString).perform(), equals(6));
+    expect(MathExpressionParser.parseValue(operationString), equals(6));
+  });
+
+  test('value test', () {
+    String operationString = "15";
+    expect(MathExpressionParser.parseValue(operationString), equals(15));
+
+    operationString = "15.67";
+    expect(MathExpressionParser.parseValue(operationString), equals(15.67));
+
+    operationString = "15,67";
+    expect(MathExpressionParser.parseValue(operationString), equals(15.67));
   });
 }

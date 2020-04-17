@@ -40,9 +40,10 @@ class IncomeForm extends StatelessWidget {
           textInputAction: TextInputAction.next,
           focusNode: _amountFocus,
           nextFocusNode: _dateFocus,
-          initialValue: income.amount != 0 ? income.amount.toString() : "",
+          initialValue: income.amountExpression,
+          validator: Validator.amount(),
           decoration: InputDecoration(labelText: "Amount"),
-          onSaved: (value) => income.amount = double.tryParse(value.replaceAll(RegExp(r','), ".")),
+          onSaved: (value) => income.amountExpression = value,
         ),
         DatePickerTextFormField(
           key: Key("dateField"),

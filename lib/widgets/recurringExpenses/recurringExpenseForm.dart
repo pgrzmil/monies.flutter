@@ -55,8 +55,9 @@ class RecurringExpenseForm extends StatelessWidget {
             focusNode: _amountFocus,
             nextFocusNode: _dateFocus,
             initialValue: recurringExpense.amount != 0 ? recurringExpense.amount.toString() : "",
+            validator: Validator.amount(),
             decoration: InputDecoration(labelText: "Amount"),
-            onSaved: (value) => recurringExpense.amount = double.tryParse(value.replaceAll(RegExp(r','), ".")) ?? 0,
+            onSaved: (value) => recurringExpense.amountExpression = value,
           ),
           DatePickerTextFormField(
             key: Key("dateField"),

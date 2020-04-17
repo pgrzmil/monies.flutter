@@ -22,7 +22,7 @@ void main() {
   });
 
   testWidgets('Shows expense list item widget', (WidgetTester tester) async {
-    final expense = Expense.fromValues("test title", "test location", 123.45, DateTime(2020, 1, 23), "cat1", "user123");
+    final expense = Expense.fromValues("test title", "test location", "123.45", DateTime(2020, 1, 23), "cat1", "user123");
     final category = categoriesProvider.getBy(id: "cat1");
 
     await tester.pumpWidget(

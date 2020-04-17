@@ -5,7 +5,8 @@ import 'package:monies/utils/formatters.dart';
 void main() {
   group('JSON parsing', () {
     test('Expense.toJson returns Map with String key', () {
-      final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23), "cat_id", "user123", recurringExpenseId: "rec_expense_id");
+      final expense =
+          Expense("1", "test_title", "test_location", "123.45", DateTime(2020, 1, 23), "cat_id", "user123", recurringExpenseId: "rec_expense_id");
 
       final json = expense.toJsonMap();
 
@@ -15,7 +16,7 @@ void main() {
       expect(json.containsKey("id"), isTrue);
       expect(json.containsKey("title"), isTrue);
       expect(json.containsKey("location"), isTrue);
-      expect(json.containsKey("amount"), isTrue);
+      expect(json.containsKey("amountExpression"), isTrue);
       expect(json.containsKey("date"), isTrue);
       expect(json.containsKey("categoryId"), isTrue);
       expect(json.containsKey("recurringExpenseId"), isTrue);
@@ -23,7 +24,7 @@ void main() {
       expect(json["id"], equals("1"));
       expect(json["title"], equals("test_title"));
       expect(json["location"], equals("test_location"));
-      expect(json["amount"], equals(123.45));
+      expect(json["amountExpression"], equals("123.45"));
       expect(json["date"], equals("2020-01-23T00:00:00.000"));
       expect(json["categoryId"], equals("cat_id"));
       expect(json["recurringExpenseId"], equals("rec_expense_id"));
@@ -31,7 +32,16 @@ void main() {
     });
 
     test('Expense.fromJson returns Expense object', () {
-      final json = {"id": "1", "title": "test_title", "location": "test_location", "amount": 123.45, "date": "2020-01-23T00:00:00.000", "categoryId": "cat_id", "recurringExpenseId": "rec_expense_id", "userId": "user123"};
+      final json = {
+        "id": "1",
+        "title": "test_title",
+        "location": "test_location",
+        "amountExpression": "123.45",
+        "date": "2020-01-23T00:00:00.000",
+        "categoryId": "cat_id",
+        "recurringExpenseId": "rec_expense_id",
+        "userId": "user123"
+      };
 
       final expense = Expense.fromJsonMap(json);
 
@@ -48,17 +58,21 @@ void main() {
     });
 
     test('Expense.toJsonString returns valid json string', () {
-      final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23), "cat_id", "user123");
+      final expense = Expense("1", "test_title", "test_location", "123.45", DateTime(2020, 1, 23), "cat_id", "user123");
 
       final jsonString = expense.toJsonString();
 
       expect(jsonString, isNotNull);
       expect(jsonString, isA<String>());
-      expect(jsonString, equals(r'{"id":"1","userId":"user123","title":"test_title","location":"test_location","amount":123.45,"date":"2020-01-23T00:00:00.000","categoryId":"cat_id","recurringExpenseId":null}'));
+      expect(
+          jsonString,
+          equals(
+              r'{"id":"1","userId":"user123","title":"test_title","location":"test_location","amountExpression":"123.45","date":"2020-01-23T00:00:00.000","categoryId":"cat_id","recurringExpenseId":null}'));
     });
 
     test('Expense.fromJsonString returns Expense object', () {
-      final jsonString = r'{"id":"1","title":"test_title","location":"test_location","amount":123.45,"date":"2020-01-23T00:00:00.000","categoryId":"cat_id","recurringExpenseId":"rec_expense_id"}';
+      final jsonString =
+          r'{"id":"1","title":"test_title","location":"test_location","amountExpression":"123.45","date":"2020-01-23T00:00:00.000","categoryId":"cat_id","recurringExpenseId":"rec_expense_id"}';
 
       final expense = Expense.fromJsonString(jsonString);
 
@@ -94,6 +108,7 @@ void main() {
     expect(expense.id, isNot(equals("")));
     expect(expense.title, equals(""));
     expect(expense.location, equals(""));
+    expect(expense.amountExpression, isEmpty);
     expect(expense.amount, equals(0));
     expect(expense.date, isNotNull);
     expect(expense.dateString, equals(Format.date(DateTime.now())));
@@ -103,21 +118,21 @@ void main() {
   });
 
   test('Returns amount string', () {
-    final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23), "cat_id", "user123");
+    final expense = Expense("1", "test_title", "test_location", "123.45", DateTime(2020, 1, 23), "cat_id", "user123");
 
     expect(expense, isNotNull);
     expect(expense.amountString, "123,45 zł");
   });
 
-   test('Returns date string', () {
-    final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23), "cat_id", "user123");
+  test('Returns date string', () {
+    final expense = Expense("1", "test_title", "test_location", "123.45", DateTime(2020, 1, 23), "cat_id", "user123");
 
     expect(expense, isNotNull);
     expect(expense.dateString, "23/01/2020");
   });
 
-   test('Returns title for displaying', () {
-    final expense = Expense("1", "test_title", "test_location", 123.45, DateTime(2020, 1, 23), "cat_id", "user123");
+  test('Returns title for displaying', () {
+    final expense = Expense("1", "test_title", "test_location", "123.45", DateTime(2020, 1, 23), "cat_id", "user123");
 
     expect(expense, isNotNull);
     expect(expense.displayTitle, "test_title - test_location");

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/locale.dart';
+import 'package:monies/utils/mathParser.dart';
 
 abstract class Format {
   static String date(DateTime date, {Locale locale}) {
@@ -23,5 +24,20 @@ abstract class Validator {
 
   static FormFieldValidator notNull([String message = "Select value"]) {
     return (value) => value == null ? message : null;
+  }
+
+  static FormFieldValidator<String> amount([String message = "Incorrect expression format"]) {
+    return (value) {
+      if (value == null || value.isEmpty) {
+        return "Enter value";
+      } else {
+        try {
+          MathExpressionParser.parseValue(value);
+        } catch (e) {
+          return message;
+        }
+      }
+      return null;
+    };
   }
 }

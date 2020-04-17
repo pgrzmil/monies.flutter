@@ -12,12 +12,12 @@ class RecurringExpense extends Expense {
 
   String get startDateString => Format.date(startDate);
 
-  RecurringExpense(String id, String title, String location, double amount, DateTime date, String categoryId, this.startDate, this.frequency, String userId)
-      : super(id, title, location, amount, date, categoryId, userId);
-  RecurringExpense.fromValues(String title, String location, double amount, DateTime date, String categoryId, this.startDate, this.frequency, String userId)
-      : super.fromValues(title, location, amount, date, categoryId, userId);
+  RecurringExpense(String id, String title, String location, String amountExpression, DateTime date, String categoryId, this.startDate, this.frequency, String userId)
+      : super(id, title, location, amountExpression, date, categoryId, userId);
+  RecurringExpense.fromValues(String title, String location, String amountExpression, DateTime date, String categoryId, this.startDate, this.frequency, String userId)
+      : super.fromValues(title, location, amountExpression, date, categoryId, userId);
 
-  factory RecurringExpense.empty(String userId) => RecurringExpense.fromValues("", "", 0, null, null, DateTime.now(), Frequency.monthly, userId);
+  factory RecurringExpense.empty(String userId) => RecurringExpense.fromValues("", "", "", null, null, DateTime.now(), Frequency.monthly, userId);
 
   //JSON methods
   static RecurringExpense fromJsonMap(Map<String, dynamic> json) => _$RecurringExpenseFromJson(json);

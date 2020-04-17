@@ -18,7 +18,7 @@ void main() {
   group('Adding expense', () {
     test('Adds new expense', () async {
       var callbackFired = false;
-      final expense = Expense.fromValues("test title", "test location", 123.45, DateTime(2020, 1, 23), "cat_id", "user123");
+      final expense = Expense.fromValues("test title", "test location", "123.45", DateTime(2020, 1, 23), "cat_id", "user123");
       final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       expensesProvider.addListener(() => callbackFired = true);
 
@@ -34,7 +34,7 @@ void main() {
       expect(expenseFromList, equals(expense));
       expect(expenseFromList.title, equals("test title"));
       expect(expenseFromList.location, equals("test location"));
-      expect(expenseFromList.amount, equals(123.45));
+      expect(expenseFromList.amountExpression, equals("123.45"));
       expect(expenseFromList.date, DateTime(2020, 1, 23));
       expect(expenseFromList.categoryId, equals("cat_id"));
 
@@ -44,7 +44,7 @@ void main() {
     });
 
     test('Prevents adding existing expense', () async {
-      final expense = Expense.fromValues("test title", "test location", 123.45, DateTime(2020, 1, 23), "cat_id", "user123");
+      final expense = Expense.fromValues("test title", "test location", "123.45", DateTime(2020, 1, 23), "cat_id", "user123");
       final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
       await expensesProvider.add(expense);
       expensesProvider.addListener(() => fail("Expense should not be added and change notification should not be called"));
@@ -61,7 +61,7 @@ void main() {
       expect(expenseFromList, equals(expense));
       expect(expenseFromList.title, equals("test title"));
       expect(expenseFromList.location, equals("test location"));
-      expect(expenseFromList.amount, equals(123.45));
+      expect(expenseFromList.amountExpression, equals("123.45"));
       expect(expenseFromList.date, DateTime(2020, 1, 23));
       expect(expenseFromList.categoryId, equals("cat_id"));
 
@@ -94,7 +94,7 @@ void main() {
 
       expense.title = "test title";
       expense.location = "test location";
-      expense.amount = 123.45;
+      expense.amountExpression = "123.45";
       expense.date = DateTime(2020, 1, 23);
       expense.categoryId = "cat_id";
 
@@ -107,7 +107,7 @@ void main() {
       expect(expenseFromList, equals(expense));
       expect(expenseFromList.title, equals("test title"));
       expect(expenseFromList.location, equals("test location"));
-      expect(expenseFromList.amount, equals(123.45));
+      expect(expenseFromList.amountExpression, equals("123.45"));
       expect(expenseFromList.date, equals(DateTime(2020, 1, 23)));
       expect(expenseFromList.categoryId, equals("cat_id"));
 
@@ -128,7 +128,7 @@ void main() {
 
       expense.title = "test title";
       expense.location = "test location";
-      expense.amount = 123.45;
+      expense.amountExpression = "123.45";
       expense.date = DateTime(2020, 1, 23);
       expense.categoryId = "cat_id";
 
@@ -141,7 +141,7 @@ void main() {
       expect(expenseFromList, isNot(equals(expense)));
       expect(expenseFromList.title, isNot(equals("test title")));
       expect(expenseFromList.location, isNot(equals("test location")));
-      expect(expenseFromList.amount, isNot(equals(123.45)));
+      expect(expenseFromList.amountExpression, isNot(equals("123.45")));
       expect(expenseFromList.date, isNot(equals(DateTime(2020, 1, 23))));
       expect(expenseFromList.categoryId, isNot(equals("cat_id")));
 
@@ -186,7 +186,7 @@ void main() {
       await TestDataHelpers.addRandomExpense(expensesProvider, "user123");
       expensesProvider.addListener(() => fail("Expense should not be removed and change notification should not be called"));
 
-      var expense = Expense.fromValues("test title", "test location", 123.45, DateTime(2020, 1, 23), "cat_id", "user123");
+      var expense = Expense.fromValues("test title", "test location", "123.45", DateTime(2020, 1, 23), "cat_id", "user123");
 
       expect((await expensesProvider.getAll()).length, equals(1));
       expect(preferences.getStringList("Expenses").length, equals(1));
@@ -219,7 +219,7 @@ void main() {
   group('Getting expenses', () {
     test('Gets all expenses', () async {
       final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
-      final expense = Expense.fromValues("test title", "test location", 123.45, DateTime(2020, 1, 23), "cat_id", "user123");
+      final expense = Expense.fromValues("test title", "test location", "123.45", DateTime(2020, 1, 23), "cat_id", "user123");
       await expensesProvider.add(expense);
       await TestDataHelpers.addRandomExpense(expensesProvider, "user123");
       expensesProvider.addListener(() => fail("Change notification should not be called on retrieving items"));
@@ -231,7 +231,7 @@ void main() {
       expect(expenseFromList, equals(expense));
       expect(expenseFromList.title, equals("test title"));
       expect(expenseFromList.location, equals("test location"));
-      expect(expenseFromList.amount, equals(123.45));
+      expect(expenseFromList.amountExpression, equals("123.45"));
       expect(expenseFromList.date, DateTime(2020, 1, 23));
       expect(expenseFromList.categoryId, equals("cat_id"));
 
@@ -249,7 +249,7 @@ void main() {
 
     test('Gets expenses by id', () async {
       final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
-      final expense = Expense("id123", "test title", "test location", 123.45, DateTime(2020, 1, 23), "cat_id", "user123");
+      final expense = Expense("id123", "test title", "test location", "123.45", DateTime(2020, 1, 23), "cat_id", "user123");
       await expensesProvider.add(expense);
       await TestDataHelpers.addRandomExpense(expensesProvider, "user123");
       expensesProvider.addListener(() => fail("Change notification should not be called on retrieving items"));
@@ -259,7 +259,7 @@ void main() {
       expect(retrievedExpense, equals(expense));
       expect(retrievedExpense.title, equals("test title"));
       expect(retrievedExpense.location, equals("test location"));
-      expect(retrievedExpense.amount, equals(123.45));
+      expect(retrievedExpense.amountExpression, equals("123.45"));
       expect(retrievedExpense.date, DateTime(2020, 1, 23));
       expect(retrievedExpense.categoryId, equals("cat_id"));
 
@@ -268,7 +268,7 @@ void main() {
 
     test('Returns null when there is no expense with passed id', () async {
       final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
-      final expense = Expense("id123", "test title", "test location", 123.45, DateTime(2020, 1, 23), "cat_id", "user123");
+      final expense = Expense("id123", "test title", "test location", "123.45", DateTime(2020, 1, 23), "cat_id", "user123");
       await expensesProvider.add(expense);
       await TestDataHelpers.addRandomExpense(expensesProvider, "user123");
       expensesProvider.addListener(() => fail("Change notification should not be called on retrieving items"));
@@ -280,7 +280,7 @@ void main() {
 
     test('Returns null when passing null id', () async {
       final expensesProvider = ExpensesProvider(databaseStorageEnabled: false);
-      final expense = Expense("id123", "test title", "test location", 123.45, DateTime(2020, 1, 23), "cat_id", "user123");
+      final expense = Expense("id123", "test title", "test location", "123.45", DateTime(2020, 1, 23), "cat_id", "user123");
       await expensesProvider.add(expense);
       await TestDataHelpers.addRandomExpense(expensesProvider, "user123");
       expensesProvider.addListener(() => fail("Change notification should not be called on retrieving items"));

@@ -86,21 +86,15 @@ class ExpensesProvider extends BaseStorageProvider<Expense> {
     updateWithRecurring(month, year, userId);
   }
 
-  Expense resetOneRecurring(Expense expense, {bool persist = false}) {
+  Expense resetOneRecurring(Expense expense) {
     if (_recurringExpensesProvider == null || expense.recurringExpenseId == null) return expense;
 
     final recurringExpense = _recurringExpensesProvider.getBy(id: expense.recurringExpenseId);
     expense.title = recurringExpense.title;
     expense.location = recurringExpense.location;
-    expense.amount = recurringExpense.amount;
+    expense.amountExpression = recurringExpense.amountExpression;
     expense.categoryId = recurringExpense.categoryId;
     expense.date = DateTime(expense.date.year, expense.date.month, recurringExpense.startDate.day);
-
-    // if (persist) {
-    //   this.edit(expense);
-    // } else {
-    //   notifyListeners();
-    // }
     
     return expense;
   }

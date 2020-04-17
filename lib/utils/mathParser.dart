@@ -85,7 +85,24 @@ class DivisionOperation extends TwoOperandsMathOperation implements MathOperatio
 }
 
 class MathExpressionParser {
-  MathOperation parse(String expressionString) {
+  MathExpressionParser._();
+
+  static double parseValue(String expressionString) {
+    expressionString = sanitizeInput(expressionString);
+
+    if (expressionString == null || expressionString.isEmpty) {
+      return null;
+    }
+
+    double value = double.tryParse(expressionString);
+    if (value == null) {
+      value = MathExpressionParser.parseOperation(expressionString).perform();
+    }
+
+    return value;
+  }
+
+  static MathOperation parseOperation(String expressionString) {
     expressionString = sanitizeInput(expressionString);
 
     if (expressionString.isEmpty || !expressionString.startsWith("=") || expressionString.contains(RegExp(r"[^0-9.+\-*/()=]"))) {
@@ -94,7 +111,7 @@ class MathExpressionParser {
     return _parse(expressionString.substring(1));
   }
 
-  MathOperation _parse(String expressionString) {
+  static MathOperation _parse(String expressionString) {
     double value = double.tryParse(expressionString);
 
     if (value != null) {
@@ -125,28 +142,30 @@ class MathExpressionParser {
     throw FormatException("Unsupported operation");
   }
 
-  String sanitizeInput(String expressionString) {
-    expressionString = removeWhitespaces(expressionString);
-    expressionString = removeComments(expressionString);
-    expressionString = expressionString.replaceAll(",", ".");
-    expressionString = expressionString.replaceAll(RegExp(r"[^0-9.+\-*/()=]"), "");
+  static String sanitizeInput(String expressionString) {
+    if (expressionString != null && expressionString.isNotEmpty) {
+      expressionString = removeWhitespaces(expressionString);
+      expressionString = removeComments(expressionString);
+      expressionString = expressionString.replaceAll(",", ".");
+      expressionString = expressionString.replaceAll(RegExp(r"[^0-9.+\-*/()=]"), "");
+    }
     return expressionString;
   }
 
-  String removeWhitespaces(String str) {
+  static String removeWhitespaces(String str) {
     return str.replaceAll(RegExp(r"\s+\b|\b\s"), "");
   }
 
-  String removeComments(String str) {
+  static String removeComments(String str) {
     final commentSign = "#";
 
     while (str.contains(commentSign)) {
       final openingIndex = str.indexOf(commentSign);
       final closingIndex = str.indexOf(commentSign, openingIndex + 1);
 
-      if (openingIndex == -1 && closingIndex == -1) { 
+      if (openingIndex == -1 && closingIndex == -1) {
         return str;
-      } 
+      }
       if (openingIndex == -1 || closingIndex == -1) {
         throw FormatException("One of the comments is not opened or closed properly");
       }

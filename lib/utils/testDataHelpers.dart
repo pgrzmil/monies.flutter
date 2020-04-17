@@ -15,7 +15,8 @@ import 'package:monies/data/recurringExpensesProvider.dart';
 class TestDataHelpers {
   static Future<Expense> addRandomExpense(ExpensesProvider expensesProvider, userId) async {
     final random = Random();
-    final expense = Expense.fromValues("title ${random.nextInt(123)}", "location", random.nextInt(20000) / 100, DateTime.now(), "", userId);
+    final amount = random.nextInt(20000) / 100;
+    final expense = Expense.fromValues("title ${random.nextInt(123)}", "location", "=$amount", DateTime.now(), "", userId);
     await expensesProvider.add(expense);
     return expense;
   }
@@ -29,11 +30,11 @@ class TestDataHelpers {
   }
 
   static void loadTestExpenses(ExpensesProvider expensesProvider, String userId) {
-    expensesProvider.add(Expense("1", "Zakupy tygodniowe", "Lidl", 136.65, DateTime(2019, 12, 19), "cat0", userId));
-    expensesProvider.add(Expense("2", "Mycie samochodu", "Myjnia felicity", 9.00, DateTime(2019, 12, 9), "cat2", userId));
-    expensesProvider.add(Expense("3", "Paliwo", "Orlen", 249.78, DateTime(2019, 12, 6), "cat2", userId));
-    expensesProvider.add(Expense("4", "Spodnie, koszulka", "Medicine", 149.98, DateTime(2019, 12, 15), "cat4", userId));
-    expensesProvider.add(Expense("5", "Rachunek za prąd", "PGE", 173.42, DateTime(2019, 12, 2), "cat1", userId));
+    expensesProvider.add(Expense("1", "Zakupy tygodniowe", "Lidl", "=135.65", DateTime(2019, 12, 19), "cat0", userId));
+    expensesProvider.add(Expense("2", "Mycie samochodu", "Myjnia felicity", "=9.0", DateTime(2019, 12, 9), "cat2", userId));
+    expensesProvider.add(Expense("3", "Paliwo", "Orlen", "=249.78", DateTime(2019, 12, 6), "cat2", userId));
+    expensesProvider.add(Expense("4", "Spodnie, koszulka", "Medicine", "=149.98", DateTime(2019, 12, 15), "cat4", userId));
+    expensesProvider.add(Expense("5", "Rachunek za prąd", "PGE", "=173.42", DateTime(2019, 12, 2), "cat1", userId));
   }
 
   static void loadTestCategories(CategoriesProvider categoriesProvider, String userId) {
@@ -44,15 +45,15 @@ class TestDataHelpers {
   }
 
   static void loadIncomes(IncomesProvider incomesProvider, String userId, {DateTime forMonth}) {
-    incomesProvider.add(Income("inc1", "Pensja", 4550, forMonth, userId));
-    incomesProvider.add(Income("inc2", "Zwrot wydatków", 380, forMonth, userId));
+    incomesProvider.add(Income("inc1", "Pensja", "=4550", forMonth, userId));
+    incomesProvider.add(Income("inc2", "Zwrot wydatków", "=380", forMonth, userId));
   }
 
   static void loadTestRecurringExpenses(RecurringExpensesProvider expensesProvider, String userId) {
     expensesProvider
-        .add(RecurringExpense("rec1", "Rachunek za internet", "UPC", 48.0, null, "cat0", DateTime(2019, 12, 9), Frequency.monthly, userId));
-    expensesProvider.add(RecurringExpense("rec2", "HBO GO", "", 19.99, null, "cat2", DateTime(2019, 12, 18), Frequency.monthly, userId));
+        .add(RecurringExpense("rec1", "Rachunek za internet", "UPC", "=48.0", null, "cat0", DateTime(2019, 12, 9), Frequency.monthly, userId));
+    expensesProvider.add(RecurringExpense("rec2", "HBO GO", "", "=19.99", null, "cat2", DateTime(2019, 12, 18), Frequency.monthly, userId));
     expensesProvider
-        .add(RecurringExpense("rec3", "Rachunek za telefon", "Orange", 38.0, null, "cat2", DateTime(2019, 12, 7), Frequency.monthly, userId));
+        .add(RecurringExpense("rec3", "Rachunek za telefon", "Orange", "=38.0", null, "cat2", DateTime(2019, 12, 7), Frequency.monthly, userId));
   }
 }

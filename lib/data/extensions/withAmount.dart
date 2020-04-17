@@ -1,7 +1,8 @@
 import 'package:monies/utils/formatters.dart';
 
 abstract class WithAmount {
-  double amount;
+  String amountExpression;
+  double get amount;
 }
 
 extension WithAmountExtensions<T extends WithAmount> on Iterable<T> {

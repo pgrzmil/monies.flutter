@@ -1,3 +1,5 @@
+import 'package:monies/utils/mathParser.dart';
+
 import 'modules.dart';
 part 'expense.g.dart';
 
@@ -7,7 +9,14 @@ class Expense implements BaseModel, WithAmount, WithDate {
   final String userId;
   String title;
   String location;
-  double amount;
+  String _amountExpression;
+  String get amountExpression => _amountExpression;
+  set amountExpression(String value) {
+    _amountExpression = value;
+    _calculatedAmount = null;
+    amount;
+  }
+
   DateTime date;
   String categoryId;
   final String recurringExpenseId;
@@ -16,10 +25,25 @@ class Expense implements BaseModel, WithAmount, WithDate {
   String get dateString => Format.date(date);
   String get displayTitle => location.isNotEmpty ? title + " - " + location : title;
 
-  Expense(this.id, this.title, this.location, this.amount, this.date, this.categoryId, this.userId, {this.recurringExpenseId});
-  Expense.fromValues(this.title, this.location, this.amount, this.date, this.categoryId, this.userId, {this.recurringExpenseId}) : id = Uuid().v4();
+  Expense(this.id, this.title, this.location, String amountExpression, this.date, this.categoryId, this.userId, {this.recurringExpenseId}) {
+    this.amountExpression = amountExpression;
+  }
 
-  factory Expense.empty(String userId) => Expense.fromValues("", "", 0, DateTime.now(), null, userId);
+  Expense.fromValues(this.title, this.location, String amountExpression, this.date, this.categoryId, this.userId, {this.recurringExpenseId})
+      : id = Uuid().v4() {
+    this.amountExpression = amountExpression;
+  }
+
+  factory Expense.empty(String userId) => Expense.fromValues("", "", "", DateTime.now(), null, userId);
+
+  double _calculatedAmount;
+  @override
+  double get amount {
+    if (_calculatedAmount == null) {
+      _calculatedAmount = MathExpressionParser.parseValue(this.amountExpression);
+    }
+    return _calculatedAmount ?? 0;
+  }
 
   //JSON methods
   static Expense fromJsonMap(Map<String, dynamic> json) => _$ExpenseFromJson(json);

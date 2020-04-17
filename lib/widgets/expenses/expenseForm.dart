@@ -19,7 +19,7 @@ class ExpenseForm extends StatelessWidget {
   }) {
     titleController.text = expense.title;
     locationController.text = expense.location;
-    amountController.text = expense.amount != 0 ? expense.amount.toString() : "";
+    amountController.text = expense.amountExpression;
   }
 
   final FocusNode _titleFocus = FocusNode();
@@ -72,7 +72,8 @@ class ExpenseForm extends StatelessWidget {
             nextFocusNode: _dateFocus,
             decoration: InputDecoration(labelText: "Amount"),
             controller: amountController,
-            onSaved: (value) => expense.amount = double.tryParse(value.replaceAll(RegExp(r','), ".")) ?? 0,
+            validator: Validator.amount(),
+            onSaved: (value) => expense.amountExpression = value,
           ),
           DatePickerTextFormField(
             key: Key("dateField"),
