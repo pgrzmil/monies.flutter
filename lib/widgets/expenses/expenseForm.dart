@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:monies/data/models/expense.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/categories/categoryPickerFormField.dart';
@@ -9,10 +8,14 @@ import 'package:monies/widgets/controls/expressionKeyboard.dart';
 import 'package:monies/widgets/controls/moniesForm.dart';
 import 'package:monies/widgets/controls/moniesTextFormField.dart';
 
-class ExpenseForm extends StatelessWidget {
+class ExpenseForm extends StatefulWidget {
   final Expense expense;
   final GlobalKey<FormState> formKey;
   final DateTime currentDate;
+
+  final titleController = TextEditingController();
+  final locationController = TextEditingController();
+  final amountController = TextEditingController();
 
   ExpenseForm({
     this.expense,
@@ -24,22 +27,47 @@ class ExpenseForm extends StatelessWidget {
     amountController.text = expense.amountExpression;
   }
 
+  @override
+  _ExpenseFormState createState() => _ExpenseFormState();
+}
+
+class _ExpenseFormState extends State<ExpenseForm> {
   final FocusNode _titleFocus = FocusNode();
   final FocusNode _locationFocus = FocusNode();
   final FocusNode _amountFocus = FocusNode();
   final FocusNode _dateFocus = FocusNode();
 
-  final titleController = TextEditingController();
-  final locationController = TextEditingController();
-  final amountController = TextEditingController();
+  TextInputType amountKeyboard = TextInputType.numberWithOptions(decimal: true);
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.amountController.text.contains("#")) {
+      amountKeyboard = TextInputType.text;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return MoniesForm(
-      formKey: formKey,
+      formKey: widget.formKey,
       child: MathExpressionKeyboard(
         targetFocusNode: _amountFocus,
-        targetTextController: amountController,
+        targetTextController: widget.amountController,
+        keyboardChangeRequested: (keyboard) async {
+          //changes keyboard to text when adding comment
+          if (keyboard != amountKeyboard) {
+            final selection = widget.amountController.selection;
+
+            FocusScope.of(context).unfocus();
+            setState(() => amountKeyboard = keyboard);
+
+            Future.delayed(const Duration(milliseconds: 100), () {
+              FocusScope.of(context).requestFocus(_amountFocus);
+              widget.amountController.selection = selection;
+            });
+          }
+        },
         child: Column(
           children: [
             MoniesTextFormField(
@@ -51,10 +79,10 @@ class ExpenseForm extends StatelessWidget {
               textCapitalization: TextCapitalization.sentences,
               focusNode: _titleFocus,
               nextFocusNode: _locationFocus,
-              controller: titleController,
+              controller: widget.titleController,
               validator: Validator.notEmpty(),
               decoration: InputDecoration(labelText: "Title"),
-              onSaved: (value) => expense.title = value,
+              onSaved: (value) => widget.expense.title = value,
             ),
             MoniesTextFormField(
               context,
@@ -64,37 +92,38 @@ class ExpenseForm extends StatelessWidget {
               textCapitalization: TextCapitalization.sentences,
               focusNode: _locationFocus,
               nextFocusNode: _amountFocus,
-              controller: locationController,
+              controller: widget.locationController,
               decoration: InputDecoration(labelText: "Location"),
-              onSaved: (value) => expense.location = value,
+              onSaved: (value) => widget.expense.location = value,
             ),
             MoniesTextFormField(
               context,
               key: Key("amountField"),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              keyboardType: amountKeyboard,
               textInputAction: TextInputAction.next,
               focusNode: _amountFocus,
               nextFocusNode: _dateFocus,
               decoration: InputDecoration(labelText: "Amount"),
-              controller: amountController,
+              controller: widget.amountController,
               validator: Validator.amount(),
-              onSaved: (value) => expense.amountExpression = value,
+              onSaved: (value) => widget.expense.amountExpression = value,
+              onChanged: (value) async {},
             ),
             DatePickerTextFormField(
               key: Key("dateField"),
-              initialDate: currentDate ?? expense.date,
+              initialDate: widget.currentDate ?? widget.expense.date,
               dateFormatter: Format.date,
               focusNode: _dateFocus,
               validator: Validator.notEmpty(),
               decoration: InputDecoration(labelText: "Date"),
-              onDatePicked: (date) => expense.date = date,
+              onDatePicked: (date) => widget.expense.date = date,
             ),
             CategoryPickerFormField(
               key: Key("categoryDropDown"),
-              initialCategoryId: expense.categoryId,
+              initialCategoryId: widget.expense.categoryId,
               decoration: InputDecoration(labelText: "Category"),
               validator: Validator.notNull("Pick category"),
-              onCategoryPicked: (category) => expense.categoryId = category.id,
+              onCategoryPicked: (category) => widget.expense.categoryId = category.id,
             ),
           ],
         ),
