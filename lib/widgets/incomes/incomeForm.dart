@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:monies/data/models/income.dart';
+import 'package:monies/data/models/incomeType.dart';
 import 'package:monies/utils/formatters.dart';
 import 'package:monies/widgets/controls/datePickerTextFormField.dart';
 import 'package:monies/widgets/controls/expressionKeyboard.dart';
+import 'package:monies/widgets/controls/moniesDropdownButtonFormField.dart';
 import 'package:monies/widgets/controls/moniesForm.dart';
 import 'package:monies/widgets/controls/moniesTextFormField.dart';
 
@@ -29,6 +31,15 @@ class IncomeForm extends StatelessWidget {
         targetTextController: amountController,
         child: Column(
           children: [
+            MoniesDropdownButtonFormField<IncomeType>(
+              hint: Text("Income type", style: TextStyle(fontSize: 16, color: Theme.of(context).textTheme.title.color)),
+              initialValue: income.type ?? IncomeType.other,
+              // onChanged: ((type) {}),
+              items: dropdownItems,
+              validator: Validator.notNull(),
+              decoration: InputDecoration(labelText: "Income type"),
+              onSaved: (value) => income.type = value,
+            ),
             MoniesTextFormField(
               context,
               key: Key("titleField"),
@@ -67,5 +78,17 @@ class IncomeForm extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<DropdownMenuItem> get dropdownItems {
+    var types = {
+      IncomeType.other: "Other",
+      IncomeType.salary: "Salary",
+      IncomeType.invoice: "Invoice",
+      IncomeType.lastMonthBalance: "Last month's balance",
+    };
+
+    var items = types.keys.map((type) => DropdownMenuItem(child: Text(types[type]), value: type)).toList();
+    return items;
   }
 }

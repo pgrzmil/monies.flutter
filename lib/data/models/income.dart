@@ -1,3 +1,4 @@
+import 'package:monies/data/models/incomeType.dart';
 import 'package:monies/utils/mathParser.dart';
 
 import 'modules.dart';
@@ -16,19 +17,20 @@ class Income implements BaseModel, WithAmount, WithDate {
     amount;
   }
   DateTime date;
+  IncomeType type;
 
   String get amountString => Format.money(amount);
   String get dateString => Format.date(date);
 
-  Income(this.id, this.title, String amountExpression, this.date, this.userId){
+  Income(this.id, this.title, String amountExpression, this.date, this.type, this.userId){
     this.amountExpression = amountExpression;
   }
 
-  Income.fromValues(this.title, String amountExpression, this.date, this.userId) : id = Uuid().v4(){
+  Income.fromValues(this.title, String amountExpression, this.date, this.type, this.userId) : id = Uuid().v4(){
     this.amountExpression = amountExpression;
   }
 
-  factory Income.empty(String userId) => Income.fromValues("", "", DateTime.now(), userId);
+  factory Income.empty(String userId) => Income.fromValues("", "", DateTime.now(), IncomeType.other, userId);
 
   double _calculatedAmount;
   @override

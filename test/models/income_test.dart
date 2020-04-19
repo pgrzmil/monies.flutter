@@ -1,11 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:monies/data/models/income.dart';
+import 'package:monies/data/models/incomeType.dart';
 import 'package:monies/utils/formatters.dart';
 
 void main() {
   group('JSON parsing', () {
     test('toJsonString returns valid json string', () {
-      final income = Income("1", "test_title", "123.45", DateTime(2020, 1, 23), "user123");
+      final income = Income("1", "test_title", "123.45", DateTime(2020, 1, 23), IncomeType.other, "user123");
 
       final jsonString = income.toJsonString();
 
@@ -55,14 +56,14 @@ void main() {
   });
 
   test('Returns amount string', () {
-    final income = Income("1", "test_title", "123.45", DateTime(2020, 1, 23), "user123");
+    final income = Income("1", "test_title", "123.45", DateTime(2020, 1, 23), IncomeType.other, "user123");
 
     expect(income, isNotNull);
     expect(income.amountString, equals("123,45 zł"));
   });
 
    test('Returns date string', () {
-    final income = Income("1", "test_title", "123.45", DateTime(2020, 1, 23), "user123");
+    final income = Income("1", "test_title", "123.45", DateTime(2020, 1, 23), IncomeType.other, "user123");
 
     expect(income, isNotNull);
     expect(income.dateString, equals("23/01/2020"));
