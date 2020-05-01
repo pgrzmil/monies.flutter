@@ -22,13 +22,11 @@ class App extends StatelessWidget {
       bodyColor: Consts.textColor,
       decorationColor: Consts.textColor,
       displayColor: Consts.accentColor,
-      
     );
     final authService = SignInService();
     return MultiProvider(
       providers: [
         Provider(create: (context) => authService),
-        ChangeNotifierProvider(create: (context) => IncomesProvider(authService: authService)),
         ChangeNotifierProvider(create: (context) => CategoriesProvider(authService: authService)),
         ChangeNotifierProvider(create: (context) => RecurringExpensesMapProvider(authService: authService)),
         ChangeNotifierProvider(create: (context) => RecurringExpensesProvider(authService: authService)),
@@ -38,6 +36,13 @@ class App extends StatelessWidget {
             expensesProvider.recurringExpensesProvider = recurringExpensesProvider;
             expensesProvider.recurringExpensesMapProvider = recurringExpensesMapProvider;
             return expensesProvider;
+          },
+        ),
+        ChangeNotifierProxyProvider<ExpensesProvider, IncomesProvider>(
+          create: (context) => IncomesProvider(authService: authService),
+          update: (context, expensesProvider, incomesProvider) {
+            incomesProvider.expensesProvider = expensesProvider;
+            return incomesProvider;
           },
         ),
         ChangeNotifierProxyProvider2<ExpensesProvider, CategoriesProvider, AnalyticsProvider>(

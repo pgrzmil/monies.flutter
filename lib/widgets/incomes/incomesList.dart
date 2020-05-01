@@ -50,10 +50,10 @@ class IncomesList extends StatelessWidget {
   }
 
   navigateToEdit(BuildContext context, Income income) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => IncomeEditView(income: income)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => IncomeEditView(income: income, currentDate: selectedDate)));
   }
 
   navigateToAdd(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => IncomeAddView()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => IncomeAddView(currentDate: selectedDate)));
   }
 }

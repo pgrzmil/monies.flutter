@@ -6,6 +6,10 @@ import 'package:provider/provider.dart';
 import 'incomeForm.dart';
 
 class IncomeAddView extends StatefulWidget {
+  final DateTime currentDate;
+
+  const IncomeAddView({Key key, this.currentDate}) : super(key: key);
+
   @override
   _IncomeAddViewState createState() => _IncomeAddViewState(formKey: GlobalKey<FormState>());
 }
@@ -19,7 +23,6 @@ class _IncomeAddViewState extends State<IncomeAddView> {
   Widget build(BuildContext context) {
     final userId = Provider.of<SignInService>(context, listen: false).userId;
     final Income income = Income.empty(userId);
-    final incomeForm = IncomeForm(income: income, formKey: formKey);
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
@@ -28,12 +31,16 @@ class _IncomeAddViewState extends State<IncomeAddView> {
       ),
       body: Container(
         padding: EdgeInsets.all(10),
-        child:incomeForm,
+        child: IncomeForm(
+          income: income,
+          formKey: formKey,
+          currentDate: widget.currentDate,
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.save),
         onPressed: () {
-          final form = incomeForm.formKey.currentState;
+          final form = formKey.currentState;
           if (form.validate()) {
             form.save();
             Provider.of<IncomesProvider>(context, listen: false).add(income);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:monies/data/models/income.dart';
 import 'package:monies/data/models/incomeType.dart';
 import 'package:monies/utils/formatters.dart';
+import 'package:monies/utils/textsHelpers.dart';
 import 'package:monies/widgets/controls/datePickerTextFormField.dart';
 import 'package:monies/widgets/controls/expressionKeyboard.dart';
 import 'package:monies/widgets/controls/moniesDropdownButtonFormField.dart';
@@ -9,18 +10,21 @@ import 'package:monies/widgets/controls/moniesForm.dart';
 import 'package:monies/widgets/controls/moniesTextFormField.dart';
 
 class IncomeForm extends StatelessWidget {
+  final DateTime currentDate;
   final Income income;
   final GlobalKey<FormState> formKey;
 
-  IncomeForm({Key key, this.formKey, this.income}) : super(key: key) {
+  final amountController = TextEditingController();
+  final titleController = TextEditingController();
+
+  IncomeForm({Key key, this.formKey, this.income, this.currentDate}) : super(key: key) {
     amountController.text = income.amountExpression;
+    titleController.text = income.title;
   }
 
   final FocusNode _titleFocus = FocusNode();
   final FocusNode _amountFocus = FocusNode();
   final FocusNode _dateFocus = FocusNode();
-
-  final amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +38,9 @@ class IncomeForm extends StatelessWidget {
             MoniesDropdownButtonFormField<IncomeType>(
               hint: Text("Income type", style: TextStyle(fontSize: 16, color: Theme.of(context).textTheme.title.color)),
               initialValue: income.type ?? IncomeType.other,
-              // onChanged: ((type) {}),
+              onChanged: ((type) {
+                titleController.text = type.incomeTitle(currentDate);
+              }),
               items: dropdownItems,
               validator: Validator.notNull(),
               decoration: InputDecoration(labelText: "Income type"),
@@ -48,7 +54,7 @@ class IncomeForm extends StatelessWidget {
               textCapitalization: TextCapitalization.sentences,
               focusNode: _titleFocus,
               nextFocusNode: _amountFocus,
-              initialValue: income.title,
+              controller: titleController,
               validator: Validator.notEmpty(),
               decoration: InputDecoration(labelText: "Title"),
               onSaved: (value) => income.title = value,
@@ -67,7 +73,7 @@ class IncomeForm extends StatelessWidget {
             ),
             DatePickerTextFormField(
               key: Key("dateField"),
-              initialDate: income.date,
+              initialDate: currentDate ?? income.date,
               dateFormatter: Format.date,
               focusNode: _dateFocus,
               validator: Validator.notEmpty(),

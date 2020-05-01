@@ -7,8 +7,9 @@ import 'incomeForm.dart';
 
 class IncomeEditView extends StatefulWidget {
   final Income income;
+  final DateTime currentDate;
 
-  IncomeEditView({this.income});
+  IncomeEditView({this.income, this.currentDate});
 
   @override
   _IncomeEditViewState createState() => _IncomeEditViewState(formKey: GlobalKey<FormState>());
@@ -21,7 +22,6 @@ class _IncomeEditViewState extends State<IncomeEditView> {
 
   @override
   Widget build(BuildContext context) {
-    final incomeForm = IncomeForm(income: widget.income, formKey: formKey);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -40,12 +40,16 @@ class _IncomeEditViewState extends State<IncomeEditView> {
       ),
       body: Container(
         padding: EdgeInsets.all(10),
-        child:incomeForm,
+        child: IncomeForm(
+          income: widget.income,
+          formKey: formKey,
+          currentDate: widget.currentDate,
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.save),
         onPressed: () {
-          final form = incomeForm.formKey.currentState;
+          final form = formKey.currentState;
           if (form.validate()) {
             form.save();
             Provider.of<IncomesProvider>(context, listen: false).edit(widget.income);
